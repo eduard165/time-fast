@@ -1,9 +1,10 @@
 package modelo;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import modelo.pojo.Asignacion;
+import modelo.pojo.Colaborador;
 import modelo.pojo.Mensaje;
+import modelo.pojo.Unidad;
 import modelo.pojo.respuestas.RespuestaAsignacion;
 import modelo.pojo.respuestas.RespuestaAsignaciones;
 import mybatis.MyBatisUtil;
@@ -18,18 +19,31 @@ public class AsignacionesDAO {
 
         if (conexionBD != null) {
             try {
-                verificarAsignacion(asignacion);
-                int filasAfectadas = conexionBD.insert("asignaciones.registrarAsignacion", asignacion);
+                if (buscarAsignacionesPorConductor(asignacion.getIdColaborador()).getAsignacion() != null) {
+                    respuesta.setContenido("El conductor ya tiene una unidad asignada.");
+                    return respuesta;
+                }
+                
+                if (verificarUnidad(asignacion.getIdUnidad())) {
+                    respuesta.setContenido("La unidad no existe.");
+                    return respuesta;
+                }
+                Mensaje rest = verificarColaborador(asignacion.getIdColaborador());
+                if (rest.isError()) {
+                    respuesta.setContenido(rest.getContenido());
+                    return respuesta;
+                }
+                int filasAfectadas = conexionBD.insert("asignaciones.insertarAsignacion", asignacion);
+                conexionBD.commit();
+
                 if (filasAfectadas > 0) {
                     respuesta.setError(false);
                     respuesta.setContenido("Vehículo asignado exitosamente.");
                 } else {
                     respuesta.setContenido("No se pudo asignar el vehículo. Inténtelo nuevamente.");
                 }
-
-                conexionBD.commit();
             } catch (Exception e) {
-                respuesta.setContenido("Error: " + e.getMessage());
+                respuesta.setContenido("Error: " + e.toString());
             } finally {
                 conexionBD.close();
             }
@@ -47,7 +61,21 @@ public class AsignacionesDAO {
 
         if (conexionBD != null) {
             try {
-                verificarAsignacion(asignacion);
+                RespuestaAsignacion verificadorConductor = buscarAsignacionesPorConductor(asignacion.getIdColaborador());
+                if (verificadorConductor.getAsignacion() != null && verificadorConductor.getAsignacion().getIdAsignacion() != asignacion.getIdAsignacion()) {
+                    respuesta.setContenido("El conductor ya tiene una unidad asignada.");
+                    return respuesta;
+                }
+
+                if (verificarUnidad(asignacion.getIdUnidad())) {
+                    respuesta.setContenido("La unidad no existe.");
+                    return respuesta;
+                }
+                Mensaje rest = verificarColaborador(asignacion.getIdColaborador());
+                if (rest.isError()) {
+                    respuesta.setContenido(rest.getContenido());
+                    return respuesta;
+                }
                 int filasAfectadas = conexionBD.update("asignaciones.actualizarAsignacion", asignacion);
 
                 if (filasAfectadas > 0) {
@@ -181,12 +209,48 @@ public class AsignacionesDAO {
         return respuesta;
     }
 
-    public static boolean verificarAsignacion(Asignacion asignacion) {
-        RespuestaAsignacion respuestaAsignacion = buscarAsignacionesPorConductor(asignacion.getIdAsignacion());
-        if (!respuestaAsignacion.isError() && respuestaAsignacion.getAsignacion() != null) {
-            return true;
+    public static Mensaje verificarColaborador(int idColaborador) {
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        Mensaje rest = new Mensaje();
+        rest.setError(true);
+
+        if (conexionBD != null) {
+            try {
+                Colaborador colaborador = conexionBD.selectOne("colaboradores.obtenerColaboradorPorId", idColaborador);
+                if (colaborador == null) {
+                    rest.setContenido("El colaborador no existe");
+                    return rest;
+                } else {
+                    if (colaborador.getIdRol() != 3) {
+                        rest.setContenido("El colaborador no es un conductor.");
+                        return rest;
+                    }
+                    rest.setError(false);
+                    rest.setContenido("TODO BIEN");
+                    return rest;
+                }
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return rest;
+    }
+
+    public static boolean verificarUnidad(int idUnidad) {
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if (conexionBD != null) {
+            try {
+                Unidad unidad = conexionBD.selectOne("unidades.obtenerUnidadPorId", idUnidad);
+
+                if (unidad == null) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } finally {
+                conexionBD.close();
+            }
         }
         return false;
-
     }
 }

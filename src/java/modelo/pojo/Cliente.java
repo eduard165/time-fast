@@ -23,11 +23,13 @@ public class Cliente {
     private String numero;
     private String colonia;
     private String codigoPostal;
+    private String cidad;
+    private String estado;
 
     public Cliente() {
     }
 
-    public Cliente(Integer idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correoElectronico, String password, Integer idDireccion, String calle, String numero, String colonia, String codigoPostal) {
+    public Cliente(Integer idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correoElectronico, String password, Integer idDireccion, String calle, String numero, String colonia, String codigoPostal, String cidad, String estado) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -40,8 +42,26 @@ public class Cliente {
         this.numero = numero;
         this.colonia = colonia;
         this.codigoPostal = codigoPostal;
+        this.cidad = cidad;
+        this.estado = estado;
     }
 
+    public String getCidad() {
+        return cidad;
+    }
+
+    public void setCidad(String cidad) {
+        this.cidad = cidad;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
    
     public Integer getIdCliente() {
         return idCliente;

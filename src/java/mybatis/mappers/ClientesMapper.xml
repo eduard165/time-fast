@@ -19,7 +19,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                d.calle, 
                d.numero, 
                d.colonia, 
-               d.codigoPostal
+               d.codigoPostal,
+               d.ciudad,
+               d.estado
         FROM clientes c
         INNER JOIN direcciones d ON c.idDireccion = d.idDireccion
         WHERE c.nombre = #{parametro}

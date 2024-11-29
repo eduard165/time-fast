@@ -35,6 +35,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INNER JOIN tipo_unidad t ON u.idTipoUnidad = t.idTipoUnidad
         WHERE u.VIN = #{VIN}
     </select>
+    <select id="obtenerUnidadPorId" parameterType="int" resultType="modelo.pojo.Unidad">
+        SELECT * FROM unidades
+        WHERE idUnidad = #{idUnidad}
+    </select>
+
 
 
 </mapper>

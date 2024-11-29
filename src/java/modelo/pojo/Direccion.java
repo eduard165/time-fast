@@ -6,16 +6,36 @@ public class Direccion {
     private String numero;
     private String colonia;
     private String codigoPostal;
+    private String ciudad;
+    private String estado;
 
     public Direccion() {
     }
 
-    public Direccion(int idDireccion, String calle, String numero, String colonia, String codigoPostal) {
+    public Direccion(int idDireccion, String calle, String numero, String colonia, String codigoPostal, String ciudad, String estado) {
         this.idDireccion = idDireccion;
         this.calle = calle;
         this.numero = numero;
         this.colonia = colonia;
         this.codigoPostal = codigoPostal;
+        this.ciudad = ciudad;
+        this.estado = estado;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     public int getIdDireccion() {

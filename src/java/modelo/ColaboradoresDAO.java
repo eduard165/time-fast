@@ -178,16 +178,16 @@ public class ColaboradoresDAO {
 
         return respuesta;
     }
-    
+
     public static Mensaje subirFoto(Integer idColaborador, byte[] fotografia) {
         Mensaje msj = new Mensaje();
         msj.setError(true);
-        
+
         LinkedHashMap<String, Object> parametros = new LinkedHashMap<>();
         parametros.put("idColaborador", idColaborador);
         parametros.put("fotografia", fotografia);
         SqlSession conexionBD = MyBatisUtil.getSession();
-        
+
         if (conexionBD != null) {
             try {
                 int filasAfectadas = conexionBD.update("colaboradores.guardarFoto", parametros);
@@ -206,18 +206,21 @@ public class ColaboradoresDAO {
         }
         return msj;
     }
-    
-    public static Colaborador obtenerFoto(Integer idColaborador){
-        Colaborador colaboradorConFoto =null;
+
+    public static Colaborador obtenerFoto(Integer idColaborador) {
+        Colaborador colaboradorConFoto = null;
         SqlSession conexionBd = MyBatisUtil.getSession();
-        if(conexionBd != null){
+        if (conexionBd != null) {
             try {
                 colaboradorConFoto = conexionBd.selectOne("colaboradores.obtenerFoto", idColaborador);
-               
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         return colaboradorConFoto;
     }
+
+    
+
 }

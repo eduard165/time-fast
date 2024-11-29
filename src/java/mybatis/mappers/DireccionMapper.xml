@@ -6,8 +6,8 @@
 <mapper namespace="direcciones">
 
     <insert id="insertarDireccion" parameterType="modelo.pojo.Direccion" >
-        INSERT INTO direcciones (calle, numero, colonia, codigoPostal)
-        VALUES (#{calle}, #{numero}, #{colonia}, #{codigoPostal})
+        INSERT INTO direcciones (calle, numero, colonia, codigoPostal, ciudad, estado)
+        VALUES (#{calle}, #{numero}, #{colonia}, #{codigoPostal}, #{ciudad}, #{estado})
     </insert>
 
     <update id="editarDireccion" parameterType="modelo.pojo.Direccion">
@@ -15,7 +15,9 @@
         SET calle = #{calle}, 
         numero = #{numero}, 
         colonia = #{colonia}, 
-        codigoPostal = #{codigoPostal}
+        codigoPostal = #{codigoPostal},
+        ciudad = #{ciudad},
+        estado = #{estado}
         WHERE idDireccion = #{idDireccion}
     </update>
 
@@ -25,7 +27,7 @@
     </delete>
 
     <select id="buscarDireccionPorId" parameterType="int" resultType="modelo.pojo.Direccion">
-        SELECT idDireccion, calle, numero, colonia, codigoPostal
+        SELECT idDireccion, calle, numero, colonia, codigoPostal, ciudad, estado
         FROM direcciones
         WHERE idDireccion = #{idDireccion}
     </select>

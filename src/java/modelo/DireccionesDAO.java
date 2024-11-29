@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package modelo;
 
 import modelo.pojo.Direccion;
@@ -11,10 +7,7 @@ import modelo.pojo.respuestas.RespuestaDireccion;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
-/**
- *
- * @author eduar
- */
+
 public class DireccionesDAO {
     public static Mensaje registrarDireccion(Direccion direccion) {
     Mensaje respuesta = new Mensaje();

@@ -1,85 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="asignaciones">
-    <!-- Insertar una nueva asignación -->
     <insert id="insertarAsignacion" parameterType="modelo.pojo.Asignacion">
         INSERT INTO asignaciones_unidad_conductor (idUnidad, idColaborador)
-        VALUES (#{idUnidad}, #{idColaborador});
+        VALUES (#{idUnidad}, #{idColaborador})
     </insert>
-
-    <!-- Actualizar una asignación -->
     <update id="actualizarAsignacion" parameterType="modelo.pojo.Asignacion">
         UPDATE asignaciones_unidad_conductor
         SET idUnidad = #{idUnidad}, idColaborador = #{idColaborador}
-        WHERE idAsignacion = #{idAsignacion};
+        WHERE idAsignacion = #{idAsignacion}
     </update>
 
-    <!-- Eliminar una asignación -->
     <delete id="eliminarAsignacion" parameterType="int">
         DELETE FROM asignaciones_unidad_conductor
-        WHERE idAsignacion = #{idAsignacion};
+        WHERE idAsignacion = #{idAsignacion}
     </delete>
 
-    <!-- Consultar asignaciones con detalles de colaborador y unidad -->
     <select id="obtenerAsignaciones" resultType="modelo.pojo.Asignacion">
         SELECT
-            a.idAsignacion,
-            a.idUnidad,
-            a.idColaborador,
-
-            -- Detalles de colaborador
-            c.nombre,
-            c.apellidoPaterno,
-            c.apellidoMaterno,
-            c.numeroPersonal,
-            c.correoElectronico,
-            r.nombre AS rol,
-
-            -- Detalles de unidad
-            u.marca,
-            u.modelo,
-            u.anio,
-            u.VIN,
-            u.idTipoUnidad,
-            u.numeroInterno,
-            t.nombre AS nombreTipo
-
+        a.*,
+        c.nombre,
+        c.apellidoPaterno,
+        c.apellidoMaterno,
+        c.numeroPersonal,
+        c.correoElectronico,
+        r.nombre AS rol,
+        u.marca,
+        u.modelo,
+        u.anio,
+        u.VIN,
+        u.idTipoUnidad,
+        u.numeroInterno,
+        t.nombre AS nombreTipo
         FROM asignaciones_unidad_conductor a
         INNER JOIN colaboradores c ON a.idColaborador = c.idColaborador
         INNER JOIN roles r ON c.idRol = r.idRol
         INNER JOIN unidades u ON a.idUnidad = u.idUnidad
-        INNER JOIN tipos_unidad t ON u.idTipoUnidad = t.idTipoUnidad;
+        INNER JOIN tipo_unidad t ON u.idTipoUnidad = t.idTipoUnidad
     </select>
     <select id="obtenerAsignacionPorId" parameterType="int" resultType="modelo.pojo.Asignacion">
         SELECT
-            a.idAsignacion,
-            a.idUnidad,
-            a.idColaborador,
-            c.nombre,
-            c.apellidoPaterno,
-            c.apellidoMaterno,
-            c.numeroPersonal,
-            c.correoElectronico,
-            r.nombre AS rol,
-            u.marca,
-            u.modelo,
-            u.anio,
-            u.VIN,
-            u.idTipoUnidad,
-            u.numeroInterno,
-            t.nombre AS nombreTipo
+        a.*,
+        c.nombre,
+        c.apellidoPaterno,
+        c.apellidoMaterno,
+        c.numeroPersonal,
+        c.correoElectronico,
+        r.nombre AS rol,
+        u.marca,
+        u.modelo,
+        u.anio,
+        u.VIN,
+        u.idTipoUnidad,
+        u.numeroInterno,
+        t.nombre AS nombreTipo
         FROM asignaciones_unidad_conductor a
         INNER JOIN colaboradores c ON a.idColaborador = c.idColaborador
         INNER JOIN roles r ON c.idRol = r.idRol
         INNER JOIN unidades u ON a.idUnidad = u.idUnidad
-        INNER JOIN tipos_unidad t ON u.idTipoUnidad = t.idTipoUnidad
-        WHERE a.idAsignacion = #{idAsignacion};
+        INNER JOIN tipo_unidad t ON u.idTipoUnidad = t.idTipoUnidad
+        WHERE a.idAsignacion = #{idAsignacion}
     </select>
-    <select id="buscarAsignacionesPorConductor" resultType="Asignacion">
-        SELECT * FROM asignaciones
-        WHERE idConductor = #{idConductor}
+    <select id="buscarAsignacionesPorConductor" resultType="modelo.pojo.Asignacion">
+        SELECT * FROM asignaciones_unidad_conductor
+        WHERE idColaborador = #{idColaborador}
     </select>
 </mapper>
