@@ -11,6 +11,7 @@ import modelo.pojo.Cliente;
 import modelo.pojo.Colaborador;
 import modelo.pojo.RespuestaCliente;
 import modelo.pojo.RespuestaColaborador;
+import modelo.pojo.RespuestaColaboradores;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
@@ -53,7 +54,6 @@ public class AutenticacionDAO {
 
     public static RespuestaColaborador verificarSesionColaborador(String numeroPersonal, String password) {
         RespuestaColaborador respuesta = new RespuestaColaborador();
-
         SqlSession conexionDB = MyBatisUtil.getSession();
         if (conexionDB != null) {
             try {

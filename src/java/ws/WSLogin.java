@@ -1,6 +1,5 @@
 package ws;
 
-import com.google.gson.Gson;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -11,7 +10,6 @@ import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import modelo.AutenticacionDAO;
 import modelo.pojo.RespuestaCliente;
 import modelo.pojo.RespuestaColaborador;

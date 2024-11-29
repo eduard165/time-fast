@@ -1,23 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo.pojo;
 
-/**
- *
- * @author eduar
- */
-public class RespuestaColaborador {
+import java.util.List;
+
+public class RespuestaColaboradores {
+
     private boolean error;
     private String contenido;
-    private Colaborador colaborador;
+    private List<Colaborador> colaborador;
 
-    public RespuestaColaborador() {
+    public RespuestaColaboradores() {
     }
 
-    public RespuestaColaborador(boolean error, String contenido, Colaborador colaborador) {
+    public RespuestaColaboradores(boolean error, String contenido, List<Colaborador> colaborador) {
         this.error = error;
         this.contenido = contenido;
         this.colaborador = colaborador;
@@ -39,12 +33,13 @@ public class RespuestaColaborador {
         this.contenido = contenido;
     }
 
-    public Colaborador getColaborador() {
+    public List<Colaborador> getColaborador() {
         return colaborador;
     }
 
-    public void setColaborador(Colaborador colaborador) {
+    public void setColaborador(List<Colaborador> colaborador) {
         this.colaborador = colaborador;
     }
-    
+
+
 }

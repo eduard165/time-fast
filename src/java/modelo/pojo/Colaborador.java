@@ -10,6 +10,7 @@ package modelo.pojo;
  * @author eduar
  */
 public class Colaborador {
+    private Integer idColaborador;
     private String nombre;
     private String apellidoPaterno;
     private String apellidoMaterno;
@@ -24,7 +25,8 @@ public class Colaborador {
     public Colaborador() {
     }
 
-    public Colaborador(String nombre, String apellidoPaterno, String apellidoMaterno, String numeroPersonal, String correoElectronico, String password, String CURP, Integer idRol, String rol, String fotoBase64) {
+    public Colaborador(Integer idColaborador, String nombre, String apellidoPaterno, String apellidoMaterno, String numeroPersonal, String correoElectronico, String password, String CURP, Integer idRol, String rol, String fotoBase64) {
+        this.idColaborador = idColaborador;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
@@ -35,6 +37,14 @@ public class Colaborador {
         this.idRol = idRol;
         this.rol = rol;
         this.fotoBase64 = fotoBase64;
+    }
+
+    public Integer getIdColaborador() {
+        return idColaborador;
+    }
+
+    public void setIdColaborador(Integer idColaborador) {
+        this.idColaborador = idColaborador;
     }
 
     public String getNombre() {
@@ -117,7 +127,4 @@ public class Colaborador {
         this.fotoBase64 = fotoBase64;
     }
     
-    
-
-
 }
