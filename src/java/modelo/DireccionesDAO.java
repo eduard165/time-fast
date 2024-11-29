@@ -23,13 +23,11 @@ public class DireccionesDAO {
 
     if (conexionBD != null) {
         try {
-            int filasAfectadas = conexionBD.insert("direcciones.registrarDireccion", direccion);
+            int filasAfectadas = conexionBD.insert("direcciones.insertarDireccion", direccion);
 
             if (filasAfectadas > 0) {
-                int idGenerado = conexionBD.selectOne("direcciones.obtenerUltimoId");
                 respuesta.setError(false);
-                respuesta.setContenido("Dirección registrada exitosamente con ID: " + idGenerado);
-                direccion.setIdDireccion(idGenerado); // Actualiza el objeto con el nuevo ID
+                respuesta.setContenido("Dirección registrada exitosamente");
             } else {
                 respuesta.setContenido("No se pudo registrar la dirección. Inténtelo nuevamente.");
             }

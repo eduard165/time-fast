@@ -3,9 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="modelo.mapper.DireccionMapper">
+<mapper namespace="direcciones">
 
-    <insert id="insertarDireccion" parameterType="modelo.pojo.Direccion" useGeneratedKeys="true" keyProperty="idDireccion">
+    <insert id="insertarDireccion" parameterType="modelo.pojo.Direccion" >
         INSERT INTO direcciones (calle, numero, colonia, codigoPostal)
         VALUES (#{calle}, #{numero}, #{colonia}, #{codigoPostal})
     </insert>

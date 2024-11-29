@@ -113,7 +113,7 @@ public class ClienteDAO {
 
         if (conexionBD != null) {
             try {
-                List<Cliente> clientes = conexionBD.selectList("clientes.buscarCliente");
+                List<Cliente> clientes = conexionBD.selectList("clientes.buscarClientes");
 
                 if (clientes != null && !clientes.isEmpty()) {
                     respuesta.setError(false);

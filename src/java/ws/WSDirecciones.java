@@ -22,13 +22,6 @@ public class WSDirecciones {
     public WSDirecciones() {
     }
 
-    @Path("Hola")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public String hola() {
-        return "Hola, servicio de direcciones funcionando";
-    }
-
     @Path("registrar")
     @POST
     @Produces(MediaType.APPLICATION_JSON)

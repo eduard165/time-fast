@@ -23,7 +23,6 @@ public class WSClientes {
     public WSClientes() {
     }
 
-    // Registro de cliente y dirección
     @Path("registrar")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -33,7 +32,6 @@ public class WSClientes {
         return ClienteDAO.registrarCliente(cliente);
     }
 
-    // Editar cliente y su dirección
     @Path("editar")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -43,7 +41,6 @@ public class WSClientes {
         return ClienteDAO.editarCliente(cliente);
     }
 
-    // Eliminar cliente (y posiblemente la dirección)
     @Path("eliminar/{idCliente}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)

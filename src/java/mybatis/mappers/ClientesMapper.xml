@@ -5,11 +5,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="clientes">
 
-    <select id="buscarClientes" resultType="modelo.pojo.ClienteConDireccion">
+    <select id="buscarClientes" resultType="modelo.pojo.Cliente">
         SELECT *
-        FROM clientes c
+        FROM clientes 
     </select>
-    <select id="buscarCliente" parameterType="String" resultType="modelo.pojo.ClienteConDireccion">
+    <select id="buscarCliente" parameterType="String" resultType="modelo.pojo.Cliente">
         SELECT c.idCliente, 
                c.nombre, 
                c.apellidoPaterno, 
