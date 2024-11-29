@@ -20,17 +20,21 @@ public class Validaciones {
     }
 
     public static void validarColaboradorEditado(Colaborador colaborador) {
-        if (colaborador == null || colaborador.getIdColaborador() != null || colaborador.getIdColaborador() > 0 ) {
+        if (colaborador == null  ) {
             throw new BadRequestException("El colaborador no puede ser nulo");
         }
+        validarId(colaborador.getIdColaborador());
         validarNombreApellido(colaborador.getNombre(), colaborador.getApellidoPaterno(), colaborador.getApellidoMaterno());
         validarCURP(colaborador.getCURP());
         validarCorreoElectronico(colaborador.getCorreoElectronico());
-        validarNumeroPersonal(colaborador.getNumeroPersonal());
         validarPassword(colaborador.getPassword());
-        validarIdRol(colaborador.getIdRol());
-
     }
+
+   private static void validarId(Integer idColaborador) {
+    if (idColaborador == null || idColaborador <= 0) {
+        throw new BadRequestException("El id debe ser obligatorio y no debe ser menor o igual a 0");
+    }
+}
 
     private static void validarNombreApellido(String nombre, String apellidoPaterno, String apellidoMaterno) {
         if (nombre == null || nombre.isEmpty() || nombre.length() > 50 || apellidoPaterno.isEmpty() || apellidoMaterno.isEmpty() || apellidoMaterno.length() > 50 || apellidoPaterno.length() > 50) {
@@ -39,13 +43,13 @@ public class Validaciones {
     }
 
     private static void validarCURP(String curp) {
-        if (curp == null || curp.length() != 18 || !Pattern.matches("[A-Z]{4}[0-9]{6}[A-Z]{6}[0-9]{2}", curp)) {
+        if (curp == null || curp.length() != 18 ) {
             throw new BadRequestException("El CURP debe tener 18 caracteres y ser válido.");
         }
     }
 
     private static void validarCorreoElectronico(String correoElectronico) {
-        if (correoElectronico == null || correoElectronico.isEmpty() || correoElectronico.length() > 100 || !isValidEmail(correoElectronico)) {
+        if (correoElectronico == null || correoElectronico.isEmpty() || correoElectronico.length() > 100 ) {
             throw new BadRequestException("El correo electrónico es obligatorio, debe ser válido y no exceder 100 caracteres.");
         }
     }
@@ -68,15 +72,4 @@ public class Validaciones {
         }
     }
 
-    private static void validarFotografia(byte[] fotografia) {
-        if (fotografia == null || fotografia.length == 0) {
-            throw new BadRequestException("La fotografía es obligatoria.");
-        }
-    }
-
-    private static boolean isValidEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        return pattern.matcher(email).matches();
-    }
 }
