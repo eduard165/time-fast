@@ -24,7 +24,7 @@ public class ValidacionesUnidad {
         validarMarcaModelo(unidad.getMarca(), unidad.getModelo());
         validarAnio(unidad.getAnio());
         validarVIN(unidad.getVIN());
-        generarNumeroInterno(unidad); // Generar el número interno automáticamente
+        generarNumeroInterno(unidad); 
     }
 
     public static void validarId(Integer idUnidad) {

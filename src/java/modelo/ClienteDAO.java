@@ -1,44 +1,34 @@
 package modelo;
 
 import java.util.List;
-import modelo.pojo.Colaborador;
+import modelo.pojo.Cliente;
 import modelo.pojo.Mensaje;
-import modelo.pojo.respuestas.RespuestaColaborador;
-import modelo.pojo.respuestas.RespuestaColaboradores;
+import modelo.pojo.respuestas.RespuestaCliente;
+import modelo.pojo.respuestas.RespuestaClientes;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
-public class ColaboradoresDAO {
+public class ClienteDAO {
 
-    public static Mensaje registrarColaborador(Colaborador colaborador) {
+    public static Mensaje registrarCliente(Cliente cliente) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-
-                if (!buscarColaboradoresExactos(colaborador.getCURP()).isError()) {
-                    respuesta.setContenido("El CURP ya esta registrado");
-                    return respuesta;
-                }
-                if (!buscarColaboradoresExactos(colaborador.getCorreoElectronico()).isError()) {
-                    respuesta.setContenido("El Correo electrónico ya está registrado");
+                if (!buscarCliente(cliente.getCorreoElectronico()).isError()) {
+                    respuesta.setContenido("El correo electrónico ya está registrado.");
                     return respuesta;
                 }
 
-                if (!buscarColaboradoresExactos(colaborador.getNumeroPersonal()).isError()) {
-                    respuesta.setContenido("El NP ya está registrado");
-                    return respuesta;
-                }
-
-                int filasAfectadas = conexionBD.insert("colaboradores.registrarColaborador", colaborador);
+                int filasAfectadas = conexionBD.insert("clientes.registrarCliente", cliente);
 
                 if (filasAfectadas > 0) {
                     respuesta.setError(false);
-                    respuesta.setContenido("Colaborador registrado exitosamente.");
+                    respuesta.setContenido("Cliente registrado exitosamente.");
                 } else {
-                    respuesta.setContenido("No se pudo registrar al colaborador. Inténtelo nuevamente.");
+                    respuesta.setContenido("No se pudo registrar al cliente. Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
@@ -53,33 +43,27 @@ public class ColaboradoresDAO {
         return respuesta;
     }
 
-    public static Mensaje editarColaborador(Colaborador colaborador) {
+    public static Mensaje editarCliente(Cliente cliente) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                RespuestaColaborador curp = buscarColaboradoresExactos(colaborador.getCURP());
-                RespuestaColaborador correo = buscarColaboradoresExactos(colaborador.getCorreoElectronico());
+                RespuestaCliente correo = buscarCliente(cliente.getCorreoElectronico());
 
-                if (!curp.isError() && curp.getColaborador().getIdColaborador() != colaborador.getIdColaborador()) {
-                    respuesta.setContenido("El CURP ya esta registrado");
+                if (!correo.isError() && correo.getCliente().getIdCliente() != cliente.getIdCliente()) {
+                    respuesta.setContenido("El correo electrónico ya está registrado.");
                     return respuesta;
                 }
 
-                if (!correo.isError() && correo.getColaborador().getIdColaborador() != colaborador.getIdColaborador()) {
-                    respuesta.setContenido("El Correo electrónico ya está registrado");
-                    return respuesta;
-                }
-
-                int filasAfectadas = conexionBD.update("colaboradores.editarColaborador", colaborador);
+                int filasAfectadas = conexionBD.update("clientes.editarCliente", cliente);
 
                 if (filasAfectadas > 0) {
                     respuesta.setError(false);
-                    respuesta.setContenido("Colaborador editado exitosamente.");
+                    respuesta.setContenido("Cliente editado exitosamente.");
                 } else {
-                    respuesta.setContenido("No se pudo editar al colaborador. Inténtelo nuevamente.");
+                    respuesta.setContenido("No se pudo editar al cliente. Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
@@ -94,20 +78,20 @@ public class ColaboradoresDAO {
         return respuesta;
     }
 
-    public static Mensaje eliminarColaborador(int idColaborador) {
+    public static Mensaje eliminarCliente(int idCliente) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                int filasAfectadas = conexionBD.delete("colaboradores.eliminarColaborador", idColaborador);
+                int filasAfectadas = conexionBD.delete("clientes.eliminarCliente", idCliente);
 
                 if (filasAfectadas > 0) {
                     respuesta.setError(false);
-                    respuesta.setContenido("Colaborador eliminado exitosamente.");
+                    respuesta.setContenido("Cliente eliminado exitosamente.");
                 } else {
-                    respuesta.setContenido("No se pudo eliminar al colaborador. Inténtelo nuevamente.");
+                    respuesta.setContenido("No se pudo eliminar al cliente. Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
@@ -122,21 +106,21 @@ public class ColaboradoresDAO {
         return respuesta;
     }
 
-    public static RespuestaColaboradores buscarColaboradores(String parametro) {
-        RespuestaColaboradores respuesta = new RespuestaColaboradores();
+    public static RespuestaClientes buscarClientes() {
+        RespuestaClientes respuesta = new RespuestaClientes();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                List<Colaborador> colaboradores = conexionBD.selectList("colaboradores.buscarColaboradores", parametro);
+                List<Cliente> clientes = conexionBD.selectList("clientes.buscarCliente");
 
-                if (colaboradores != null && !colaboradores.isEmpty()) {
+                if (clientes != null && !clientes.isEmpty()) {
                     respuesta.setError(false);
                     respuesta.setContenido("Búsqueda exitosa.");
-                    respuesta.setColaborador(colaboradores);
+                    respuesta.setCliente(clientes);
                 } else {
-                    respuesta.setContenido("No se encontraron colaboradores con el criterio proporcionado.");
+                    respuesta.setContenido("No se encontraron clientes con el criterio proporcionado.");
                 }
             } catch (Exception e) {
                 respuesta.setContenido("Error: " + e.getMessage());
@@ -150,21 +134,21 @@ public class ColaboradoresDAO {
         return respuesta;
     }
 
-    public static RespuestaColaborador buscarColaboradoresExactos(String parametro) {
-        RespuestaColaborador respuesta = new RespuestaColaborador();
+    public static RespuestaCliente buscarCliente(String parametro) {
+        RespuestaCliente respuesta = new RespuestaCliente();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                Colaborador colaborador = conexionBD.selectOne("colaboradores.buscarColaboradoresExactos", parametro);
+                Cliente cliente = conexionBD.selectOne("clientes.buscarCliente", parametro);
 
-                if (colaborador != null) {
+                if (cliente != null) {
                     respuesta.setError(false);
                     respuesta.setContenido("Búsqueda exitosa.");
-                    respuesta.setColaborador(colaborador);
+                    respuesta.setCliente(cliente);
                 } else {
-                    respuesta.setContenido("No se encontraron colaboradores con el criterio proporcionado.");
+                    respuesta.setContenido("No se encontraron clientes con el correo proporcionado.");
                 }
             } catch (Exception e) {
                 respuesta.setContenido("Error: " + e.getMessage());

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="clientes">
+
+    <select id="buscarClientes" resultType="modelo.pojo.ClienteConDireccion">
+        SELECT *
+        FROM clientes c
+    </select>
+    <select id="buscarCliente" parameterType="String" resultType="modelo.pojo.ClienteConDireccion">
+        SELECT c.idCliente, 
+               c.nombre, 
+               c.apellidoPaterno, 
+               c.apellidoMaterno, 
+               c.telefono, 
+               c.correoElectronico, 
+               d.calle, 
+               d.numero, 
+               d.colonia, 
+               d.codigoPostal
+        FROM clientes c
+        INNER JOIN direcciones d ON c.idDireccion = d.idDireccion
+        WHERE c.nombre = #{parametro}
+           OR c.telefono = #{parametro}
+           OR c.correoElectronico = #{parametro}
+    </select>
+
+    <insert id="registrarCliente" parameterType="modelo.pojo.Cliente">
+        INSERT INTO clientes (nombre, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, password, idDireccion)
+        VALUES (#{nombre}, #{apellidoPaterno}, #{apellidoMaterno}, #{telefono}, #{correoElectronico}, #{password}, #{idDireccion});
+    </insert>
+
+    <update id="editarCliente" parameterType="modelo.pojo.Cliente">
+        UPDATE clientes
+        SET nombre = #{nombre},
+            apellidoPaterno = #{apellidoPaterno},
+            apellidoMaterno = #{apellidoMaterno},
+            telefono = #{telefono},
+            correoElectronico = #{correoElectronico},
+            password = #{password},
+            idDireccion = #{idDireccion}
+        WHERE idCliente = #{idCliente};
+    </update>
+
+    <delete id="eliminarCliente" parameterType="int">
+        DELETE FROM clientes
+        WHERE idCliente = #{idCliente};
+    </delete>
+
+</mapper>

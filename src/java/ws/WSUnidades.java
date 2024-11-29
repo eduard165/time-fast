@@ -14,9 +14,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 import modelo.UnidadesDAO;
 import modelo.pojo.Mensaje;
 import modelo.pojo.Unidad;
@@ -27,8 +25,6 @@ import utils.ValidacionesUnidad;
 @Path("unidades")
 public class WSUnidades {
 
-    @Context
-    private UriInfo context;
 
     public WSUnidades() {
     }

@@ -9,9 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 import modelo.ColaboradoresDAO;
 import modelo.pojo.Colaborador;
 import modelo.pojo.Mensaje;
@@ -21,8 +19,6 @@ import utils.ValidacionesColaborador;
 @Path("colaboradores")
 public class WSColaboradores {
 
-    @Context
-    private UriInfo context;
 
     public WSColaboradores() {
     }
@@ -55,7 +51,7 @@ public class WSColaboradores {
     @Path("eliminar/{idColaborador}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaColaboradores eliminarColaborador(@PathParam("idColaborador") int idColaborador) {
+    public Mensaje eliminarColaborador(@PathParam("idColaborador") int idColaborador) {
         ValidacionesColaborador.validarId(idColaborador);
         return ColaboradoresDAO.eliminarColaborador(idColaborador);
     }

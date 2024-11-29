@@ -10,6 +10,7 @@ package modelo.pojo;
  * @author eduar
  */
 public class Cliente {
+
     private Integer idCliente;
     private String nombre;
     private String apellidoPaterno;
@@ -18,11 +19,15 @@ public class Cliente {
     private String correoElectronico;
     private String password;
     private Integer idDireccion;
+    private String calle;
+    private String numero;
+    private String colonia;
+    private String codigoPostal;
 
     public Cliente() {
     }
 
-    public Cliente(Integer idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correoElectronico, String password, Integer idDireccion) {
+    public Cliente(Integer idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correoElectronico, String password, Integer idDireccion, String calle, String numero, String colonia, String codigoPostal) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -31,8 +36,13 @@ public class Cliente {
         this.correoElectronico = correoElectronico;
         this.password = password;
         this.idDireccion = idDireccion;
+        this.calle = calle;
+        this.numero = numero;
+        this.colonia = colonia;
+        this.codigoPostal = codigoPostal;
     }
 
+   
     public Integer getIdCliente() {
         return idCliente;
     }
@@ -95,6 +105,38 @@ public class Cliente {
 
     public void setIdDireccion(Integer idDireccion) {
         this.idDireccion = idDireccion;
+    }
+
+    public String getCalle() {
+        return calle;
+    }
+
+    public void setCalle(String calle) {
+        this.calle = calle;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getColonia() {
+        return colonia;
+    }
+
+    public void setColonia(String colonia) {
+        this.colonia = colonia;
+    }
+
+    public String getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(String codigoPostal) {
+        this.codigoPostal = codigoPostal;
     }
 
 }

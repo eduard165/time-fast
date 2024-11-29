@@ -1,8 +1,6 @@
 package ws;
 
 import javax.ws.rs.BadRequestException;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -16,9 +14,7 @@ import modelo.pojo.respuestas.RespuestaColaborador;
 @Path("login")
 public class WSLogin {
 
-    @Context 
-    private UriInfo context;
-
+ 
     public WSLogin() {}
 
     @Path("colaborador")

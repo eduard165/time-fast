@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="modelo.mapper.DireccionMapper">
+
+    <insert id="insertarDireccion" parameterType="modelo.pojo.Direccion" useGeneratedKeys="true" keyProperty="idDireccion">
+        INSERT INTO direcciones (calle, numero, colonia, codigoPostal)
+        VALUES (#{calle}, #{numero}, #{colonia}, #{codigoPostal})
+    </insert>
+
+    <update id="editarDireccion" parameterType="modelo.pojo.Direccion">
+        UPDATE direcciones
+        SET calle = #{calle}, 
+        numero = #{numero}, 
+        colonia = #{colonia}, 
+        codigoPostal = #{codigoPostal}
+        WHERE idDireccion = #{idDireccion}
+    </update>
+
+    <delete id="eliminarDireccion" parameterType="int">
+        DELETE FROM direcciones
+        WHERE idDireccion = #{idDireccion}
+    </delete>
+
+    <select id="buscarDireccionPorId" parameterType="int" resultType="modelo.pojo.Direccion">
+        SELECT idDireccion, calle, numero, colonia, codigoPostal
+        FROM direcciones
+        WHERE idDireccion = #{idDireccion}
+    </select>
+</mapper>
