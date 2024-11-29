@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import modelo.pojo.Colaborador;
 import modelo.pojo.Mensaje;
@@ -176,5 +177,47 @@ public class ColaboradoresDAO {
         }
 
         return respuesta;
+    }
+    
+    public static Mensaje subirFoto(Integer idColaborador, byte[] fotografia) {
+        Mensaje msj = new Mensaje();
+        msj.setError(true);
+        
+        LinkedHashMap<String, Object> parametros = new LinkedHashMap<>();
+        parametros.put("idColaborador", idColaborador);
+        parametros.put("fotografia", fotografia);
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        
+        if (conexionBD != null) {
+            try {
+                int filasAfectadas = conexionBD.update("colaboradores.guardarFoto", parametros);
+                conexionBD.commit();
+                if (filasAfectadas > 0) {
+                    msj.setError(false);
+                    msj.setContenido("Foto del colaborador actualizada con exito");
+                } else {
+                    msj.setContenido("La foto del colaborador no pudo ser guardad cone exito");
+                }
+            } catch (Exception e) {
+                msj.setContenido(e.getMessage());
+            }
+        } else {
+            msj.setContenido("Por el momento no hay conexion estable reinicie la aplicacion nuevamente");
+        }
+        return msj;
+    }
+    
+    public static Colaborador obtenerFoto(Integer idColaborador){
+        Colaborador colaboradorConFoto =null;
+        SqlSession conexionBd = MyBatisUtil.getSession();
+        if(conexionBd != null){
+            try {
+                colaboradorConFoto = conexionBd.selectOne("colaboradores.obtenerFoto", idColaborador);
+               
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return colaboradorConFoto;
     }
 }

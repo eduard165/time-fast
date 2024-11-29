@@ -19,7 +19,6 @@ import utils.ValidacionesColaborador;
 @Path("colaboradores")
 public class WSColaboradores {
 
-
     public WSColaboradores() {
     }
 
@@ -44,7 +43,7 @@ public class WSColaboradores {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Mensaje editarColaborador(Colaborador colaborador) {
-       ValidacionesColaborador.validarColaboradorEditado(colaborador);
+        ValidacionesColaborador.validarColaboradorEditado(colaborador);
         return ColaboradoresDAO.editarColaborador(colaborador);
     }
 
@@ -79,4 +78,21 @@ public class WSColaboradores {
         return ColaboradoresDAO.buscarColaboradores(parametro);
     }
 
+    @Path("/subir-foto/{idColaborador}")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje subirFoto(@PathParam("idColaborador") Integer idColaborador, byte[] foto) {
+        ValidacionesColaborador.validadColaboradorFoto(foto, idColaborador);
+        return ColaboradoresDAO.subirFoto(idColaborador, foto);
+        
+    }
+
+    @Path("/obtener-foto/{idColaborador}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Colaborador obtenerFoto(@PathParam("idColaborador") Integer idColaborador) {
+        ValidacionesColaborador.validarId(idColaborador);
+        return ColaboradoresDAO.obtenerFoto(idColaborador);
+   
+    }
 }

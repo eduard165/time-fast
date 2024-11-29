@@ -81,5 +81,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         OR c.correoElectronico = #{parametro}
         OR c.CURP = #{parametro}
     </select>
-
+    <update id="guardarFoto" parameterType="map">
+        UPDATE colaboradores
+        SET fotografia = #{fotografia}
+        WHERE idColaborador = #{idColaborador}
+    </update>
+    
+    <select id="obtenerFoto" parameterType="int" resultType="modelo.pojo.Colaborador">
+        SELECT idColaborador, nombre, apellidoPaterno, apellidoMaterno, TO_BASE64(fotografia) as fotoBase64
+        FROM colaboradores WHERE idColaborador = #{idColaborador}
+    </select>
 </mapper>

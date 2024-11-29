@@ -20,7 +20,7 @@ public class ValidacionesColaborador {
     }
 
     public static void validarColaboradorEditado(Colaborador colaborador) {
-        if (colaborador == null  ) {
+        if (colaborador == null) {
             throw new BadRequestException("El colaborador no puede ser nulo");
         }
         validarId(colaborador.getIdColaborador());
@@ -30,11 +30,18 @@ public class ValidacionesColaborador {
         validarPassword(colaborador.getPassword());
     }
 
-   public static void validarId(Integer idColaborador) {
-    if (idColaborador == null || idColaborador <= 0) {
-        throw new BadRequestException("El id debe ser obligatorio y no debe ser menor o igual a 0");
+    public static void validadColaboradorFoto(byte[] foto, Integer idColaborador) {
+        if ( foto == null) {
+            throw new BadRequestException("El id debe ser obligatorio y no debe ser menor o igual a 0");
+        }
+        validarId(idColaborador);
     }
-}
+
+    public static void validarId(Integer idColaborador) {
+        if (idColaborador == null || idColaborador <= 0) {
+            throw new BadRequestException("El id debe ser obligatorio y no debe ser menor o igual a 0");
+        }
+    }
 
     private static void validarNombreApellido(String nombre, String apellidoPaterno, String apellidoMaterno) {
         if (nombre == null || nombre.isEmpty() || nombre.length() > 50 || apellidoPaterno.isEmpty() || apellidoMaterno.isEmpty() || apellidoMaterno.length() > 50 || apellidoPaterno.length() > 50) {
@@ -43,13 +50,13 @@ public class ValidacionesColaborador {
     }
 
     private static void validarCURP(String curp) {
-        if (curp == null || curp.length() != 18 ) {
+        if (curp == null || curp.length() != 18) {
             throw new BadRequestException("El CURP debe tener 18 caracteres y ser válido.");
         }
     }
 
     private static void validarCorreoElectronico(String correoElectronico) {
-        if (correoElectronico == null || correoElectronico.isEmpty() || correoElectronico.length() > 100 ) {
+        if (correoElectronico == null || correoElectronico.isEmpty() || correoElectronico.length() > 100) {
             throw new BadRequestException("El correo electrónico es obligatorio, debe ser válido y no exceder 100 caracteres.");
         }
     }
