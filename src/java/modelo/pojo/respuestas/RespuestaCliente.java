@@ -1,4 +1,6 @@
-package modelo.pojo;
+package modelo.pojo.respuestas;
+
+import modelo.pojo.Cliente;
 
 public class RespuestaCliente {
 

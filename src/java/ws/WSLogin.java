@@ -11,8 +11,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import modelo.AutenticacionDAO;
-import modelo.pojo.RespuestaCliente;
-import modelo.pojo.RespuestaColaborador;
+import modelo.pojo.respuestas.RespuestaCliente;
+import modelo.pojo.respuestas.RespuestaColaborador;
 @Path("login")
 public class WSLogin {
 

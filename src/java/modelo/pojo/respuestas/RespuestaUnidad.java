@@ -3,24 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo.pojo;
+package modelo.pojo.respuestas;
+
+import modelo.pojo.Unidad;
 
 /**
  *
  * @author eduar
  */
-public class RespuestaColaborador {
-    private boolean error;
+public class RespuestaUnidad {
+     private boolean error;
     private String contenido;
-    private Colaborador colaborador;
+    private Unidad unidad;
 
-    public RespuestaColaborador() {
+    public RespuestaUnidad() {
     }
 
-    public RespuestaColaborador(boolean error, String contenido, Colaborador colaborador) {
+    public RespuestaUnidad(boolean error, String contenido, Unidad unidad) {
         this.error = error;
         this.contenido = contenido;
-        this.colaborador = colaborador;
+        this.unidad = unidad;
     }
 
     public boolean isError() {
@@ -39,12 +41,12 @@ public class RespuestaColaborador {
         this.contenido = contenido;
     }
 
-    public Colaborador getColaborador() {
-        return colaborador;
+    public Unidad getUnidad() {
+        return unidad;
     }
 
-    public void setColaborador(Colaborador colaborador) {
-        this.colaborador = colaborador;
+    public void setUnidad(Unidad unidad) {
+        this.unidad = unidad;
     }
     
 }

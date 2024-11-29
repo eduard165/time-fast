@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="unidades">
+
+    <insert id="registrarUnidad" parameterType="modelo.pojo.Unidad">
+        INSERT INTO unidades (marca, modelo, anio, VIN, idTipoUnidad, numeroInterno)
+        VALUES (#{marca}, #{modelo}, #{anio}, #{VIN}, #{idTipoUnidad}, #{numeroInterno})
+    </insert>
+
+    <update id="editarUnidad" parameterType="modelo.pojo.Unidad">
+        UPDATE unidades
+        SET marca = #{marca}, modelo = #{modelo}, anio = #{anio}, idTipoUnidad = #{idTipoUnidad}, numeroInterno = #{numeroInterno}
+        WHERE idUnidad = #{idUnidad}
+    </update>
+
+    <delete id="eliminarUnidad" parameterType="int">
+        DELETE FROM unidades
+        WHERE idUnidad = #{idUnidad}
+    </delete>
+
+    <select id="buscarUnidades" parameterType="String" resultType="modelo.pojo.Unidad">
+        SELECT u.*, t.nombre  AS nombreTipo
+        FROM unidades u
+        INNER JOIN tipo_unidad t ON u.idTipoUnidad = t.idTipoUnidad
+        WHERE u.marca LIKE CONCAT('%', #{parametro}, '%') 
+        OR u.modelo LIKE CONCAT('%', #{parametro}, '%')
+        OR u.VIN LIKE CONCAT('%', #{parametro}, '%')
+    </select>
+    <select id="buscarUnidadPorVin" parameterType="String" resultType="modelo.pojo.Unidad">
+        SELECT u.*, t.nombre AS nombreTipo
+        FROM unidades u
+        INNER JOIN tipo_unidad t ON u.idTipoUnidad = t.idTipoUnidad
+        WHERE u.VIN = #{VIN}
+    </select>
+
+
+</mapper>

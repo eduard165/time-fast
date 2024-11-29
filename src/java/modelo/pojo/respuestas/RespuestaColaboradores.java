@@ -1,6 +1,7 @@
-package modelo.pojo;
+package modelo.pojo.respuestas;
 
 import java.util.List;
+import modelo.pojo.Colaborador;
 
 public class RespuestaColaboradores {
 

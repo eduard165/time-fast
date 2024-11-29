@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import modelo.pojo.Cliente;
 import modelo.pojo.Colaborador;
-import modelo.pojo.RespuestaCliente;
-import modelo.pojo.RespuestaColaborador;
-import modelo.pojo.RespuestaColaboradores;
+import modelo.pojo.respuestas.RespuestaCliente;
+import modelo.pojo.respuestas.RespuestaColaborador;
+import modelo.pojo.respuestas.RespuestaColaboradores;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 

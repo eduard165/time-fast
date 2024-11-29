@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 import javax.ws.rs.BadRequestException;
 import modelo.pojo.Colaborador;
 
-public class Validaciones {
+public class ValidacionesColaborador {
 
     public static void validarColaborador(Colaborador colaborador) {
         if (colaborador == null) {
@@ -30,7 +30,7 @@ public class Validaciones {
         validarPassword(colaborador.getPassword());
     }
 
-   private static void validarId(Integer idColaborador) {
+   public static void validarId(Integer idColaborador) {
     if (idColaborador == null || idColaborador <= 0) {
         throw new BadRequestException("El id debe ser obligatorio y no debe ser menor o igual a 0");
     }

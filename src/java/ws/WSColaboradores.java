@@ -15,8 +15,8 @@ import javax.ws.rs.core.UriInfo;
 import modelo.ColaboradoresDAO;
 import modelo.pojo.Colaborador;
 import modelo.pojo.Mensaje;
-import modelo.pojo.RespuestaColaboradores;
-import utils.Validaciones;
+import modelo.pojo.respuestas.RespuestaColaboradores;
+import utils.ValidacionesColaborador;
 
 @Path("colaboradores")
 public class WSColaboradores {
@@ -39,7 +39,7 @@ public class WSColaboradores {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Mensaje registrarColaborador(Colaborador colaborador) {
-        Validaciones.validarColaborador(colaborador);
+        ValidacionesColaborador.validarColaborador(colaborador);
         return ColaboradoresDAO.registrarColaborador(colaborador);
     }
 
@@ -47,8 +47,8 @@ public class WSColaboradores {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public RespuestaColaboradores editarColaborador(Colaborador colaborador) {
-       Validaciones.validarColaboradorEditado(colaborador);
+    public Mensaje editarColaborador(Colaborador colaborador) {
+       ValidacionesColaborador.validarColaboradorEditado(colaborador);
         return ColaboradoresDAO.editarColaborador(colaborador);
     }
 
@@ -56,10 +56,7 @@ public class WSColaboradores {
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaColaboradores eliminarColaborador(@PathParam("idColaborador") int idColaborador) {
-        if (idColaborador <= 0) {
-            throw new BadRequestException("ID de colaborador no válido");
-        }
-
+        ValidacionesColaborador.validarId(idColaborador);
         return ColaboradoresDAO.eliminarColaborador(idColaborador);
     }
 

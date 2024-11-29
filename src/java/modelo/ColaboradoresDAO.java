@@ -3,8 +3,8 @@ package modelo;
 import java.util.List;
 import modelo.pojo.Colaborador;
 import modelo.pojo.Mensaje;
-import modelo.pojo.RespuestaColaborador;
-import modelo.pojo.RespuestaColaboradores;
+import modelo.pojo.respuestas.RespuestaColaborador;
+import modelo.pojo.respuestas.RespuestaColaboradores;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
@@ -53,8 +53,8 @@ public class ColaboradoresDAO {
         return respuesta;
     }
 
-    public static RespuestaColaboradores editarColaborador(Colaborador colaborador) {
-        RespuestaColaboradores respuesta = new RespuestaColaboradores();
+    public static Mensaje editarColaborador(Colaborador colaborador) {
+        Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
@@ -97,6 +97,7 @@ public class ColaboradoresDAO {
     public static RespuestaColaboradores eliminarColaborador(int idColaborador) {
         RespuestaColaboradores respuesta = new RespuestaColaboradores();
         SqlSession conexionBD = MyBatisUtil.getSession();
+        respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
@@ -106,18 +107,15 @@ public class ColaboradoresDAO {
                     respuesta.setError(false);
                     respuesta.setContenido("Colaborador eliminado exitosamente.");
                 } else {
-                    respuesta.setError(true);
                     respuesta.setContenido("No se pudo eliminar al colaborador. Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
-                respuesta.setError(true);
                 respuesta.setContenido("Error: " + e.getMessage());
             } finally {
                 conexionBD.close();
             }
         } else {
-            respuesta.setError(true);
             respuesta.setContenido("Error: No se puede acceder a la base de datos.");
         }
 
@@ -127,6 +125,7 @@ public class ColaboradoresDAO {
     public static RespuestaColaboradores buscarColaboradores(String parametro) {
         RespuestaColaboradores respuesta = new RespuestaColaboradores();
         SqlSession conexionBD = MyBatisUtil.getSession();
+        respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
@@ -137,17 +136,14 @@ public class ColaboradoresDAO {
                     respuesta.setContenido("Búsqueda exitosa.");
                     respuesta.setColaborador(colaboradores);
                 } else {
-                    respuesta.setError(true);
                     respuesta.setContenido("No se encontraron colaboradores con el criterio proporcionado.");
                 }
             } catch (Exception e) {
-                respuesta.setError(true);
                 respuesta.setContenido("Error: " + e.getMessage());
             } finally {
                 conexionBD.close();
             }
         } else {
-            respuesta.setError(true);
             respuesta.setContenido("Error: No se puede acceder a la base de datos.");
         }
 
