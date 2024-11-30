@@ -17,11 +17,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mybatis/mappers/AutenticacionMapper.xml"/>
+        <mapper resource="mybatis/mappers/AutenticacionesMapper.xml"/>
         <mapper resource="mybatis/mappers/ColaboradoresMapper.xml"/>
         <mapper resource="mybatis/mappers/UnidadesMapper.xml"/>
         <mapper resource="mybatis/mappers/ClientesMapper.xml"/>
-        <mapper resource="mybatis/mappers/DireccionMapper.xml"/>
+        <mapper resource="mybatis/mappers/DireccionesMapper.xml"/>
         <mapper resource="mybatis/mappers/AsignacionesMapper.xml"/>
+        <mapper resource="mybatis/mappers/EnviosMapper.xml"/>
     </mappers>
 </configuration>

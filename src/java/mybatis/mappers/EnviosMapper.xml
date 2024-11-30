@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="envios">
+    <insert id="registrarEnvio" parameterType="modelo.pojo.Envio">
+        INSERT INTO envios (
+        idCliente,
+        numeroGuia,
+        costo,
+        idDireccionOrigen,
+        idDireccionDestino,
+        idEstado,
+        idColaborador
+        )
+        VALUES (
+        #{idCliente},
+        #{numeroGuia},
+        #{costo},
+        #{idDireccionOrigen},
+        #{idDireccionDestino},
+        #{idEstado},
+        #{idColaborador}
+        )
+    </insert>
+    <update id="actualizarEnvio" parameterType="modelo.pojo.Envio">
+        UPDATE envios
+        SET
+        idCliente = #{idCliente},
+        costo = #{costo},
+        idDireccionOrigen = #{idDireccionOrigen},
+        idDireccionDestino = #{idDireccionDestino},
+        idEstado = #{idEstado},
+        idColaborador = #{idColaborador}
+        WHERE idEnvio = #{idEnvio}
+    </update>
+    <select id="consultarEnvioPorNumeroGuia" parameterType="String" resultType="modelo.pojo.Envio">
+        SELECT
+        e.idEnvio,
+        e.idCliente,
+        e.numeroGuia,
+        e.costo,
+        e.idDireccionOrigen,
+        e.idDireccionDestino,
+        e.idEstado,
+        e.idColaborador,
+        es.nombre AS nombreEstado,
+        CONCAT(co.nombre, ' ', co.apellidoPaterno, ' ', co.apellidoMaterno) AS nombreColaboradorCompleto,
+        co.correoElectronico AS correoElectronicoColaborador,
+        eo.calle AS calleOrigen,
+        eo.numero AS numeroOrigen,
+        eo.colonia AS coloniaOrigen,
+        eo.codigoPostal AS codigoPostalOrigen,
+        eo.ciudad AS ciudadOrigen,
+        eo.estado AS estadoOrigen,
+        ed.calle AS calleDestino,
+        ed.numero AS numeroDestino,
+        ed.colonia AS coloniaDestino,
+        ed.codigoPostal AS codigoPostalDestino,
+        ed.ciudad AS ciudadDestino,
+        ed.estado AS estadoDestino
+        FROM envios e
+        INNER JOIN clientes c ON e.idCliente = c.idCliente
+        INNER JOIN direcciones eo ON e.idDireccionOrigen = eo.idDireccion
+        INNER JOIN direcciones ed ON e.idDireccionDestino = ed.idDireccion
+        INNER JOIN estados_envios es ON e.idEstado = es.idEstado
+        INNER JOIN colaboradores co ON e.idColaborador = co.idColaborador
+        WHERE e.numeroGuia = #{numeroGuia}
+    </select>
+    <update id="asignarConductor" parameterType="map">
+        UPDATE envios
+        SET idColaborador = #{idColaborador}
+        WHERE idEnvio = #{idEnvio}
+    </update>
+    <update id="actualizarEstadoEnvio" parameterType="map">
+        UPDATE envios
+        SET idEstado = #{idEstado}
+        WHERE idEnvio = #{idEnvio}
+    </update>
+    <delete id="eliminarEnvio" parameterType="int">
+        DELETE FROM envios
+        WHERE idEnvio = #{idEnvio}
+    </delete>
+
+</mapper>
