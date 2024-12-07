@@ -1,5 +1,5 @@
 
-# 📌 Descripción del Proyecto
+# Descripción del Proyecto
 
 Este repositorio contiene la **API de la capa de servicios RESTful** para el proyecto integrador **Time-Fast**, desarrollado para la empresa ficticia **Time-Fast**, líder en el sector de paquetería y envíos. El objetivo del proyecto es ofrecer una solución robusta y eficiente para gestionar envíos desde diferentes plataformas (escritorio, web y móvil), facilitando la interacción entre **colaboradores, clientes y conductores**, garantizando la entrega y el monitoreo de paquetes en tiempo real.
 
@@ -7,7 +7,7 @@ La solución está compuesta por servicios RESTful implementados en **Java**, ut
 
 ---
 
-## 🚀 Tecnologías y Librerías utilizadas
+## Tecnologías y Librerías utilizadas
 
 - **Java**: Lenguaje principal del backend.
 - **MyBatis**: Framework ORM para acceso y gestión de base de datos.
@@ -20,9 +20,9 @@ La solución está compuesta por servicios RESTful implementados en **Java**, ut
 
 
 
-## 📝 Características Principales  
+## Características Principales  
 
-### 🔐 **Módulo de Colaboradores**  
+### **Módulo de Colaboradores**  
 - **Registro de Colaboradores:** Permite dar de alta a nuevos colaboradores con datos personales como **nombre, apellido paterno, apellido materno, CURP, correo electrónico, número de personal, contraseña, rol y fotografía**.  
 - **Edición de Colaboradores:** Facilita la actualización de información, exceptuando el **número de personal y el rol** del colaborador.  
 - **Eliminación de Colaboradores:** Proporciona la capacidad de eliminar información de colaboradores del sistema.  
@@ -30,7 +30,7 @@ La solución está compuesta por servicios RESTful implementados en **Java**, ut
 
 ---
 
-### 🚗 **Módulo de Unidades**  
+### **Módulo de Unidades**  
 - **Registro de Unidades:** Permite dar de alta vehículos con información como **marca, modelo, año, VIN (Número de Identificación Vehicular), tipo de unidad y número de identificación interno**.  
 - **Edición de Unidades:** Actualización de todos los campos excepto el **VIN**.  
 - **Baja de Unidades:** Da de baja vehículos basándose en un **motivo**.  
@@ -38,7 +38,7 @@ La solución está compuesta por servicios RESTful implementados en **Java**, ut
 
 ---
 
-### 👥 **Módulo de Clientes**  
+### **Módulo de Clientes**  
 - **Registro de Clientes:** Permite dar de alta clientes con datos personales como **nombre, apellido paterno, apellido materno, dirección (calle, número, colonia, código postal), teléfono y correo electrónico**.  
 - **Edición de Clientes:** Proporciona la capacidad de actualizar la información del cliente.  
 - **Eliminación de Clientes:** El sistema permite eliminar la información de un cliente.  
@@ -46,7 +46,7 @@ La solución está compuesta por servicios RESTful implementados en **Java**, ut
 
 ---
 
-### 📦 **Módulo de Envíos**  
+### **Módulo de Envíos**  
 - **Creación de Envíos:** Permite registrar un envío seleccionando el **cliente, origen, destino, número de guía y costo del envío**.  
 - **Actualización de Envíos:** Facilita la modificación de cualquier dato del envío, excepto el **número de guía**.  
 - **Consultas de Envíos:** Proporciona información detallada del envío, como **origen, destino, estado y conductor asignado**.  
@@ -55,7 +55,7 @@ La solución está compuesta por servicios RESTful implementados en **Java**, ut
 
 ---
 
-### 📬 **Módulo de Paquetes**  
+### **Módulo de Paquetes**  
 - **Registro de Paquetes:** Permite añadir paquetes con información como **descripción, peso, dimensiones (alto, ancho, profundidad) y el envío al que pertenece**.  
 - **Actualización de Paquetes:** Facilita la modificación de cualquier detalle del paquete, excepto el **envío al que está asignado**.  
 - **Consultas de Paquetes:** Realiza búsquedas y operaciones CRUD para paquetes en relación con cada envío.  
