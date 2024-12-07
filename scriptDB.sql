@@ -1,6 +1,13 @@
 CREATE SCHEMA timefastdb;
 USE timefastdb;
 
+CREATE TABLE tipo_unidad (
+  idTipoUnidad INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(20) NOT NULL,
+  PRIMARY KEY (idTipoUnidad),
+  UNIQUE INDEX tipo (nombre)
+);
+
 CREATE TABLE unidades (
   idUnidad INT NOT NULL AUTO_INCREMENT,
   marca VARCHAR(50) NOT NULL,
@@ -11,7 +18,8 @@ CREATE TABLE unidades (
   numeroInterno VARCHAR(20) NOT NULL,
   PRIMARY KEY (idUnidad),
   UNIQUE INDEX vin (VIN),
-  UNIQUE INDEX numeroInterno (numeroInterno)
+  UNIQUE INDEX numeroInterno (numeroInterno),
+  CONSTRAINT unidades_ibfk_1 FOREIGN KEY (idTipoUnidad) REFERENCES tipo_unidad (idTipoUnidad)
 );
 
 CREATE TABLE roles (
@@ -119,12 +127,6 @@ CREATE TABLE paquetes (
   CONSTRAINT paquetes_ibfk_1 FOREIGN KEY (idEnvio) REFERENCES timefastdb.envios (idEnvio)
 );
 
-CREATE TABLE tipo_unidad (
-  idTipoUnidad INT NOT NULL AUTO_INCREMENT,
-  nombre VARCHAR(20) NOT NULL,
-  PRIMARY KEY (idTipoUnidad),
-  UNIQUE INDEX tipo (nombre)
-);
 
 
 CREATE USER 'Eduard'@'localhost' IDENTIFIED BY 'FlowLetal';
