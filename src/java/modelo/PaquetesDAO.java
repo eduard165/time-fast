@@ -1,27 +1,32 @@
 package modelo;
 
-import modelo.pojo.Direccion;
+import java.util.List;
+import modelo.pojo.Paquete;
 import modelo.pojo.Mensaje;
-import modelo.pojo.respuestas.RespuestaDireccion;
+import modelo.pojo.respuestas.RespuestaPaquetes;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
-public class DireccionesDAO {
+public class PaquetesDAO {
 
-    public static Mensaje registrarDireccion(Direccion direccion) {
+    public static Mensaje registrarPaquete(Paquete paquete) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                int filasAfectadas = conexionBD.insert("direcciones.insertarDireccion", direccion);
+                if (!EnviosDAO.verificarEnvioExistentePorId(paquete.getIdEnvio())){
+                    respuesta.setContenido("Envio no valido");
+                    return respuesta;
+                }
+                int filasAfectadas = conexionBD.insert("paquetes.insertarPaquete", paquete);
 
                 if (filasAfectadas > 0) {
                     respuesta.setError(false);
-                    respuesta.setContenido("Dirección registrada exitosamente");
+                    respuesta.setContenido("Paquete registrado exitosamente.");
                 } else {
-                    respuesta.setContenido("No se pudo registrar la dirección. Inténtelo nuevamente.");
+                    respuesta.setContenido("No se pudo registrar el paquete. Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
@@ -36,20 +41,24 @@ public class DireccionesDAO {
         return respuesta;
     }
 
-    public static Mensaje editarDireccion(Direccion direccion) {
+    public static Mensaje actualizarPaquete(Paquete paquete) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                int filasAfectadas = conexionBD.update("direcciones.editarDireccion", direccion);
+                 if (!EnviosDAO.verificarEnvioExistentePorId(paquete.getIdEnvio())){
+                    respuesta.setContenido("Envio no valido");
+                    return respuesta;
+                }
+                int filasAfectadas = conexionBD.update("paquetes.actualizarPaquete", paquete);
 
                 if (filasAfectadas > 0) {
                     respuesta.setError(false);
-                    respuesta.setContenido("Dirección editada exitosamente.");
+                    respuesta.setContenido("Paquete actualizado exitosamente.");
                 } else {
-                    respuesta.setContenido("No se pudo editar la dirección. Inténtelo nuevamente.");
+                    respuesta.setContenido("No se pudo actualizar el paquete. Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
@@ -64,20 +73,20 @@ public class DireccionesDAO {
         return respuesta;
     }
 
-    public static Mensaje eliminarDireccion(int idDireccion) {
+    public static Mensaje eliminarPaquete(int idPaquete) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                int filasAfectadas = conexionBD.delete("direcciones.eliminarDireccion", idDireccion);
+                int filasAfectadas = conexionBD.delete("paquetes.eliminarPaquete", idPaquete);
 
                 if (filasAfectadas > 0) {
                     respuesta.setError(false);
-                    respuesta.setContenido("Dirección eliminada exitosamente.");
+                    respuesta.setContenido("Paquete eliminado exitosamente.");
                 } else {
-                    respuesta.setContenido("No se pudo eliminar la dirección. Inténtelo nuevamente.");
+                    respuesta.setContenido("No se pudo eliminar el paquete. Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
@@ -92,21 +101,21 @@ public class DireccionesDAO {
         return respuesta;
     }
 
-    public static RespuestaDireccion buscarDireccion(int idDireccion) {
-        RespuestaDireccion respuesta = new RespuestaDireccion();
+    public static RespuestaPaquetes consultarPaquetePorEnvio(int idEnvio) {
+        RespuestaPaquetes respuesta = new RespuestaPaquetes();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                Direccion direccion = conexionBD.selectOne("direcciones.buscarDireccionPorId", idDireccion);
+                List<Paquete> paquetes = conexionBD.selectList("paquetes.buscarPaquetePorEnvio", idEnvio);
 
-                if (direccion != null) {
+                if (paquetes != null) {
                     respuesta.setError(false);
                     respuesta.setContenido("Búsqueda exitosa.");
-                    respuesta.setDireccion(direccion);
+                    respuesta.setPaquetes(paquetes);
                 } else {
-                    respuesta.setContenido("No se encontró la dirección con el ID proporcionado.");
+                    respuesta.setContenido("No se encontró el paquete para el envío proporcionado.");
                 }
             } catch (Exception e) {
                 respuesta.setContenido("Error: " + e.getMessage());
@@ -118,24 +127,5 @@ public class DireccionesDAO {
         }
 
         return respuesta;
-    }
-
-    public static boolean verificarDireccionPorId(int idDireccion) {
-        SqlSession conexionBD = MyBatisUtil.getSession();
-        boolean existe = false;
-
-        if (conexionBD != null) {
-            try {
-                Direccion direccion = conexionBD.selectOne("direcciones.buscarDireccionPorId", idDireccion);
-                if (direccion != null) {
-                    existe = true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                conexionBD.close();
-            }
-        }
-        return existe;
     }
 }

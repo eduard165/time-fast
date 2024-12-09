@@ -92,7 +92,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM colaboradores WHERE idColaborador = #{idColaborador}
     </select>
     <select id="obtenerColaboradorPorId" parameterType="int" resultType="modelo.pojo.Colaborador">
-        SELECT *
+        SELECT * 
         FROM colaboradores 
         WHERE idColaborador = #{idColaborador}
     </select>

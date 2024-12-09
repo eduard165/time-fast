@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="envios">
+  
     <insert id="registrarEnvio" parameterType="modelo.pojo.Envio">
         INSERT INTO envios (
         idCliente,
@@ -48,6 +49,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         es.nombre AS nombreEstado,
         CONCAT(co.nombre, ' ', co.apellidoPaterno, ' ', co.apellidoMaterno) AS nombreColaboradorCompleto,
         co.correoElectronico AS correoElectronicoColaborador,
+        CONCAT(c.nombre, ' ', c.apellidoPaterno, ' ', c.apellidoMaterno) AS nombreClienteCompleto,
+        c.telefono AS telefonoCliente,
+        c.correoElectronico AS correoElectronicoCliente,
         eo.calle AS calleOrigen,
         eo.numero AS numeroOrigen,
         eo.colonia AS coloniaOrigen,
@@ -60,27 +64,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ed.codigoPostal AS codigoPostalDestino,
         ed.ciudad AS ciudadDestino,
         ed.estado AS estadoDestino
-        FROM envios e
+        FROM 
+        envios e
         INNER JOIN clientes c ON e.idCliente = c.idCliente
         INNER JOIN direcciones eo ON e.idDireccionOrigen = eo.idDireccion
         INNER JOIN direcciones ed ON e.idDireccionDestino = ed.idDireccion
-        INNER JOIN estados_envios es ON e.idEstado = es.idEstado
+        INNER JOIN estados_envios es ON e.idEstado = es.idEstadoEnvio
         INNER JOIN colaboradores co ON e.idColaborador = co.idColaborador
-        WHERE e.numeroGuia = #{numeroGuia}
+        WHERE 
+        e.numeroGuia = #{numeroGuia}
     </select>
+ 
     <update id="asignarConductor" parameterType="map">
         UPDATE envios
         SET idColaborador = #{idColaborador}
         WHERE idEnvio = #{idEnvio}
     </update>
+
     <update id="actualizarEstadoEnvio" parameterType="map">
         UPDATE envios
         SET idEstado = #{idEstado}
         WHERE idEnvio = #{idEnvio}
     </update>
+
     <delete id="eliminarEnvio" parameterType="int">
         DELETE FROM envios
         WHERE idEnvio = #{idEnvio}
     </delete>
-
+    <select id="obtenerEnvioPorId" parameterType="int" resultType="modelo.pojo.Envio">
+        SELECT *  
+        FROM envios 
+        WHERE idEnvio = #{idEnvio}
+    </select>
+      <select id="obtenerEnvioPorNumeroGuia" parameterType="String" resultType="modelo.pojo.Envio">
+        SELECT * 
+        FROM envios 
+        WHERE numeroGuia = #{numeroGuia}
+    </select>
 </mapper>

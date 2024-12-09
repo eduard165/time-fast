@@ -161,4 +161,22 @@ public class ClienteDAO {
 
         return respuesta;
     }
+    public static boolean verificarClientePorId(int idCliente) {
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        boolean existe = false;
+
+        if (conexionBD != null) {
+            try {
+                Cliente cliente = conexionBD.selectOne("clientes.buscarClientePorId", idCliente);
+                if (cliente != null) {
+                    existe = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return existe;
+    }
 }

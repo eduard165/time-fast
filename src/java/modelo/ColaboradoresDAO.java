@@ -222,5 +222,22 @@ public class ColaboradoresDAO {
     }
 
     
+ public static boolean verificarColaboradorPorId(int idColaborador) {
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        boolean existe = false;
 
+        if (conexionBD != null) {
+            try {
+                Colaborador colaborador = conexionBD.selectOne("colaboradores.obtenerColaboradorPorId", idColaborador);
+                if (colaborador != null) {
+                    existe = true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return existe;
+    }
 }

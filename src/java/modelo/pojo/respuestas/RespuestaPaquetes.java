@@ -6,24 +6,25 @@
 package modelo.pojo.respuestas;
 
 import java.util.List;
-import modelo.pojo.Envio;
+import modelo.pojo.Paquete;
 
 /**
  *
  * @author eduar
  */
-public class RespuestaEnvios {
-     private boolean error;
-    private String contenido;
-    private List<Envio> envios;
+public class RespuestaPaquetes {
 
-    public RespuestaEnvios() {
+    private boolean error;
+    private String contenido;
+    private List<Paquete> paquetes;
+
+    public RespuestaPaquetes() {
     }
 
-    public RespuestaEnvios(boolean error, String contenido, List<Envio> envios) {
+    public RespuestaPaquetes(boolean error, String contenido, List<Paquete> paquetes) {
         this.error = error;
         this.contenido = contenido;
-        this.envios = envios;
+        this.paquetes = paquetes;
     }
 
     public boolean isError() {
@@ -42,13 +43,12 @@ public class RespuestaEnvios {
         this.contenido = contenido;
     }
 
-    public List<Envio> getEnvios() {
-        return envios;
+    public List<Paquete> getPaquetes() {
+        return paquetes;
     }
 
-    public void setEnvios(List<Envio> envios) {
-        this.envios = envios;
+    public void setPaquetes(List<Paquete> paquetes) {
+        this.paquetes = paquetes;
     }
-    
-    
+
 }

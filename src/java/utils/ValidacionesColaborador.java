@@ -1,6 +1,5 @@
 package utils;
 
-import java.util.regex.Pattern;
 import javax.ws.rs.BadRequestException;
 import modelo.pojo.Colaborador;
 

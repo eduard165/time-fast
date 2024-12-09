@@ -9,6 +9,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT *
         FROM clientes 
     </select>
+    
+    <select id="buscarClientePorId" resultType="modelo.pojo.Cliente" parameterType="int">
+        SELECT *
+        FROM clientes 
+        WHERE idCliente = #{idCliente}
+    </select>
     <select id="buscarCliente" parameterType="String" resultType="modelo.pojo.Cliente">
         SELECT c.idCliente, 
                c.nombre, 
