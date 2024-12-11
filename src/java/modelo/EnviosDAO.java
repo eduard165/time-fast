@@ -104,7 +104,7 @@ public class EnviosDAO {
         return respuesta;
     }
 
-    public static Mensaje actualizarEstadoEnvio(int idEnvio, int idEstado) {
+    public static Mensaje actualizarEstadoEnvio(int idEnvio, int idEstado, String descripcion) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
@@ -122,6 +122,7 @@ public class EnviosDAO {
                 Map<String, Object> parametros = new HashMap<>();
                 parametros.put("idEnvio", idEnvio);
                 parametros.put("idEstado", idEstado);
+                parametros.put("descripcion", descripcion);
 
                 int filasAfectadas = conexionBD.update("envios.actualizarEstadoEnvio", parametros);
                 conexionBD.commit();

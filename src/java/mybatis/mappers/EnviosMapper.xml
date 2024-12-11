@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <update id="actualizarEstadoEnvio" parameterType="map">
         UPDATE envios
-        SET idEstado = #{idEstado}
+        SET idEstado = #{idEstado}, descripcion = #{descripcion}
         WHERE idEnvio = #{idEnvio}
     </update>
 

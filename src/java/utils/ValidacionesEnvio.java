@@ -29,15 +29,15 @@ public class ValidacionesEnvio {
         validarIdEstado(envio.getIdEstado());
     }
 
-    public static void validarCambioEstatus(Integer idEnvio, Integer idEstado) {
-        
+    public static void validarCambioEstatus(Integer idEnvio, Integer idEstado, String descripcion) {
+       
         validarIdEstado(idEstado);
         validarIdEnvio(idEnvio);
     }
-    
-     public static void validarAsignacionDeConductor(Integer idEnvio, Integer idColaborador) {
-         validarIdColaborador(idColaborador);        
-         validarIdEnvio(idEnvio);
+
+    public static void validarAsignacionDeConductor(Integer idEnvio, Integer idColaborador) {
+        validarIdColaborador(idColaborador);
+        validarIdEnvio(idEnvio);
     }
 
     public static void validarIdEnvio(Integer idEnvio) {

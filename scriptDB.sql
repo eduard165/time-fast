@@ -65,6 +65,7 @@ CREATE TABLE envios (
     idCliente INT NOT NULL,
     numeroGuia VARCHAR(20) UNIQUE NOT NULL,
     costo DECIMAL(10,2) NOT NULL,
+    descripcion VARCHAR(225) NOT NULL,
     idDireccionOrigen INT NOT NULL,
     idDireccionDestino INT NOT NULL,
     idEstado INT NOT NULL,
@@ -105,12 +106,12 @@ INSERT INTO tipo_unidad (nombre)
 VALUES
     ('Gasolina'),
     ('Diesel'),
-    ('Eléctrica'),
-    ('Híbrida');
+    ('Electrica'),
+    ('Hibrida');
 
 INSERT INTO colaboradores (nombre, apellidoPaterno, apellidoMaterno, CURP, correoElectronico, numeroPersonal, password, idRol)
 VALUES
-    ('Carlos', 'Hernández', 'Martínez', 'HELC820505HDFNRR07', 'carlos.hernandez@example.com', 'NP202345678901234567', 'password123', 2);
+    ('Carlos', 'Hernandez', 'Martinez', 'HELC820505HDFNRR07', 'carlos.hernandez@example.com', 'NP202345678901234567', 'password123', 2);
 
 INSERT INTO unidades (marca, modelo, anio, VIN, idTipoUnidad, numeroInterno)
 VALUES 
@@ -123,14 +124,14 @@ VALUES
 INSERT INTO estados_envios (nombre) 
 VALUES 
     ('Pendiente'),
-    ('En tránsito'),
+    ('En transito'),
     ('Detenido'),
     ('Entregado'),
     ('Cancelado');
 
 INSERT INTO clientes (nombre, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, password, idDireccion)
 VALUES
-    ('María', 'López', 'Pérez', '5512345678', 'maria.lopez@example.com', 'securepass', 1);
+    ('Maria', 'Lopez', 'Perez', '5512345678', 'maria.lopez@example.com', 'securepass', 1);
 
 INSERT INTO envios (idCliente, numeroGuia, costo, idDireccionOrigen, idDireccionDestino, idEstado, idColaborador)
 VALUES

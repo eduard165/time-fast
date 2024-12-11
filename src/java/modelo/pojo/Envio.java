@@ -15,6 +15,7 @@ public class Envio {
     private Integer idCliente;
     private String numeroGuia;
     private Float costo;
+    private String descripcion;
     private Integer idDireccionOrigen;
     private Integer idDireccionDestino;
     private Integer idEstado;
@@ -41,15 +42,16 @@ public class Envio {
 
     private String nombreColaboradorCompleto;
     private String correoElectronicoColaborador;
-
+    
     public Envio() {
     }
 
-    public Envio(Integer idEnvio, Integer idCliente, String numeroGuia, Float costo, Integer idDireccionOrigen, Integer idDireccionDestino, Integer idEstado, Integer idColaborador, String nombreEstado, String nombreClienteCompleto, String telefonoCliente, String correoElectronicoCliente, String calleOrigen, String numeroOrigen, String coloniaOrigen, String codigoPostalOrigen, String ciudadOrigen, String estadoOrigen, String calleDestino, String numeroDestino, String coloniaDestino, String codigoPostalDestino, String ciudadDestino, String estadoDestino, String nombreColaboradorCompleto, String correoElectronicoColaborador) {
+    public Envio(Integer idEnvio, Integer idCliente, String numeroGuia, Float costo, String descripcion, Integer idDireccionOrigen, Integer idDireccionDestino, Integer idEstado, Integer idColaborador, String nombreEstado, String nombreClienteCompleto, String telefonoCliente, String correoElectronicoCliente, String calleOrigen, String numeroOrigen, String coloniaOrigen, String codigoPostalOrigen, String ciudadOrigen, String estadoOrigen, String calleDestino, String numeroDestino, String coloniaDestino, String codigoPostalDestino, String ciudadDestino, String estadoDestino, String nombreColaboradorCompleto, String correoElectronicoColaborador) {
         this.idEnvio = idEnvio;
         this.idCliente = idCliente;
         this.numeroGuia = numeroGuia;
         this.costo = costo;
+        this.descripcion = descripcion;
         this.idDireccionOrigen = idDireccionOrigen;
         this.idDireccionDestino = idDireccionDestino;
         this.idEstado = idEstado;
@@ -72,6 +74,14 @@ public class Envio {
         this.estadoDestino = estadoDestino;
         this.nombreColaboradorCompleto = nombreColaboradorCompleto;
         this.correoElectronicoColaborador = correoElectronicoColaborador;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public Integer getIdEnvio() {
