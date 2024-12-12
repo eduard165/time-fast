@@ -96,9 +96,48 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM envios 
         WHERE idEnvio = #{idEnvio}
     </select>
-      <select id="obtenerEnvioPorNumeroGuia" parameterType="String" resultType="modelo.pojo.Envio">
+    <select id="obtenerEnvioPorNumeroGuia" parameterType="String" resultType="modelo.pojo.Envio">
         SELECT * 
         FROM envios 
         WHERE numeroGuia = #{numeroGuia}
+    </select>
+    <select id="consultarEnviosPorNumeroPersonal" parameterType="String" resultType="modelo.pojo.Envio">
+        SELECT
+        e.idEnvio,
+        e.idCliente,
+        e.numeroGuia,
+        e.costo,
+        e.idDireccionOrigen,
+        e.idDireccionDestino,
+        e.idEstado,
+        e.idColaborador,
+        es.nombre AS nombreEstado,
+        CONCAT(co.nombre, ' ', co.apellidoPaterno, ' ', co.apellidoMaterno) AS nombreColaboradorCompleto,
+        co.correoElectronico AS correoElectronicoColaborador,
+        CONCAT(c.nombre, ' ', c.apellidoPaterno, ' ', c.apellidoMaterno) AS nombreClienteCompleto,
+        c.telefono AS telefonoCliente,
+        c.correoElectronico AS correoElectronicoCliente,
+        eo.calle AS calleOrigen,
+        eo.numero AS numeroOrigen,
+        eo.colonia AS coloniaOrigen,
+        eo.codigoPostal AS codigoPostalOrigen,
+        eo.ciudad AS ciudadOrigen,
+        eo.estado AS estadoOrigen,
+        ed.calle AS calleDestino,
+        ed.numero AS numeroDestino,
+        ed.colonia AS coloniaDestino,
+        ed.codigoPostal AS codigoPostalDestino,
+        ed.ciudad AS ciudadDestino,
+        ed.estado AS estadoDestino
+        FROM 
+        envios e
+        INNER JOIN clientes c ON e.idCliente = c.idCliente
+        INNER JOIN direcciones eo ON e.idDireccionOrigen = eo.idDireccion
+        INNER JOIN direcciones ed ON e.idDireccionDestino = ed.idDireccion
+        INNER JOIN estados_envios es ON e.idEstado = es.idEstadoEnvio
+        INNER JOIN colaboradores co ON e.idColaborador = co.idColaborador
+        WHERE 
+        co.numeroPersonal = #{numeroPersonal}
+
     </select>
 </mapper>

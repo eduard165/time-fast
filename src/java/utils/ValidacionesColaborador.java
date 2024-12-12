@@ -61,13 +61,13 @@ public class ValidacionesColaborador {
     }
 
     private static void validarNumeroPersonal(String numeroPersonal) {
-        if (numeroPersonal == null || numeroPersonal.length() != 20) {
+        if (numeroPersonal == null ) {
             throw new BadRequestException("El número personal debe tener exactamente 20 caracteres.");
         }
     }
 
     private static void validarPassword(String password) {
-        if (password == null || password.length() < 8 || password.length() > 255) {
+        if (password == null || password.length() > 255) {
             throw new BadRequestException("La contraseña debe tener al menos 8 caracteres y no exceder 255 caracteres.");
         }
     }

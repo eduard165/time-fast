@@ -15,6 +15,7 @@ import utils.ValidacionesEnvio;
 import modelo.pojo.Envio;
 import modelo.pojo.Mensaje;
 import modelo.pojo.respuestas.RespuestaEnvio;
+import modelo.pojo.respuestas.RespuestaEnvios;
 
 @Path("/envios")
 public class WSEnvios {
@@ -44,6 +45,15 @@ public class WSEnvios {
         ValidacionesEnvio.validarNumeroGuia(numeroGuia);
         return EnviosDAO.obtenerEnvioPorGuia(numeroGuia);
     }
+    
+    @GET
+    @Path("/obtenerEnviosAsignados/{numeroPersonal}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public RespuestaEnvios consultarEnviosAsignados(@PathParam("numeroPersonal") String numeroPersonal) {
+        ValidacionesEnvio.validarNumeroGuia(numeroPersonal);
+        return EnviosDAO.consultarEnviosAsignados(numeroPersonal);
+    }
+
 
     @PUT
     @Path("/asignarConductor")

@@ -6,6 +6,7 @@ import java.util.Map;
 import modelo.pojo.Envio;
 import modelo.pojo.Mensaje;
 import modelo.pojo.respuestas.RespuestaEnvio;
+import modelo.pojo.respuestas.RespuestaEnvios;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
@@ -227,6 +228,32 @@ public class EnviosDAO {
         }
         return envio;
     }
+        public static RespuestaEnvios consultarEnviosAsignados(String numeroPersonal) {
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        RespuestaEnvios envio = new RespuestaEnvios();
+        envio.setError(true);
+
+        if (conexionBD != null) {
+            try {
+                List<Envio> envioR = conexionBD.selectList("envios.consultarEnviosPorNumeroPersonal", numeroPersonal);
+                if (envioR != null) {
+                    envio.setEnvios(envioR);
+                    envio.setContenido("Envio encontrado");
+                    envio.setError(false);
+                } else {
+                    envio.setContenido("El envio no fue encontrado");
+                }
+            } catch (Exception e) {
+                envio.setContenido("Error: " + e.getMessage());
+            } finally {
+                conexionBD.close();
+            }
+        } else {
+            envio.setContenido("No hay conexion con la base de datos");
+        }
+        return envio;
+    }
+
 
     public static boolean verificarEnvioExistentePorGuia(String numeroGuia) {
         SqlSession conexionBD = MyBatisUtil.getSession();
