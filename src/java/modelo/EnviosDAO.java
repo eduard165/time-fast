@@ -228,7 +228,23 @@ public class EnviosDAO {
         }
         return envio;
     }
-        public static RespuestaEnvios consultarEnviosAsignados(String numeroPersonal) {
+    public static List<Envio> obtenerEnvios(){
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        List<Envio> envios = null;
+
+        if (conexionBD != null) {
+            try {
+                envios = conexionBD.selectList("envios.consultarEnvios");
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        } 
+        return envios;
+    }
+    public static RespuestaEnvios consultarEnviosAsignados(String numeroPersonal) {
         SqlSession conexionBD = MyBatisUtil.getSession();
         RespuestaEnvios envio = new RespuestaEnvios();
         envio.setError(true);
@@ -253,7 +269,6 @@ public class EnviosDAO {
         }
         return envio;
     }
-
 
     public static boolean verificarEnvioExistentePorGuia(String numeroGuia) {
         SqlSession conexionBD = MyBatisUtil.getSession();
@@ -307,7 +322,7 @@ public class EnviosDAO {
             return respuesta;
         }
 
-        if (envio.getIdEstadoEnvio()<= 0 || envio.getIdEstadoEnvio()>= 6) {
+        if (envio.getIdEstadoEnvio() <= 0 || envio.getIdEstadoEnvio() >= 6) {
             respuesta.setContenido("El estado del envío es inválido.");
             return respuesta;
         }

@@ -128,4 +128,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INNER JOIN colaboradores col ON e.idColaborador = col.idColaborador
         WHERE col.numeroPersonal = #{numeroPersonal};
     </select>
+     <select id="consultarEnvios" parameterType="String" resultType="modelo.pojo.Envio">
+        SELECT * FROM envios 
+    </select>
+    
 </mapper>

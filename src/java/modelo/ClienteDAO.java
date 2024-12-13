@@ -106,31 +106,19 @@ public class ClienteDAO {
         return respuesta;
     }
 
-    public static RespuestaClientes buscarClientes() {
-        RespuestaClientes respuesta = new RespuestaClientes();
+    public static List<Cliente> buscarClientes() {
+        List<Cliente> respuesta = null;
         SqlSession conexionBD = MyBatisUtil.getSession();
-        respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                List<Cliente> clientes = conexionBD.selectList("clientes.buscarClientes");
-
-                if (clientes != null && !clientes.isEmpty()) {
-                    respuesta.setError(false);
-                    respuesta.setContenido("Búsqueda exitosa.");
-                    respuesta.setCliente(clientes);
-                } else {
-                    respuesta.setContenido("No se encontraron clientes con el criterio proporcionado.");
-                }
+                respuesta = conexionBD.selectList("clientes.buscarClientes");
             } catch (Exception e) {
-                respuesta.setContenido("Error: " + e.getMessage());
+                e.printStackTrace();
             } finally {
                 conexionBD.close();
             }
-        } else {
-            respuesta.setContenido("Error: No se puede acceder a la base de datos.");
         }
-
         return respuesta;
     }
 
@@ -161,6 +149,7 @@ public class ClienteDAO {
 
         return respuesta;
     }
+
     public static boolean verificarClientePorId(int idCliente) {
         SqlSession conexionBD = MyBatisUtil.getSession();
         boolean existe = false;

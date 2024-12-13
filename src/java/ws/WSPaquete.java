@@ -1,5 +1,6 @@
 package ws;
 
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -51,5 +52,11 @@ public class WSPaquete {
     public Mensaje eliminarPaquete(@PathParam("idPaquete") int idPaquete) {
         ValidacionesPaquete.validarIdPaquete(idPaquete);
         return PaquetesDAO.eliminarPaquete(idPaquete);
+    }
+    @GET
+    @Path("todos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Paquete> listaEnvios() {
+        return PaquetesDAO.obtenerPaquetes();
     }
 }

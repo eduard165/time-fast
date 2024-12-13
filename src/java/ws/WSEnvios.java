@@ -1,5 +1,6 @@
 package ws;
 
+import java.util.List;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -20,6 +21,9 @@ import modelo.pojo.respuestas.RespuestaEnvios;
 @Path("/envios")
 public class WSEnvios {
 
+    public WSEnvios() {
+    }
+
     @POST
     @Path("registrar")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -38,23 +42,6 @@ public class WSEnvios {
         return EnviosDAO.editarEnvio(envio);
     }
     
-    @GET
-    @Path("consultar/{numeroGuia}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaEnvio consultarEnvio(@PathParam("numeroGuia") String numeroGuia) {
-        ValidacionesEnvio.validarNumeroGuia(numeroGuia);
-        return EnviosDAO.obtenerEnvioPorGuia(numeroGuia);
-    }
-    
-    @GET
-    @Path("obtenerEnviosAsignados/{numeroPersonal}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaEnvios consultarEnviosAsignados(@PathParam("numeroPersonal") String numeroPersonal) {
-        ValidacionesEnvio.validarNumeroGuia(numeroPersonal);
-        return EnviosDAO.consultarEnviosAsignados(numeroPersonal);
-    }
-
-
     @PUT
     @Path("asignarConductor")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -63,7 +50,7 @@ public class WSEnvios {
         ValidacionesEnvio.validarAsignacionDeConductor(idEnvio, idColaborador);
         return EnviosDAO.asignarConductor(idEnvio, idColaborador);
     }
-
+    
     @PUT
     @Path("actualizarEstado")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -77,4 +64,29 @@ public class WSEnvios {
         ValidacionesEnvio.validarCambioEstatus(idEnvio, idEstado,descripcion);
         return EnviosDAO.actualizarEstadoEnvio(idEnvio, idEstado,descripcion);
     }
+    
+    @GET
+    @Path("consultar/{numeroGuia}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public RespuestaEnvio consultarEnvio(@PathParam("numeroGuia") String numeroGuia) {
+        ValidacionesEnvio.validarNumeroGuia(numeroGuia);
+        return EnviosDAO.obtenerEnvioPorGuia(numeroGuia);
+    }
+    @GET
+    @Path("todos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Envio> listaEnvios() {
+        return EnviosDAO.obtenerEnvios();
+    }
+    
+    @GET
+    @Path("obtenerEnviosAsignados/{numeroPersonal}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public RespuestaEnvios consultarEnviosAsignados(@PathParam("numeroPersonal") String numeroPersonal) {
+        ValidacionesEnvio.validarNumeroGuia(numeroPersonal);
+        return EnviosDAO.consultarEnviosAsignados(numeroPersonal);
+    }
+
+
+
 }

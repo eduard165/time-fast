@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             apellidoMaterno = #{apellidoMaterno},
             telefono = #{telefono},
             correoElectronico = #{correoElectronico},
-            password = #{password},
+            password = #{password}
         WHERE idCliente = #{idCliente};
     </update>
 

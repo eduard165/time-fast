@@ -13,11 +13,12 @@ public class Direccion {
     private Integer idCliente;
     private Integer idEnvioOrigen;
     private Integer idEnvioDestino;
+    private Integer idEstado;
 
     public Direccion() {
     }
 
-    public Direccion(Integer idDireccion, String calle, String numero, String colonia, String codigoPostal, String municipio, String estado, Integer idMunicipio, Integer idCliente, Integer idEnvioOrigen, Integer idEnvioDestino) {
+    public Direccion(Integer idDireccion, String calle, String numero, String colonia, String codigoPostal, String municipio, String estado, Integer idMunicipio, Integer idCliente, Integer idEnvioOrigen, Integer idEnvioDestino, Integer idEstado) {
         this.idDireccion = idDireccion;
         this.calle = calle;
         this.numero = numero;
@@ -29,7 +30,18 @@ public class Direccion {
         this.idCliente = idCliente;
         this.idEnvioOrigen = idEnvioOrigen;
         this.idEnvioDestino = idEnvioDestino;
+        this.idEstado = idEstado;
     }
+
+    public Integer getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(Integer idEstado) {
+        this.idEstado = idEstado;
+    }
+
+   
 
     public Integer getIdDireccion() {
         return idDireccion;

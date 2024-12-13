@@ -128,4 +128,20 @@ public class PaquetesDAO {
 
         return respuesta;
     }
+     public static List<Paquete> obtenerPaquetes(){
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        List<Paquete> envios = null;
+
+        if (conexionBD != null) {
+            try {
+                envios = conexionBD.selectList("paquetes.buscarPaquetes");
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        } 
+        return envios;
+    }
 }

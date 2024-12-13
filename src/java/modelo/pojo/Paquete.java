@@ -9,11 +9,13 @@ public class Paquete {
     private float dimensionesAlto;
     private float dimensionesAncho;
     private float dimensionesProfundidad;
+    private String  numeroGuia;
+
 
     public Paquete() {
     }
 
-    public Paquete(Integer idPaquete, Integer idEnvio, String descripcion, float peso, float dimensionesAlto, float dimensionesAncho, float dimensionesProfundidad) {
+    public Paquete(Integer idPaquete, Integer idEnvio, String descripcion, float peso, float dimensionesAlto, float dimensionesAncho, float dimensionesProfundidad, String numeroGuia) {
         this.idPaquete = idPaquete;
         this.idEnvio = idEnvio;
         this.descripcion = descripcion;
@@ -21,6 +23,15 @@ public class Paquete {
         this.dimensionesAlto = dimensionesAlto;
         this.dimensionesAncho = dimensionesAncho;
         this.dimensionesProfundidad = dimensionesProfundidad;
+        this.numeroGuia = numeroGuia;
+    }
+
+    public String getNumeroGuia() {
+        return numeroGuia;
+    }
+
+    public void setNumeroGuia(String numeroGuia) {
+        this.numeroGuia = numeroGuia;
     }
 
     public Integer getIdPaquete() {

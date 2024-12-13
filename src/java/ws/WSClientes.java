@@ -1,5 +1,6 @@
 package ws;
 
+import java.util.List;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -14,7 +15,6 @@ import modelo.ClienteDAO;
 import modelo.pojo.Cliente;
 import modelo.pojo.Mensaje;
 import modelo.pojo.respuestas.RespuestaCliente;
-import modelo.pojo.respuestas.RespuestaClientes;
 import utils.ValidacionesCliente;
 
 @Path("clientes")
@@ -49,10 +49,10 @@ public class WSClientes {
         return ClienteDAO.eliminarCliente(idCliente);
     }
 
-    @Path("buscar-lista")
+    @Path("todos")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaClientes buscarClientes() {
+    public List<Cliente> buscarClientes() {
         return ClienteDAO.buscarClientes();
     }
 

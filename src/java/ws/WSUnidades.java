@@ -27,12 +27,7 @@ public class WSUnidades {
     public WSUnidades() {
     }
 
-    @Path("Hola")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public String hola() {
-        return "saludo desde el WS de Unidades";
-    }
+  
 
     @Path("registrar")
     @POST
@@ -59,6 +54,12 @@ public class WSUnidades {
         ValidacionesUnidad.validarId(idUnidad);
         return UnidadesDAO.eliminarUnidad(idUnidad);
     }
+    @Path("obtener-tipos-unidades")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TipoUnidad> loginColaborador() {
+        return UnidadesDAO.obtenerTiposDeUnidades();
+    }
 
     @Path("buscar-lista/{parametro}")
     @GET
@@ -80,10 +81,5 @@ public class WSUnidades {
         }
         return UnidadesDAO.buscarUnidad(parametro);
     }
-    @Path("obtener-tipos-unidades")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<TipoUnidad> loginColaborador() {
-        return UnidadesDAO.obtenerTiposDeUnidades();
-    }
+    
 }

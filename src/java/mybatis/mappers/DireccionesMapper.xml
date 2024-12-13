@@ -58,7 +58,7 @@
     <select id="buscarDireccionCliente" parameterType="int" resultType="modelo.pojo.Direccion">
         SELECT 
         d.idDireccion, d.calle, d.numero, d.colonia, d.codigoPostal, 
-        m.nombre AS municipio, e.nombre AS estado
+        m.nombre AS municipio, e.nombre AS estado, e.idEstado, d.idMunicipio
         FROM direcciones d
         INNER JOIN municipios m ON d.idMunicipio = m.idMunicipio
         INNER JOIN estados e ON m.idEstado = e.idEstado
@@ -67,7 +67,7 @@
     <select id="buscarDireccionOrigen" parameterType="int" resultType="modelo.pojo.Direccion">
         SELECT 
         d.idDireccion, d.calle, d.numero, d.colonia, d.codigoPostal, 
-        m.nombre AS municipio, e.nombre AS estado
+        m.nombre AS municipio, e.nombre AS estado, e.idEstado, d.idMunicipio
         FROM direcciones d
         INNER JOIN municipios m ON d.idMunicipio = m.idMunicipio
         INNER JOIN estados e ON m.idEstado = e.idEstado
@@ -76,7 +76,7 @@
     <select id="buscarDireccionDestino" parameterType="int" resultType="modelo.pojo.Direccion">
         SELECT 
         d.idDireccion, d.calle, d.numero, d.colonia, d.codigoPostal, 
-        m.nombre AS municipio, e.nombre AS estado
+        m.nombre AS municipio, e.nombre AS estado, e.idEstado, d.idMunicipio
         FROM direcciones d
         INNER JOIN municipios m ON d.idMunicipio = m.idMunicipio
         INNER JOIN estados e ON m.idEstado = e.idEstado

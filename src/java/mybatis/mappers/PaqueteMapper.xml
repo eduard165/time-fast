@@ -31,4 +31,10 @@
         WHERE idPaquete = #{idPaquete}
     </delete>
 
+  <select id="buscarPaquetes" resultType="modelo.pojo.Paquete">
+    SELECT p.*, e.numeroGuia AS numeroGuia 
+    FROM paquetes p 
+    LEFT JOIN envios e ON p.idEnvio = e.idEnvio
+    </select>
+
 </mapper>
