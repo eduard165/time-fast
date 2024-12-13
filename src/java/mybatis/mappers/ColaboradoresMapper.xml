@@ -88,12 +88,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
     
     <select id="obtenerFoto" parameterType="int" resultType="modelo.pojo.Colaborador">
-        SELECT idColaborador, nombre, apellidoPaterno, apellidoMaterno, TO_BASE64(fotografia) as fotoBase64
+        SELECT idColaborador, TO_BASE64(fotografia) as fotoBase64
         FROM colaboradores WHERE idColaborador = #{idColaborador}
     </select>
     <select id="obtenerColaboradorPorId" parameterType="int" resultType="modelo.pojo.Colaborador">
         SELECT * 
         FROM colaboradores 
         WHERE idColaborador = #{idColaborador}
+    </select>
+     <select id="obtenerTodos"  resultType="modelo.pojo.Colaborador">
+       SELECT 
+            c.*,
+            r.nombre AS rol
+        FROM colaboradores c
+        INNER JOIN roles r ON c.idRol = r.idRol
     </select>
 </mapper>

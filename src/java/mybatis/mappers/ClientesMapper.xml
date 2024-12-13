@@ -21,23 +21,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                c.apellidoPaterno, 
                c.apellidoMaterno, 
                c.telefono, 
-               c.correoElectronico, 
-               d.calle, 
-               d.numero, 
-               d.colonia, 
-               d.codigoPostal,
-               d.ciudad,
-               d.estado
+               c.correoElectronico
         FROM clientes c
-        INNER JOIN direcciones d ON c.idDireccion = d.idDireccion
         WHERE c.nombre = #{parametro}
            OR c.telefono = #{parametro}
            OR c.correoElectronico = #{parametro}
     </select>
-
     <insert id="registrarCliente" parameterType="modelo.pojo.Cliente">
-        INSERT INTO clientes (nombre, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, password, idDireccion)
-        VALUES (#{nombre}, #{apellidoPaterno}, #{apellidoMaterno}, #{telefono}, #{correoElectronico}, #{password}, #{idDireccion});
+        INSERT INTO clientes (nombre, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, password)
+        VALUES (#{nombre}, #{apellidoPaterno}, #{apellidoMaterno}, #{telefono}, #{correoElectronico}, #{password});
     </insert>
 
     <update id="editarCliente" parameterType="modelo.pojo.Cliente">
@@ -48,7 +40,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             telefono = #{telefono},
             correoElectronico = #{correoElectronico},
             password = #{password},
-            idDireccion = #{idDireccion}
         WHERE idCliente = #{idCliente};
     </update>
 

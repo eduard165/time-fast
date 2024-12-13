@@ -1,5 +1,6 @@
 package ws;
 
+import java.util.List;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -22,11 +23,11 @@ public class WSColaboradores {
     public WSColaboradores() {
     }
 
-    @Path("Hola")
+    @Path("obtenerTodos")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String hola() {
-        return "saludo";
+    public List<Colaborador> obtenerColaboradores() {
+        return ColaboradoresDAO.listaColaboradores();
     }
 
     @Path("registrar")
@@ -62,8 +63,6 @@ public class WSColaboradores {
         if (parametro == null || parametro.isEmpty()) {
             throw new BadRequestException("Parámetro de búsqueda no válido");
         }
-
-        // Realizar la búsqueda en la base de datos con el parámetro proporcionado
         return ColaboradoresDAO.buscarColaboradores(parametro);
     }
 
@@ -78,7 +77,7 @@ public class WSColaboradores {
         return ColaboradoresDAO.buscarColaboradores(parametro);
     }
 
-    @Path("/subir-foto/{idColaborador}")
+    @Path("subir-foto/{idColaborador}")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje subirFoto(@PathParam("idColaborador") Integer idColaborador, byte[] foto) {
@@ -87,7 +86,7 @@ public class WSColaboradores {
         
     }
 
-    @Path("/obtener-foto/{idColaborador}")
+    @Path("obtener-foto/{idColaborador}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Colaborador obtenerFoto(@PathParam("idColaborador") Integer idColaborador) {

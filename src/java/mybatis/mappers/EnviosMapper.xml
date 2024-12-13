@@ -10,83 +10,74 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         idCliente,
         numeroGuia,
         costo,
-        idDireccionOrigen,
-        idDireccionDestino,
-        idEstado,
-        idColaborador
+        idEstadoEnvio,
+        idColaborador,
+        descripcion
         )
         VALUES (
         #{idCliente},
         #{numeroGuia},
         #{costo},
-        #{idDireccionOrigen},
-        #{idDireccionDestino},
-        #{idEstado},
-        #{idColaborador}
+        #{idEstadoEnvio},
+        #{idColaborador},
+        #{descripcion}
         )
     </insert>
     <update id="actualizarEnvio" parameterType="modelo.pojo.Envio">
         UPDATE envios
         SET
-        idCliente = #{idCliente},
         costo = #{costo},
-        idDireccionOrigen = #{idDireccionOrigen},
-        idDireccionDestino = #{idDireccionDestino},
-        idEstado = #{idEstado},
-        idColaborador = #{idColaborador}
+        idEstadoEnvio = #{idEstadoEnvio},
+        idColaborador = #{idColaborador},
+        descripcion = #{descripcion}
         WHERE idEnvio = #{idEnvio}
     </update>
     <select id="consultarEnvioPorNumeroGuia" parameterType="String" resultType="modelo.pojo.Envio">
-        SELECT
+        SELECT 
         e.idEnvio,
-        e.idCliente,
         e.numeroGuia,
         e.costo,
-        e.idDireccionOrigen,
-        e.idDireccionDestino,
-        e.idEstado,
-        e.idColaborador,
-        es.nombre AS nombreEstado,
-        CONCAT(co.nombre, ' ', co.apellidoPaterno, ' ', co.apellidoMaterno) AS nombreColaboradorCompleto,
-        co.correoElectronico AS correoElectronicoColaborador,
+        e.descripcion,
+        se.nombre AS nombreEstadoEnvio,
         CONCAT(c.nombre, ' ', c.apellidoPaterno, ' ', c.apellidoMaterno) AS nombreClienteCompleto,
         c.telefono AS telefonoCliente,
         c.correoElectronico AS correoElectronicoCliente,
-        eo.calle AS calleOrigen,
-        eo.numero AS numeroOrigen,
-        eo.colonia AS coloniaOrigen,
-        eo.codigoPostal AS codigoPostalOrigen,
-        eo.ciudad AS ciudadOrigen,
-        eo.estado AS estadoOrigen,
-        ed.calle AS calleDestino,
-        ed.numero AS numeroDestino,
-        ed.colonia AS coloniaDestino,
-        ed.codigoPostal AS codigoPostalDestino,
-        ed.ciudad AS ciudadDestino,
-        ed.estado AS estadoDestino
-        FROM 
-        envios e
+        o.calle AS calleOrigen,
+        o.numero AS numeroOrigen,
+        o.colonia AS coloniaOrigen,
+        o.codigoPostal AS codigoPostalOrigen,
+        mO.nombre AS municipioOrigen,
+        eO.nombre AS estadoOrigen,
+        d.calle AS calleDestino,
+        d.numero AS numeroDestino,
+        d.colonia AS coloniaDestino,
+        d.codigoPostal AS codigoPostalDestino,
+        mD.nombre AS municipioDestino,
+        eD.nombre AS estadoDestino,
+        CONCAT(col.nombre, ' ', col.apellidoPaterno, ' ', col.apellidoMaterno) AS nombreColaboradorCompleto,
+        col.correoElectronico AS correoElectronicoColaborador
+        FROM envios e
         INNER JOIN clientes c ON e.idCliente = c.idCliente
-        INNER JOIN direcciones eo ON e.idDireccionOrigen = eo.idDireccion
-        INNER JOIN direcciones ed ON e.idDireccionDestino = ed.idDireccion
-        INNER JOIN estados_envios es ON e.idEstado = es.idEstadoEnvio
-        INNER JOIN colaboradores co ON e.idColaborador = co.idColaborador
-        WHERE 
-        e.numeroGuia = #{numeroGuia}
+        INNER JOIN estados_envios se ON e.idEstadoEnvio = se.idEstadoEnvio
+        LEFT JOIN direcciones o ON e.idEnvio = o.idEnvioOrigen 
+        LEFT JOIN direcciones d ON e.idEnvio = d.idEnvioDestino
+        LEFT JOIN municipios mO ON o.idMunicipio = mO.idMunicipio
+        LEFT JOIN municipios mD ON d.idMunicipio = mD.idMunicipio
+        LEFT JOIN estados eO ON mO.idEstado = eO.idEstado 
+        LEFT JOIN estados eD ON mD.idEstado = eD.idEstado
+        INNER JOIN colaboradores col ON e.idColaborador = col.idColaborador
+        WHERE e.numeroGuia = #{numeroGuia}
     </select>
- 
     <update id="asignarConductor" parameterType="map">
         UPDATE envios
         SET idColaborador = #{idColaborador}
         WHERE idEnvio = #{idEnvio}
     </update>
-
     <update id="actualizarEstadoEnvio" parameterType="map">
         UPDATE envios
         SET idEstado = #{idEstado}, descripcion = #{descripcion}
         WHERE idEnvio = #{idEnvio}
     </update>
-
     <delete id="eliminarEnvio" parameterType="int">
         DELETE FROM envios
         WHERE idEnvio = #{idEnvio}
@@ -102,42 +93,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE numeroGuia = #{numeroGuia}
     </select>
     <select id="consultarEnviosPorNumeroPersonal" parameterType="String" resultType="modelo.pojo.Envio">
-        SELECT
+        SELECT 
         e.idEnvio,
-        e.idCliente,
         e.numeroGuia,
         e.costo,
-        e.idDireccionOrigen,
-        e.idDireccionDestino,
-        e.idEstado,
-        e.idColaborador,
-        es.nombre AS nombreEstado,
-        CONCAT(co.nombre, ' ', co.apellidoPaterno, ' ', co.apellidoMaterno) AS nombreColaboradorCompleto,
-        co.correoElectronico AS correoElectronicoColaborador,
+        e.descripcion,
+        se.nombre AS nombreEstadoEnvio,
         CONCAT(c.nombre, ' ', c.apellidoPaterno, ' ', c.apellidoMaterno) AS nombreClienteCompleto,
         c.telefono AS telefonoCliente,
         c.correoElectronico AS correoElectronicoCliente,
-        eo.calle AS calleOrigen,
-        eo.numero AS numeroOrigen,
-        eo.colonia AS coloniaOrigen,
-        eo.codigoPostal AS codigoPostalOrigen,
-        eo.ciudad AS ciudadOrigen,
-        eo.estado AS estadoOrigen,
-        ed.calle AS calleDestino,
-        ed.numero AS numeroDestino,
-        ed.colonia AS coloniaDestino,
-        ed.codigoPostal AS codigoPostalDestino,
-        ed.ciudad AS ciudadDestino,
-        ed.estado AS estadoDestino
-        FROM 
-        envios e
+        o.calle AS calleOrigen,
+        o.numero AS numeroOrigen,
+        o.colonia AS coloniaOrigen,
+        o.codigoPostal AS codigoPostalOrigen,
+        mO.nombre AS municipioOrigen,
+        eO.nombre AS estadoOrigen,
+        d.calle AS calleDestino,
+        d.numero AS numeroDestino,
+        d.colonia AS coloniaDestino,
+        d.codigoPostal AS codigoPostalDestino,
+        mD.nombre AS municipioDestino,
+        eD.nombre AS estadoDestino,
+        CONCAT(col.nombre, ' ', col.apellidoPaterno, ' ', col.apellidoMaterno) AS nombreColaboradorCompleto,
+        col.correoElectronico AS correoElectronicoColaborador
+        FROM envios e
         INNER JOIN clientes c ON e.idCliente = c.idCliente
-        INNER JOIN direcciones eo ON e.idDireccionOrigen = eo.idDireccion
-        INNER JOIN direcciones ed ON e.idDireccionDestino = ed.idDireccion
-        INNER JOIN estados_envios es ON e.idEstado = es.idEstadoEnvio
-        INNER JOIN colaboradores co ON e.idColaborador = co.idColaborador
-        WHERE 
-        co.numeroPersonal = #{numeroPersonal}
-
+        INNER JOIN estados_envios se ON e.idEstadoEnvio = se.idEstadoEnvio
+        LEFT JOIN direcciones o ON e.idEnvio = o.idEnvioOrigen 
+        LEFT JOIN direcciones d ON e.idEnvio = d.idEnvioDestino
+        LEFT JOIN municipios mO ON o.idMunicipio = mO.idMunicipio
+        LEFT JOIN municipios mD ON d.idMunicipio = mD.idMunicipio
+        LEFT JOIN estados eO ON mO.idEstado = eO.idEstado 
+        LEFT JOIN estados eD ON mD.idEstado = eD.idEstado
+        INNER JOIN colaboradores col ON e.idColaborador = col.idColaborador
+        WHERE col.numeroPersonal = #{numeroPersonal};
     </select>
 </mapper>

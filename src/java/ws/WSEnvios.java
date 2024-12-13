@@ -21,7 +21,7 @@ import modelo.pojo.respuestas.RespuestaEnvios;
 public class WSEnvios {
 
     @POST
-    @Path("/registrar")
+    @Path("registrar")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje registrarEnvio(Envio envio) {
@@ -30,7 +30,7 @@ public class WSEnvios {
     }
 
     @PUT
-    @Path("/actualizar")
+    @Path("actualizar")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje actualizarEnvio(Envio envio) {
@@ -39,7 +39,7 @@ public class WSEnvios {
     }
     
     @GET
-    @Path("/consultar/{numeroGuia}")
+    @Path("consultar/{numeroGuia}")
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaEnvio consultarEnvio(@PathParam("numeroGuia") String numeroGuia) {
         ValidacionesEnvio.validarNumeroGuia(numeroGuia);
@@ -47,7 +47,7 @@ public class WSEnvios {
     }
     
     @GET
-    @Path("/obtenerEnviosAsignados/{numeroPersonal}")
+    @Path("obtenerEnviosAsignados/{numeroPersonal}")
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaEnvios consultarEnviosAsignados(@PathParam("numeroPersonal") String numeroPersonal) {
         ValidacionesEnvio.validarNumeroGuia(numeroPersonal);
@@ -56,7 +56,7 @@ public class WSEnvios {
 
 
     @PUT
-    @Path("/asignarConductor")
+    @Path("asignarConductor")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje asignarConductor(@FormParam("idEnvio") int idEnvio, @FormParam("idColaborador") int idColaborador) {
@@ -65,7 +65,7 @@ public class WSEnvios {
     }
 
     @PUT
-    @Path("/actualizarEstado")
+    @Path("actualizarEstado")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje actualizarEstatus(@FormParam("idEnvio") int idEnvio, @FormParam("idEstado") int idEstado, @FormParam("idColaborador") int idColaborador, @FormParam("descripcion") String descripcion) {

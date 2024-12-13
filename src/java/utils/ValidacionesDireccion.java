@@ -5,30 +5,55 @@ import modelo.pojo.Direccion;
 
 public class ValidacionesDireccion {
 
-    public static void validarDireccion(Direccion direccion) {
+    public static void validarDireccion(Direccion direccion, int tipo) {
         if (direccion == null) {
             throw new BadRequestException("La dirección no puede ser nula.");
         }
         validarCalle(direccion.getCalle());
         validarNumero(direccion.getNumero());
+        validarColonia(direccion.getColonia());
         validarCodigoPostal(direccion.getCodigoPostal());
+        if (tipo == 1 && direccion.getIdCliente() == null) {
+            throw new BadRequestException("La dirección debe estar asociada a un cliente.");
+
+        }
+        if (tipo == 2 && direccion.getIdEnvioOrigen() == null) {
+            throw new BadRequestException("La dirección debe estar asociada a un origen .");
+
+        }
+        if (tipo == 3 && direccion.getIdEnvioDestino() == null) {
+            throw new BadRequestException("La dirección debe estar asociada a un destino.");
+
+        }
 
     }
 
-    public static void validarDireccionEditada(Direccion direccion) {
+    public static void validarDireccionEditada(Direccion direccion, int tipo) {
         if (direccion == null) {
             throw new BadRequestException("La dirección no puede ser nula.");
         }
-        validarId(direccion.getIdDireccion());
         validarCalle(direccion.getCalle());
         validarNumero(direccion.getNumero());
+        validarColonia(direccion.getColonia());
         validarCodigoPostal(direccion.getCodigoPostal());
 
+        if (tipo == 1 && direccion.getIdCliente() == null) {
+            throw new BadRequestException("La dirección debe estar asociada a un cliente.");
+
+        }
+        if (tipo == 2 && direccion.getIdEnvioOrigen() == null) {
+            throw new BadRequestException("La dirección debe estar asociada a un origen .");
+
+        }
+        if (tipo == 3 && direccion.getIdEnvioDestino() == null) {
+            throw new BadRequestException("La dirección debe estar asociada a un destino.");
+
+        }
     }
 
     public static void validarId(Integer idDireccion) {
         if (idDireccion == null || idDireccion <= 0) {
-            throw new BadRequestException("El id de la dirección debe ser obligatorio y no debe ser menor o igual a 0.");
+            throw new BadRequestException("El id de la dirección debe ser obligatorio y mayor a 0.");
         }
     }
 
@@ -44,11 +69,15 @@ public class ValidacionesDireccion {
         }
     }
 
-    private static void validarCodigoPostal(String codigoPostal) {
-        if (codigoPostal == null || codigoPostal.length() != 5 ) {
-            throw new BadRequestException("El código postal debe tener 5 dígitos numéricos.");
+    private static void validarColonia(String colonia) {
+        if (colonia == null || colonia.isEmpty() || colonia.length() > 50) {
+            throw new BadRequestException("La colonia es obligatoria y no debe exceder los 50 caracteres.");
         }
     }
 
-   
+    private static void validarCodigoPostal(String codigoPostal) {
+        if (codigoPostal == null || !codigoPostal.matches("\\d{5}")) {
+            throw new BadRequestException("El código postal debe tener exactamente 5 dígitos numéricos.");
+        }
+    }
 }

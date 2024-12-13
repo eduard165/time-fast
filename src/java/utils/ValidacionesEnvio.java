@@ -6,15 +6,15 @@ import modelo.pojo.Envio;
 public class ValidacionesEnvio {
 
     public static void validarEnvio(Envio envio) {
-        if (envio == null) {
+        if (envio == null ) {
             throw new BadRequestException("El envío no puede ser nulo.");
         }
         validarIdCliente(envio.getIdCliente());
         validarNumeroGuia(envio.getNumeroGuia());
         validarCosto(envio.getCosto());
-        validarDireccion(envio.getIdDireccionOrigen(), "origen");
-        validarDireccion(envio.getIdDireccionDestino(), "destino");
-        validarIdEstado(envio.getIdEstado());
+        validarIdEstadoEnvio(envio.getIdEstadoEnvio());
+        validarIdColaborador(envio.getIdColaborador());
+        
     }
 
     public static void validarEnvioEditado(Envio envio) {
@@ -24,14 +24,12 @@ public class ValidacionesEnvio {
         validarIdEnvio(envio.getIdEnvio());
         validarIdCliente(envio.getIdCliente());
         validarCosto(envio.getCosto());
-        validarDireccion(envio.getIdDireccionOrigen(), "origen");
-        validarDireccion(envio.getIdDireccionDestino(), "destino");
-        validarIdEstado(envio.getIdEstado());
+        validarIdEstadoEnvio(envio.getIdEstadoEnvio());
     }
 
     public static void validarCambioEstatus(Integer idEnvio, Integer idEstado, String descripcion) {
        
-        validarIdEstado(idEstado);
+        validarIdEstadoEnvio(idEstado);
         validarIdEnvio(idEnvio);
     }
 
@@ -64,14 +62,9 @@ public class ValidacionesEnvio {
         }
     }
 
-    private static void validarDireccion(Integer idDireccion, String tipo) {
-        if (idDireccion == null || idDireccion <= 0) {
-            throw new BadRequestException("La dirección de " + tipo + " es obligatoria y debe ser válida.");
-        }
-    }
-
-    private static void validarIdEstado(Integer idEstado) {
-        if (idEstado == null || idEstado <= 0 || idEstado >= 6) {
+  
+    private static void validarIdEstadoEnvio(Integer idEstadoEnvio) {
+        if (idEstadoEnvio == null || idEstadoEnvio <= 0 || idEstadoEnvio >= 6) {
             throw new BadRequestException("El ID del estado es obligatorio y debe ser válido.");
         }
     }

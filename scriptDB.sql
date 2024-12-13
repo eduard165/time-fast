@@ -1,13 +1,31 @@
+
 CREATE SCHEMA timefastdb;
 USE timefastdb;
 
-CREATE TABLE roles (
-    idRol INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE estados (
+    idEstado INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(45)
+);
+
+CREATE TABLE municipios (
+    idMunicipio INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(45),
+    idEstado INT,
+    FOREIGN KEY (idEstado) REFERENCES estados(idEstado)
+);
+
+CREATE TABLE estados_envios (
+    idEstadoEnvio INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE tipo_unidad (
     idTipoUnidad INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE roles (
+    idRol INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
 
@@ -21,7 +39,18 @@ CREATE TABLE colaboradores (
     numeroPersonal VARCHAR(20) UNIQUE NOT NULL,
     password VARCHAR(100) NOT NULL,
     idRol INT NOT NULL,
+    fotografia LONGBLOB NULL,
     FOREIGN KEY (idRol) REFERENCES roles(idRol)
+);
+
+CREATE TABLE clientes (
+    idCliente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellidoPaterno VARCHAR(50) NOT NULL,
+    apellidoMaterno VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15) NOT NULL,
+    correoElectronico VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE unidades (
@@ -35,45 +64,16 @@ CREATE TABLE unidades (
     FOREIGN KEY (idTipoUnidad) REFERENCES tipo_unidad(idTipoUnidad)
 );
 
-CREATE TABLE direcciones (
-    idDireccion INT AUTO_INCREMENT PRIMARY KEY,
-    calle VARCHAR(100) NOT NULL,
-    numero VARCHAR(10) NOT NULL,
-    colonia VARCHAR(100) NOT NULL,
-    codigoPostal VARCHAR(5) NOT NULL
-);
-
-CREATE TABLE estados_envios (
-    idEstado INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE clientes (
-    idCliente INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    apellidoPaterno VARCHAR(50) NOT NULL,
-    apellidoMaterno VARCHAR(50) NOT NULL,
-    telefono VARCHAR(15) NOT NULL,
-    correoElectronico VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL,
-    idDireccion INT NOT NULL,
-    FOREIGN KEY (idDireccion) REFERENCES direcciones(idDireccion)
-);
-
 CREATE TABLE envios (
     idEnvio INT AUTO_INCREMENT PRIMARY KEY,
     idCliente INT NOT NULL,
     numeroGuia VARCHAR(20) UNIQUE NOT NULL,
     costo DECIMAL(10,2) NOT NULL,
     descripcion VARCHAR(225) NOT NULL,
-    idDireccionOrigen INT NOT NULL,
-    idDireccionDestino INT NOT NULL,
-    idEstado INT NOT NULL,
+    idEstadoEnvio INT NOT NULL,
     idColaborador INT NOT NULL,
     FOREIGN KEY (idCliente) REFERENCES clientes(idCliente),
-    FOREIGN KEY (idDireccionOrigen) REFERENCES direcciones(idDireccion),
-    FOREIGN KEY (idDireccionDestino) REFERENCES direcciones(idDireccion),
-    FOREIGN KEY (idEstado) REFERENCES estados_envios(idEstado),
+    FOREIGN KEY (idEstadoEnvio) REFERENCES estados_envios(idEstadoEnvio),
     FOREIGN KEY (idColaborador) REFERENCES colaboradores(idColaborador)
 );
 
@@ -88,6 +88,22 @@ CREATE TABLE paquetes (
     FOREIGN KEY (idEnvio) REFERENCES envios(idEnvio)
 );
 
+CREATE TABLE direcciones (
+    idDireccion INT AUTO_INCREMENT PRIMARY KEY,
+    calle VARCHAR(100) NOT NULL,
+    numero VARCHAR(10) NOT NULL,
+    colonia VARCHAR(100) NOT NULL,
+    codigoPostal VARCHAR(5) NOT NULL,
+    idMunicipio INT NOT NULL,
+    idCliente INT,
+    idEnvioOrigen INT, 
+    idEnvioDestino INT, 
+    FOREIGN KEY (idMunicipio) REFERENCES municipios(idMunicipio),
+    FOREIGN KEY (idCliente) REFERENCES clientes(idCliente),
+    FOREIGN KEY (idEnvioOrigen) REFERENCES envios(idEnvio),
+    FOREIGN KEY (idEnvioDestino) REFERENCES envios(idEnvio)
+);
+
 CREATE TABLE asignaciones_unidad_conductor (
     idAsignacion INT AUTO_INCREMENT PRIMARY KEY,
     idUnidad INT NOT NULL,
@@ -95,6 +111,7 @@ CREATE TABLE asignaciones_unidad_conductor (
     FOREIGN KEY (idUnidad) REFERENCES unidades(idUnidad),
     FOREIGN KEY (idColaborador) REFERENCES colaboradores(idColaborador)
 );
+
 
 INSERT INTO roles (nombre) 
 VALUES 
@@ -108,19 +125,7 @@ VALUES
     ('Diesel'),
     ('Electrica'),
     ('Hibrida');
-
-INSERT INTO colaboradores (nombre, apellidoPaterno, apellidoMaterno, CURP, correoElectronico, numeroPersonal, password, idRol)
-VALUES
-    ('Carlos', 'Hernandez', 'Martinez', 'HELC820505HDFNRR07', 'carlos.hernandez@example.com', 'NP202345678901234567', 'password123', 2);
-
-INSERT INTO unidades (marca, modelo, anio, VIN, idTipoUnidad, numeroInterno)
-VALUES 
-    ('Toyota', 'Corolla', 2022, 'JTDBU4EE0J3075789', 1, '2022JTD');
-
-INSERT INTO direcciones (calle, numero, colonia, codigoPostal)
-VALUES 
-    ('Juan Enriquez', '23', 'Centro', '91000');
-
+    
 INSERT INTO estados_envios (nombre) 
 VALUES 
     ('Pendiente'),
@@ -128,19 +133,54 @@ VALUES
     ('Detenido'),
     ('Entregado'),
     ('Cancelado');
+    
+INSERT INTO estados (nombre) VALUES
+('Aguascalientes'), ('Baja California'), ('Baja California Sur'), ('Campeche'), ('Chiapas'),
+('Chihuahua'), ('Coahuila de Zaragoza'), ('Colima'), ('Durango'), ('Guanajuato');
 
-INSERT INTO clientes (nombre, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, password, idDireccion)
-VALUES
-    ('Maria', 'Lopez', 'Perez', '5512345678', 'maria.lopez@example.com', 'securepass', 1);
+INSERT INTO municipios (nombre, idEstado) VALUES
+('Aguascalientes', 1), ('Asientos', 1), ('Calvillo', 1), ('Cosío', 1), ('Jesús María', 1),
+('Pabellón de Arteaga', 1), ('Rincón de Romos', 1), ('San José de Gracia', 1),
+('Tepezalá', 1), ('El Llano', 1);
 
-INSERT INTO envios (idCliente, numeroGuia, costo, idDireccionOrigen, idDireccionDestino, idEstado, idColaborador)
-VALUES
-    (1, 'G1234567890', 150.50, 1, 1, 1, 1);
+INSERT INTO municipios (nombre, idEstado) VALUES
+('Tijuana', 2), ('Mexicali', 2), ('Ensenada', 2), ('Rosarito', 2), ('Tecate', 2),
+('Playas de Rosarito', 2), ('La Rumorosa', 2), ('San Felipe', 2), ('Puertecitos', 2),
+('San Quintín', 2);
 
-INSERT INTO paquetes (idEnvio, descripcion, peso, dimensionesAlto, dimensionesAncho, dimensionesProfundidad)
-VALUES
-    (1, 'Caja mediana', 2.5, 30.0, 20.0, 15.0);
+INSERT INTO municipios (nombre, idEstado) VALUES
+('La Paz', 3), ('Cabo San Lucas', 3), ('San José del Cabo', 3), ('Comondú', 3), ('Loreto', 3),
+('Mulegé', 3), ('Santa Rosalía', 3), ('Guerrero Negro', 3), ('Villa Alberto Andrés Alvarado Arámburo', 3),
+('Ciudad Constitución', 3);
 
-INSERT INTO asignaciones_unidad_conductor (idUnidad, idColaborador)
-VALUES
-    (1, 1);
+INSERT INTO municipios (nombre, idEstado) VALUES
+('Campeche', 4), ('Calkiní', 4), ('Carmen', 4), ('Champotón', 4), ('Hecelchakán', 4),
+('Hopelchén', 4), ('Palizada', 4), ('Tenabo', 4), ('Escárcega', 4), ('Calakmul', 4);
+
+INSERT INTO municipios (nombre, idEstado) VALUES
+('Tuxtla Gutiérrez', 5), ('Tapachula', 5), ('San Cristóbal de las Casas', 5),
+('Tonalá', 5), ('Chiapa de Corzo', 5), ('Comitán de Domínguez', 5), ('Ocosingo', 5),
+('Villaflores', 5), ('Palenque', 5), ('Cintalapa', 5);
+
+INSERT INTO municipios (nombre, idEstado) VALUES
+('Chihuahua', 6), ('Juárez', 6), ('Cuauhtémoc', 6), ('Delicias', 6), ('Parral', 6),
+('Hidalgo del Parral', 6), ('Nuevo Casas Grandes', 6), ('Camargo', 6), ('Jiménez', 6),
+('Meoqui', 6);
+
+INSERT INTO municipios (nombre, idEstado) VALUES
+('Saltillo', 7), ('Torreón', 7), ('Monclova', 7), ('Piedras Negras', 7), ('Acuña', 7),
+('Matamoros', 7), ('Sabinas', 7), ('Nueva Rosita', 7), ('Frontera', 7), ('Allende', 7);
+
+INSERT INTO municipios (nombre, idEstado) VALUES
+('Colima', 8), ('Manzanillo', 8), ('Tecomán', 8), ('Villa de Álvarez', 8), ('Minatitlán', 8),
+('Armería', 8), ('Cuauhtémoc', 8), ('Coquimatlán', 8), ('Comala', 8), ('Ixtlahuacán', 8);
+
+INSERT INTO municipios (nombre, idEstado) VALUES
+('Durango', 9), ('Gómez Palacio', 9), ('Lerdo', 9), ('Victoria de Durango', 9), ('Canatlán', 9),
+('Tlahualilo', 9), ('Guadalupe Victoria', 9), ('San Juan del Río', 9), ('Peñón Blanco', 9),
+('Pueblo Nuevo', 9);
+
+INSERT INTO municipios (nombre, idEstado) VALUES
+('León', 10), ('Irapuato', 10), ('Celaya', 10), ('Salamanca', 10), ('Guanajuato', 10),
+('San Miguel de Allende', 10), ('Acámbaro', 10), ('Silao', 10), ('Dolores Hidalgo', 10),
+('Valle de Santiago', 10);

@@ -307,17 +307,7 @@ public class EnviosDAO {
             return respuesta;
         }
 
-        if (!DireccionesDAO.verificarDireccionPorId(envio.getIdDireccionDestino())) {
-            respuesta.setContenido("La dirección de destino no existe.");
-            return respuesta;
-        }
-
-        if (!DireccionesDAO.verificarDireccionPorId(envio.getIdDireccionOrigen())) {
-            respuesta.setContenido("La dirección de origen no existe.");
-            return respuesta;
-        }
-
-        if (envio.getIdEstado() <= 0 || envio.getIdEstado() >= 6) {
+        if (envio.getIdEstadoEnvio()<= 0 || envio.getIdEstadoEnvio()>= 6) {
             respuesta.setContenido("El estado del envío es inválido.");
             return respuesta;
         }

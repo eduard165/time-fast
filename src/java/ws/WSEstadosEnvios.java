@@ -13,7 +13,7 @@ import modelo.pojo.EstadoEnvio;
 public class WSEstadosEnvios {
   
     @GET
-    @Path("/todos")
+    @Path("todo")
     @Produces(MediaType.APPLICATION_JSON)
     public List<EstadoEnvio> consultarEnvio() {
         return EstadosEnvioDAO.consultarEnviosAsignados();

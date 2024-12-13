@@ -7,6 +7,7 @@ package modelo;
 
 import java.util.List;
 import modelo.pojo.Mensaje;
+import modelo.pojo.TipoUnidad;
 import modelo.pojo.Unidad;
 import modelo.pojo.respuestas.RespuestaUnidad;
 import modelo.pojo.respuestas.RespuestaUnidades;
@@ -22,7 +23,7 @@ public class UnidadesDAO {
 
         if (conexionBD != null) {
             try {
-                if (!buscarUnidadPorVin(unidad.getVIN()).isError()) {
+                if (!buscarUnidad(unidad.getVIN()).isError()) {
                     respuesta.setContenido("El VIN ya está registrado.");
                     return respuesta;
                 }
@@ -55,7 +56,7 @@ public class UnidadesDAO {
 
         if (conexionBD != null) {
             try {
-                RespuestaUnidad vin = buscarUnidadPorVin(unidad.getVIN());
+                RespuestaUnidad vin = buscarUnidad(unidad.getVIN());
 
                 if (!vin.isError() && vin.getUnidad().getIdUnidad() != unidad.getIdUnidad()) {
                     respuesta.setContenido("El VIN ya está registrado.");
@@ -139,21 +140,21 @@ public class UnidadesDAO {
         return respuesta;
     }
 
-    public static RespuestaUnidad buscarUnidadPorVin(String vin) {
+    public static RespuestaUnidad buscarUnidad(String parametro) {
         RespuestaUnidad respuesta = new RespuestaUnidad();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                Unidad unidad = conexionBD.selectOne("unidades.buscarUnidadPorVin", vin);
+                Unidad unidad = conexionBD.selectOne("unidades.buscarUnidad", parametro);
 
                 if (unidad != null) {
                     respuesta.setError(false);
                     respuesta.setContenido("Búsqueda exitosa.");
                     respuesta.setUnidad(unidad);
                 } else {
-                    respuesta.setContenido("No se encontraron unidades con el VIN proporcionado.");
+                    respuesta.setContenido("No se encontraron unidades con el parametro proporcionado.");
                 }
             } catch (Exception e) {
                 respuesta.setContenido("Error: " + e.getMessage());
@@ -167,6 +168,19 @@ public class UnidadesDAO {
         return respuesta;
     }
 
-   
+    public static List<TipoUnidad> obtenerTiposDeUnidades() {
+        List<TipoUnidad> TiposUnidades = null;
+        SqlSession conexionDB = MyBatisUtil.getSession();
+        if (conexionDB != null) {
+            try {
+                TiposUnidades = conexionDB.selectList("unidades.obtenerTiposUnidad");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionDB.close();
+            }
+        }
+        return TiposUnidades;
+    }
 
 }

@@ -5,7 +5,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="estados">
     <select id="obtenerEstados"  resultType="modelo.pojo.EstadoEnvio">
-        SELECT * 
-        FROM estados_envios
+        SELECT * FROM estados_envios
     </select>   
+     <select id="obtenerEstados2"  resultType="modelo.pojo.EstadoEnvio">
+        SELECT * FROM estados_envios
+    </select> 
 </mapper>

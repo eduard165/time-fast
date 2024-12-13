@@ -7,25 +7,29 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.List;
-import modelo.pojo.EstadoEnvio;
+import modelo.pojo.Rol;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
-public class EstadosEnvioDAO {
-     public static List<EstadoEnvio> consultarEnviosAsignados() {
+/**
+ *
+ * @author eduar
+ */
+public class RolDAO {
+     public static List<Rol> listaRoles() {
+        List<Rol> colaboradores = new ArrayList<>();
         SqlSession conexionBD = MyBatisUtil.getSession();
-        List<EstadoEnvio> estados = null;
 
         if (conexionBD != null) {
             try {
-                estados = conexionBD.selectList("estados.obtenerEstados");
-                System.out.println(estados);
+                colaboradores = conexionBD.selectList("rol.obenerRoles");
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 conexionBD.close();
             }
-        } 
-        return estados;
+        }
+        return colaboradores;
     }
+
 }

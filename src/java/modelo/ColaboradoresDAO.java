@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import modelo.pojo.Colaborador;
@@ -151,6 +152,22 @@ public class ColaboradoresDAO {
         return respuesta;
     }
 
+    public static List<Colaborador> listaColaboradores() {
+        List<Colaborador> colaboradores = new ArrayList<>();
+        SqlSession conexionBD = MyBatisUtil.getSession();
+
+        if (conexionBD != null) {
+            try {
+                colaboradores = conexionBD.selectList("colaboradores.obtenerTodos");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return colaboradores;
+    }
+
     public static RespuestaColaborador buscarColaboradoresExactos(String parametro) {
         RespuestaColaborador respuesta = new RespuestaColaborador();
         SqlSession conexionBD = MyBatisUtil.getSession();
@@ -221,8 +238,7 @@ public class ColaboradoresDAO {
         return colaboradorConFoto;
     }
 
-    
- public static boolean verificarColaboradorPorId(int idColaborador) {
+    public static boolean verificarColaboradorPorId(int idColaborador) {
         SqlSession conexionBD = MyBatisUtil.getSession();
         boolean existe = false;
 

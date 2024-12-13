@@ -9,25 +9,24 @@ package modelo.pojo;
  *
  * @author eduar
  */
-public class EstadoEnvio {
-    
-    private Integer idEstadoEnvio;
+public class TipoUnidad {
+    private Integer idTipoUnidad;
     private String nombre;
 
-    public EstadoEnvio() {
+    public TipoUnidad() {
     }
 
-    public EstadoEnvio(Integer idEstadoEnvio, String nombre) {
-        this.idEstadoEnvio = idEstadoEnvio;
+    public TipoUnidad(Integer idTipoUnidad, String nombre) {
+        this.idTipoUnidad = idTipoUnidad;
         this.nombre = nombre;
     }
 
-    public Integer getIdEstado() {
-        return idEstadoEnvio;
+    public Integer getIdTipoUnidad() {
+        return idTipoUnidad;
     }
 
-    public void setIdEstado(Integer idEstadoEnvio) {
-        this.idEstadoEnvio = idEstadoEnvio;
+    public void setIdTipoUnidad(Integer idTipoUnidad) {
+        this.idTipoUnidad = idTipoUnidad;
     }
 
     public String getNombre() {

@@ -23,8 +23,6 @@ public class ValidacionesUnidad {
         validarId(unidad.getIdUnidad());
         validarMarcaModelo(unidad.getMarca(), unidad.getModelo());
         validarAnio(unidad.getAnio());
-        validarVIN(unidad.getVIN());
-        generarNumeroInterno(unidad); 
     }
 
     public static void validarId(Integer idUnidad) {

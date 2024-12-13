@@ -4,31 +4,90 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="direcciones">
-
-    <insert id="insertarDireccion" parameterType="modelo.pojo.Direccion" >
-        INSERT INTO direcciones (calle, numero, colonia, codigoPostal, ciudad, estado)
-        VALUES (#{calle}, #{numero}, #{colonia}, #{codigoPostal}, #{ciudad}, #{estado})
+    <insert id="insertarDireccionCliente" parameterType="modelo.pojo.Direccion">
+        INSERT INTO direcciones (calle, numero, colonia, codigoPostal, idMunicipio, idCliente)
+        VALUES (#{calle}, #{numero}, #{colonia}, #{codigoPostal}, #{idMunicipio}, #{idCliente})
     </insert>
-
-    <update id="editarDireccion" parameterType="modelo.pojo.Direccion">
+    <insert id="insertarDireccionOrigen" parameterType="modelo.pojo.Direccion">
+        INSERT INTO direcciones (calle, numero, colonia, codigoPostal, idMunicipio, idEnvioOrigen)
+        VALUES (#{calle}, #{numero}, #{colonia}, #{codigoPostal}, #{idMunicipio}, #{idEnvioOrigen})
+    </insert>
+    <insert id="insertarDireccionDestino" parameterType="modelo.pojo.Direccion">
+        INSERT INTO direcciones (calle, numero, colonia, codigoPostal, idMunicipio, idEnvioDestino)
+        VALUES (#{calle}, #{numero}, #{colonia}, #{codigoPostal}, #{idMunicipio}, #{idEnvioDestino})
+    </insert>
+    <update id="editarDireccionCliente" parameterType="modelo.pojo.Direccion">
         UPDATE direcciones
-        SET calle = #{calle}, 
-        numero = #{numero}, 
-        colonia = #{colonia}, 
+        SET 
+        calle = #{calle},
+        numero = #{numero},
+        colonia = #{colonia},
         codigoPostal = #{codigoPostal},
-        ciudad = #{ciudad},
-        estado = #{estado}
-        WHERE idDireccion = #{idDireccion}
+        idMunicipio = #{idMunicipio}
+        WHERE  idCliente = #{idCliente}
     </update>
-
-    <delete id="eliminarDireccion" parameterType="int">
-        DELETE FROM direcciones
-        WHERE idDireccion = #{idDireccion}
+    <update id="editarDireccionOrigen" parameterType="modelo.pojo.Direccion">
+        UPDATE direcciones
+        SET 
+        calle = #{calle},
+        numero = #{numero},
+        colonia = #{colonia},
+        codigoPostal = #{codigoPostal},
+        idMunicipio = #{idMunicipio}
+        WHERE  idEnvioOrigen = #{idEnvioOrigen}
+    </update>
+    <update id="editarDireccionDestino" parameterType="modelo.pojo.Direccion">
+        UPDATE direcciones
+        SET 
+        calle = #{calle},
+        numero = #{numero},
+        colonia = #{colonia},
+        codigoPostal = #{codigoPostal},
+        idMunicipio = #{idMunicipio}
+        WHERE idEnvioDestino = #{idEnvioDestino}
+    </update>
+    <delete id="eliminarDireccionCliente" parameterType="int">
+        DELETE FROM direcciones WHERE idDireccion = #{idDireccion} AND idCliente = #{idCliente}
     </delete>
+    <delete id="eliminarDireccionOrigen" parameterType="int">
+        DELETE FROM direcciones WHERE idDireccion = #{idDireccion} AND idEnvioOrigen = #{idEnvioOrigen}
+    </delete>
+    <delete id="eliminarDireccionDestino" parameterType="int">
+        DELETE FROM direcciones WHERE idDireccion = #{idDireccion} AND idEnvioDestino = #{idEnvioDestino}
+    </delete>
+    <select id="buscarDireccionCliente" parameterType="int" resultType="modelo.pojo.Direccion">
+        SELECT 
+        d.idDireccion, d.calle, d.numero, d.colonia, d.codigoPostal, 
+        m.nombre AS municipio, e.nombre AS estado
+        FROM direcciones d
+        INNER JOIN municipios m ON d.idMunicipio = m.idMunicipio
+        INNER JOIN estados e ON m.idEstado = e.idEstado
+        WHERE  d.idCliente = #{idCliente}
+    </select>
+    <select id="buscarDireccionOrigen" parameterType="int" resultType="modelo.pojo.Direccion">
+        SELECT 
+        d.idDireccion, d.calle, d.numero, d.colonia, d.codigoPostal, 
+        m.nombre AS municipio, e.nombre AS estado
+        FROM direcciones d
+        INNER JOIN municipios m ON d.idMunicipio = m.idMunicipio
+        INNER JOIN estados e ON m.idEstado = e.idEstado
+        WHERE d.idEnvioOrigen = #{idEnvioOrigen}
+    </select>
+    <select id="buscarDireccionDestino" parameterType="int" resultType="modelo.pojo.Direccion">
+        SELECT 
+        d.idDireccion, d.calle, d.numero, d.colonia, d.codigoPostal, 
+        m.nombre AS municipio, e.nombre AS estado
+        FROM direcciones d
+        INNER JOIN municipios m ON d.idMunicipio = m.idMunicipio
+        INNER JOIN estados e ON m.idEstado = e.idEstado
+        WHERE  d.idEnvioDestino = #{idEnvioDestino}
+    </select>
+    
+    <select id="obtenerEstados" resultType="modelo.pojo.Estado">
+        SELECT * FROM estados
+    </select>
 
-    <select id="buscarDireccionPorId" parameterType="int" resultType="modelo.pojo.Direccion">
-        SELECT idDireccion, calle, numero, colonia, codigoPostal, ciudad, estado
-        FROM direcciones
-        WHERE idDireccion = #{idDireccion}
+    <select id="obtenerMunicipios" parameterType="int" resultType="modelo.pojo.Municipio">
+        SELECT * FROM municipios WHERE idEstado = #{idEstado}
     </select>
 </mapper>

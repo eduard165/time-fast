@@ -1,6 +1,7 @@
 
 package ws;
 
+import java.util.List;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import modelo.UnidadesDAO;
 import modelo.pojo.Mensaje;
+import modelo.pojo.TipoUnidad;
 import modelo.pojo.Unidad;
 import modelo.pojo.respuestas.RespuestaUnidad;
 import modelo.pojo.respuestas.RespuestaUnidades;
@@ -76,6 +78,12 @@ public class WSUnidades {
         if (parametro == null || parametro.isEmpty()) {
             throw new BadRequestException("Parámetro de búsqueda no válido");
         }
-        return UnidadesDAO.buscarUnidadPorVin(parametro);
+        return UnidadesDAO.buscarUnidad(parametro);
+    }
+    @Path("obtener-tipos-unidades")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<TipoUnidad> loginColaborador() {
+        return UnidadesDAO.obtenerTiposDeUnidades();
     }
 }

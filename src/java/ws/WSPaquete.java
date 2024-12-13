@@ -20,7 +20,7 @@ import modelo.pojo.respuestas.RespuestaPaquetes;
 public class WSPaquete {
 
     @POST
-    @Path("/registrar")
+    @Path("registrar")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje registrarPaquete(Paquete paquete) {
@@ -29,7 +29,7 @@ public class WSPaquete {
     }
 
     @PUT
-    @Path("/actualizar")
+    @Path("actualizar")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje actualizarPaquete(Paquete paquete) {
@@ -38,7 +38,7 @@ public class WSPaquete {
     }
 
     @GET
-    @Path("/consultar/{idEnvio}")
+    @Path("consultar/{idEnvio}")
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaPaquetes consultarPaquete(@PathParam("idEnvio") int idEnvio) {
         ValidacionesPaquete.validarIdPaquete(idEnvio);
@@ -46,7 +46,7 @@ public class WSPaquete {
     }
 
     @DELETE
-    @Path("/eliminar/{idPaquete}")
+    @Path("eliminar/{idPaquete}")
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje eliminarPaquete(@PathParam("idPaquete") int idPaquete) {
         ValidacionesPaquete.validarIdPaquete(idPaquete);
