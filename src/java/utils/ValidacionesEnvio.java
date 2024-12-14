@@ -12,9 +12,7 @@ public class ValidacionesEnvio {
         validarIdCliente(envio.getIdCliente());
         validarNumeroGuia(envio.getNumeroGuia());
         validarCosto(envio.getCosto());
-        validarIdEstadoEnvio(envio.getIdEstadoEnvio());
-        validarIdColaborador(envio.getIdColaborador());
-        
+        validarIdEstadoEnvio(envio.getIdEstadoEnvio());        
     }
 
     public static void validarEnvioEditado(Envio envio) {

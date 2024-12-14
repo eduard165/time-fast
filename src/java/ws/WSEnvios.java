@@ -55,14 +55,14 @@ public class WSEnvios {
     @Path("actualizarEstado")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Mensaje actualizarEstatus(@FormParam("idEnvio") int idEnvio, @FormParam("idEstado") int idEstado, @FormParam("idColaborador") int idColaborador, @FormParam("descripcion") String descripcion) {
-         if (idEstado == 3 || idEstado == 5) {
-            if (descripcion.isEmpty() && descripcion.length() > 225 && descripcion.length() <= 0 ) {
+    public Mensaje actualizarEstatus(@FormParam("idEnvio") int idEnvio, @FormParam("idEstadoEnvio") int idEstadoEnvio, @FormParam("descripcion") String descripcion) {
+         if (idEstadoEnvio == 3 || idEstadoEnvio == 5) {
+            if (descripcion.isEmpty() || descripcion.length() > 225) {
                 throw new BadRequestException("La descripcion es obligatoria");
             }
         }
-        ValidacionesEnvio.validarCambioEstatus(idEnvio, idEstado,descripcion);
-        return EnviosDAO.actualizarEstadoEnvio(idEnvio, idEstado,descripcion);
+        ValidacionesEnvio.validarCambioEstatus(idEnvio, idEstadoEnvio,descripcion);
+        return EnviosDAO.actualizarEstadoEnvio(idEnvio, idEstadoEnvio,descripcion);
     }
     
     @GET

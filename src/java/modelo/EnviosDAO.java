@@ -23,6 +23,7 @@ public class EnviosDAO {
                 if (validacion.isError()) {
                     return validacion;
                 }
+                envio.setDescripcion("Sin cambios");
                 int filasAfectadas = conexionBD.insert("envios.registrarEnvio", envio);
                 conexionBD.commit();
 
@@ -51,7 +52,8 @@ public class EnviosDAO {
 
         if (conexionBD != null) {
             try {
-                if (!verificarEnvioExistentePorGuia(envio.getNumeroGuia())) {
+                
+                if (!verificarEnvioExistentePorId(envio.getIdEnvio())) {
                     respuesta.setContenido("El envío no existe.");
                     return respuesta;
                 }
@@ -122,7 +124,7 @@ public class EnviosDAO {
                 }
                 Map<String, Object> parametros = new HashMap<>();
                 parametros.put("idEnvio", idEnvio);
-                parametros.put("idEstado", idEstado);
+                parametros.put("idEstadoEnvio", idEstado);
                 parametros.put("descripcion", descripcion);
 
                 int filasAfectadas = conexionBD.update("envios.actualizarEstadoEnvio", parametros);
@@ -324,11 +326,6 @@ public class EnviosDAO {
 
         if (envio.getIdEstadoEnvio() <= 0 || envio.getIdEstadoEnvio() >= 6) {
             respuesta.setContenido("El estado del envío es inválido.");
-            return respuesta;
-        }
-
-        if (!ColaboradoresDAO.verificarColaboradorPorId(envio.getIdColaborador())) {
-            respuesta.setContenido("El colaborador asignado no existe.");
             return respuesta;
         }
         respuesta.setError(false);

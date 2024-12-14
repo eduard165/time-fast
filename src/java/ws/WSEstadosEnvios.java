@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import modelo.EstadosEnvioDAO;
 import modelo.pojo.EstadoEnvio;
 
-@Path("/estados")
+@Path("estados")
 public class WSEstadosEnvios {
   
     @GET

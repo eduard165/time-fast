@@ -11,7 +11,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         numeroGuia,
         costo,
         idEstadoEnvio,
-        idColaborador,
         descripcion
         )
         VALUES (
@@ -19,13 +18,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         #{numeroGuia},
         #{costo},
         #{idEstadoEnvio},
-        #{idColaborador},
         #{descripcion}
         )
     </insert>
     <update id="actualizarEnvio" parameterType="modelo.pojo.Envio">
         UPDATE envios
         SET
+        idCliente = #{idCliente},
         costo = #{costo},
         idEstadoEnvio = #{idEstadoEnvio},
         idColaborador = #{idColaborador},
@@ -39,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         e.costo,
         e.descripcion,
         se.nombre AS nombreEstadoEnvio,
-        CONCAT(c.nombre, ' ', c.apellidoPaterno, ' ', c.apellidoMaterno) AS nombreClienteCompleto,
+        CONCAT(c.nombre, ' ', c.apellidoPaterno) AS nombreClienteCompleto,
         c.telefono AS telefonoCliente,
         c.correoElectronico AS correoElectronicoCliente,
         o.calle AS calleOrigen,
@@ -63,8 +62,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LEFT JOIN direcciones d ON e.idEnvio = d.idEnvioDestino
         LEFT JOIN municipios mO ON o.idMunicipio = mO.idMunicipio
         LEFT JOIN municipios mD ON d.idMunicipio = mD.idMunicipio
-        LEFT JOIN estados eO ON mO.idEstado = eO.idEstado 
-        LEFT JOIN estados eD ON mD.idEstado = eD.idEstado
+        LEFT JOIN estados eO ON mO.idEstado  = eO.idEstado
+        LEFT JOIN estados eD ON mD.idEstado  = eD.idEstado
         INNER JOIN colaboradores col ON e.idColaborador = col.idColaborador
         WHERE e.numeroGuia = #{numeroGuia}
     </select>
@@ -75,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
     <update id="actualizarEstadoEnvio" parameterType="map">
         UPDATE envios
-        SET idEstado = #{idEstado}, descripcion = #{descripcion}
+        SET idEstadoEnvio = #{idEstadoEnvio}, descripcion = #{descripcion}
         WHERE idEnvio = #{idEnvio}
     </update>
     <delete id="eliminarEnvio" parameterType="int">
@@ -99,7 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         e.costo,
         e.descripcion,
         se.nombre AS nombreEstadoEnvio,
-        CONCAT(c.nombre, ' ', c.apellidoPaterno, ' ', c.apellidoMaterno) AS nombreClienteCompleto,
+        CONCAT(c.nombre, ' ', c.apellidoPaterno) AS nombreClienteCompleto,
         c.telefono AS telefonoCliente,
         c.correoElectronico AS correoElectronicoCliente,
         o.calle AS calleOrigen,
@@ -123,13 +122,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LEFT JOIN direcciones d ON e.idEnvio = d.idEnvioDestino
         LEFT JOIN municipios mO ON o.idMunicipio = mO.idMunicipio
         LEFT JOIN municipios mD ON d.idMunicipio = mD.idMunicipio
-        LEFT JOIN estados eO ON mO.idEstado = eO.idEstado 
+        LEFT JOIN estados eO ON mO.idEstado = eO.idEstado
         LEFT JOIN estados eD ON mD.idEstado = eD.idEstado
         INNER JOIN colaboradores col ON e.idColaborador = col.idColaborador
         WHERE col.numeroPersonal = #{numeroPersonal};
     </select>
-     <select id="consultarEnvios" parameterType="String" resultType="modelo.pojo.Envio">
-        SELECT * FROM envios 
+    <select id="consultarEnvios" parameterType="String" resultType="modelo.pojo.Envio">
+        SELECT e.*, se.nombre AS nombreEstadoEnvio,
+        COALESCE(CONCAT(col.nombre, ' ', col.apellidoPaterno), 'Sin asignar') AS nombreColaboradorCompleto,
+        COALESCE(CONCAT(c.nombre, ' ', c.apellidoPaterno), 'Sin asignar') AS nombreClienteCompleto,
+        COALESCE(mO.nombre, 'Sin asignar') AS municipioOrigen,
+        COALESCE(mD.nombre, 'Sin asignar') AS municipioDestino
+        FROM envios e
+        INNER JOIN clientes c ON e.idCliente = c.idCliente
+        INNER JOIN estados_envios se ON e.idEstadoEnvio = se.idEstadoEnvio
+        LEFT JOIN direcciones o ON e.idEnvio = o.idEnvioOrigen 
+        LEFT JOIN direcciones d ON e.idEnvio = d.idEnvioDestino
+        LEFT JOIN municipios mO ON o.idMunicipio = mO.idMunicipio
+        LEFT JOIN municipios mD ON d.idMunicipio = mD.idMunicipio
+        LEFT JOIN colaboradores col ON e.idColaborador = col.idColaborador
     </select>
     
 </mapper>

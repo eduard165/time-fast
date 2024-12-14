@@ -103,4 +103,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM colaboradores c
         INNER JOIN roles r ON c.idRol = r.idRol
     </select>
+    <select id="obtenerConductores"  parameterType="int" resultType="modelo.pojo.Colaborador">
+       SELECT 
+            c.*,
+            r.nombre AS rol
+        FROM colaboradores c
+        INNER JOIN roles r ON c.idRol = r.idRol
+        WHERE c.idRol = #{idRol}
+    </select>
 </mapper>

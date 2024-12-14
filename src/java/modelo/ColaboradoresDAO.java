@@ -167,6 +167,21 @@ public class ColaboradoresDAO {
         }
         return colaboradores;
     }
+    public static List<Colaborador> listaConductores() {
+        List<Colaborador> colaboradores = new ArrayList<>();
+        SqlSession conexionBD = MyBatisUtil.getSession();
+
+        if (conexionBD != null) {
+            try {
+                colaboradores = conexionBD.selectList("colaboradores.obtenerConductores", 3);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return colaboradores;
+    }
 
     public static RespuestaColaborador buscarColaboradoresExactos(String parametro) {
         RespuestaColaborador respuesta = new RespuestaColaborador();

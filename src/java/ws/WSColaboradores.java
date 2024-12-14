@@ -29,6 +29,12 @@ public class WSColaboradores {
     public List<Colaborador> obtenerColaboradores() {
         return ColaboradoresDAO.listaColaboradores();
     }
+    @Path("obtenerConductores")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Colaborador> obtenerConductores() {
+        return ColaboradoresDAO.listaConductores();
+    }
 
     @Path("registrar")
     @POST
