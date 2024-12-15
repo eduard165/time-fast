@@ -129,7 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="consultarEnvios" parameterType="String" resultType="modelo.pojo.Envio">
         SELECT e.*, se.nombre AS nombreEstadoEnvio,
-        COALESCE(CONCAT(col.nombre, ' ', col.apellidoPaterno), 'Sin asignar') AS nombreColaboradorCompleto,
+        COALESCE(col.numeroPersonal, 'Sin asignar') AS nombreColaboradorCompleto,
         COALESCE(CONCAT(c.nombre, ' ', c.apellidoPaterno), 'Sin asignar') AS nombreClienteCompleto,
         COALESCE(mO.nombre, 'Sin asignar') AS municipioOrigen,
         COALESCE(mD.nombre, 'Sin asignar') AS municipioDestino

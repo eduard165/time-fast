@@ -44,7 +44,7 @@ public class ValidacionesUnidad {
     }
 
     private static void validarVIN(String vin) {
-        if (vin == null || vin.length() != 17) {
+        if (vin == null || vin.length() > 17 || vin.length() < 17) {
             throw new BadRequestException("El VIN debe tener exactamente 17 caracteres.");
         }
     }

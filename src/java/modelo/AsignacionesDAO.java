@@ -23,16 +23,23 @@ public class AsignacionesDAO {
                     respuesta.setContenido("El conductor ya tiene una unidad asignada.");
                     return respuesta;
                 }
-                
+
                 if (verificarUnidad(asignacion.getIdUnidad())) {
                     respuesta.setContenido("La unidad no existe.");
                     return respuesta;
                 }
+                
+                if(obtenerAsignacionPorUnidad(asignacion.getIdUnidad()) != null){
+                    respuesta.setContenido("La unidad ya tiene asignado un conductor intente editar.");
+                    return respuesta;
+                }
+                
                 Mensaje rest = verificarColaborador(asignacion.getIdColaborador());
                 if (rest.isError()) {
                     respuesta.setContenido(rest.getContenido());
                     return respuesta;
                 }
+                
                 int filasAfectadas = conexionBD.insert("asignaciones.insertarAsignacion", asignacion);
                 conexionBD.commit();
 
@@ -43,6 +50,7 @@ public class AsignacionesDAO {
                     respuesta.setContenido("No se pudo asignar el vehículo. Inténtelo nuevamente.");
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 respuesta.setContenido("Error: " + e.toString());
             } finally {
                 conexionBD.close();
@@ -71,6 +79,7 @@ public class AsignacionesDAO {
                     respuesta.setContenido("La unidad no existe.");
                     return respuesta;
                 }
+               
                 Mensaje rest = verificarColaborador(asignacion.getIdColaborador());
                 if (rest.isError()) {
                     respuesta.setContenido(rest.getContenido());
@@ -252,5 +261,21 @@ public class AsignacionesDAO {
             }
         }
         return false;
+    }
+
+    public static Asignacion obtenerAsignacionPorUnidad(int idUnidad) {
+        Asignacion respuesta = new Asignacion();
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        if (conexionBD != null) {
+            try {
+                 respuesta = conexionBD.selectOne("asignaciones.buscarAsignacionesPorIdUnidad", idUnidad);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        } 
+        return respuesta;
     }
 }

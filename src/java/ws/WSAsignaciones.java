@@ -1,5 +1,6 @@
 package ws;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -55,11 +56,13 @@ public class WSAsignaciones {
         return AsignacionesDAO.obtenerAsignaciones();
     }
 
-    @Path("buscar-uno/{idAsinacion}")
+    @Path("buscar-asignacion/{idUnidad}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaAsignacion buscarAsignacion(@PathParam("idAsinacion") Integer idAsinacion) {
-        ValidacionesAsignacion.validarIdAsignacion(idAsinacion);
-        return AsignacionesDAO.obtenerAsignacionPorId(idAsinacion);
+    public Asignacion buscarAsignacion(@PathParam("idUnidad") Integer idUnidad) {
+        if (idUnidad <= 0 || idUnidad == null) {
+            throw new BadRequestException("El idUnidad no puede ser menor a cero o nulo.");
+        }
+        return AsignacionesDAO.obtenerAsignacionPorUnidad(idUnidad);
     }
 }

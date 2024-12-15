@@ -39,7 +39,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT * FROM unidades
         WHERE idUnidad = #{idUnidad}
     </select>
+    <select id="obtenerUnidades" resultType="modelo.pojo.Unidad">
+        SELECT 
+        u.*, 
+        tu.nombre AS nombreTipo, 
+        COALESCE(c.numeroPersonal, 'Sin asignar') AS nombreColaboradorCompleto,        c.numeroPersonal AS nombreColaboradorCompleto
+        FROM unidades u 
+        INNER JOIN tipos_unidades tu ON u.idTipoUnidad = tu.idTipoUnidad
+        LEFT JOIN asignaciones_unidad_conductor a ON u.idUnidad = a.idUnidad
+        LEFT JOIN colaboradores c ON a.idColaborador = c.idColaborador
 
+    </select>
     <select id="obtenerTiposUnidad" resultType="modelo.pojo.TipoUnidad">
         SELECT * FROM tipos_unidades
     </select>

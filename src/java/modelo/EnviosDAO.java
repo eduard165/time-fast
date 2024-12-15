@@ -162,7 +162,7 @@ public class EnviosDAO {
                     return respuesta;
                 }
                 Colaborador colaborador = ColaboradoresDAO.buscarColaboradorPorId(idColaborador);
-                if (colaborador == null || colaborador.getIdColaborador() != 3) {
+                if (colaborador == null ) {
                     respuesta.setContenido("El colaborador asignado no existe o no es un coductor.");
                     return respuesta;
                 }

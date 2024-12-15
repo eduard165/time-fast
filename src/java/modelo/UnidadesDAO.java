@@ -183,4 +183,19 @@ public class UnidadesDAO {
         return TiposUnidades;
     }
 
+    public static List<Unidad> obtenerUnidades() {
+        List<Unidad> unidades = null;
+        SqlSession conexionDB = MyBatisUtil.getSession();
+        if (conexionDB != null) {
+            try {
+                unidades = conexionDB.selectList("unidades.obtenerUnidades");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionDB.close();
+            }
+        }
+        return unidades;
+    }
+
 }

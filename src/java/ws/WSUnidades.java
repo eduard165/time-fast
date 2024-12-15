@@ -1,4 +1,3 @@
-
 package ws;
 
 import java.util.List;
@@ -23,11 +22,8 @@ import utils.ValidacionesUnidad;
 @Path("unidades")
 public class WSUnidades {
 
-
     public WSUnidades() {
     }
-
-  
 
     @Path("registrar")
     @POST
@@ -54,6 +50,7 @@ public class WSUnidades {
         ValidacionesUnidad.validarId(idUnidad);
         return UnidadesDAO.eliminarUnidad(idUnidad);
     }
+
     @Path("obtener-tipos-unidades")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -81,5 +78,12 @@ public class WSUnidades {
         }
         return UnidadesDAO.buscarUnidad(parametro);
     }
-    
+
+    @Path("obtenerTodos")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Unidad> buscarUnidad() {
+        return UnidadesDAO.obtenerUnidades();
+    }
+
 }

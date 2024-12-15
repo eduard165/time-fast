@@ -42,30 +42,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INNER JOIN tipo_unidad t ON u.idTipoUnidad = t.idTipoUnidad
     </select>
     <select id="obtenerAsignacionPorId" parameterType="int" resultType="modelo.pojo.Asignacion">
-        SELECT
-        a.*,
-        c.nombre,
-        c.apellidoPaterno,
-        c.apellidoMaterno,
-        c.numeroPersonal,
-        c.correoElectronico,
-        r.nombre AS rol,
-        u.marca,
-        u.modelo,
-        u.anio,
-        u.VIN,
-        u.idTipoUnidad,
-        u.numeroInterno,
-        t.nombre AS nombreTipo
-        FROM asignaciones_unidad_conductor a
-        INNER JOIN colaboradores c ON a.idColaborador = c.idColaborador
-        INNER JOIN roles r ON c.idRol = r.idRol
-        INNER JOIN unidades u ON a.idUnidad = u.idUnidad
-        INNER JOIN tipo_unidad t ON u.idTipoUnidad = t.idTipoUnidad
-        WHERE a.idAsignacion = #{idAsignacion}
+        SELECT *
+        FROM asignaciones_unidad_conductor 
+        WHERE idAsignacion = #{idAsignacion}
     </select>
-    <select id="buscarAsignacionesPorConductor" resultType="modelo.pojo.Asignacion">
+    <select id="buscarAsignacionesPorConductor" parameterType="int" resultType="modelo.pojo.Asignacion">
         SELECT * FROM asignaciones_unidad_conductor
         WHERE idColaborador = #{idColaborador}
+    </select>
+    <select id="buscarAsignacionesPorIdUnidad" parameterType="int" resultType="modelo.pojo.Asignacion">
+        SELECT * 
+        FROM asignaciones_unidad_conductor
+        WHERE idUnidad = #{idUnidad}
     </select>
 </mapper>
