@@ -18,12 +18,12 @@ public class Cliente {
     private String telefono;
     private String correoElectronico;
     private String password;
-    
+    private String municipio;
     
     public Cliente() {
     }
 
-    public Cliente(Integer idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correoElectronico, String password) {
+    public Cliente(Integer idCliente, String nombre, String apellidoPaterno, String apellidoMaterno, String telefono, String correoElectronico, String password, String municipio) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -31,9 +31,17 @@ public class Cliente {
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.password = password;
+        this.municipio = municipio;
     }
 
-   
+    public String getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
+    }
+    
     public Integer getIdCliente() {
         return idCliente;
     }

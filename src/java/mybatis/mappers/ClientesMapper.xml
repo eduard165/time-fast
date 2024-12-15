@@ -6,8 +6,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="clientes">
 
     <select id="buscarClientes" resultType="modelo.pojo.Cliente">
-        SELECT *
-        FROM clientes 
+        SELECT c.*,  COALESCE(m.nombre, 'Sin asignar') AS municipio
+        FROM clientes c
+        LEFT JOIN direcciones d ON c.idCliente = d.idCliente
+        LEFT JOIN municipios m ON d.idMunicipio = m.idMunicipio;
+
     </select>
     
     <select id="buscarClientePorId" resultType="modelo.pojo.Cliente" parameterType="int">
@@ -17,15 +20,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     <select id="buscarCliente" parameterType="String" resultType="modelo.pojo.Cliente">
         SELECT c.idCliente, 
-               c.nombre, 
-               c.apellidoPaterno, 
-               c.apellidoMaterno, 
-               c.telefono, 
-               c.correoElectronico
+        c.nombre, 
+        c.apellidoPaterno, 
+        c.apellidoMaterno, 
+        c.telefono, 
+        c.correoElectronico
         FROM clientes c
         WHERE c.nombre = #{parametro}
-           OR c.telefono = #{parametro}
-           OR c.correoElectronico = #{parametro}
+        OR c.telefono = #{parametro}
+        OR c.correoElectronico = #{parametro}
     </select>
     <insert id="registrarCliente" parameterType="modelo.pojo.Cliente">
         INSERT INTO clientes (nombre, apellidoPaterno, apellidoMaterno, telefono, correoElectronico, password)
@@ -35,11 +38,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="editarCliente" parameterType="modelo.pojo.Cliente">
         UPDATE clientes
         SET nombre = #{nombre},
-            apellidoPaterno = #{apellidoPaterno},
-            apellidoMaterno = #{apellidoMaterno},
-            telefono = #{telefono},
-            correoElectronico = #{correoElectronico},
-            password = #{password}
+        apellidoPaterno = #{apellidoPaterno},
+        apellidoMaterno = #{apellidoMaterno},
+        telefono = #{telefono},
+        correoElectronico = #{correoElectronico},
+        password = #{password}
         WHERE idCliente = #{idCliente};
     </update>
 

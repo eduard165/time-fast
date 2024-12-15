@@ -22,11 +22,11 @@ public class EstadoEnvio {
         this.nombre = nombre;
     }
 
-    public Integer getIdEstado() {
+    public Integer getIdEstadoEnvio() {
         return idEstadoEnvio;
     }
 
-    public void setIdEstado(Integer idEstadoEnvio) {
+    public void setIdEstadoEnvio(Integer idEstadoEnvio) {
         this.idEstadoEnvio = idEstadoEnvio;
     }
 

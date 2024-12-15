@@ -18,7 +18,7 @@ import modelo.pojo.Mensaje;
 import modelo.pojo.respuestas.RespuestaEnvio;
 import modelo.pojo.respuestas.RespuestaEnvios;
 
-@Path("/envios")
+@Path("envios")
 public class WSEnvios {
 
     public WSEnvios() {

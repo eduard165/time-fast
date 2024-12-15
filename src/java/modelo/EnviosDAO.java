@@ -3,6 +3,7 @@ package modelo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import modelo.pojo.Colaborador;
 import modelo.pojo.Envio;
 import modelo.pojo.Mensaje;
 import modelo.pojo.respuestas.RespuestaEnvio;
@@ -15,6 +16,7 @@ public class EnviosDAO {
     public static Mensaje registrarEnvio(Envio envio) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
+        envio.setIdEstadoEnvio(1);
         respuesta.setError(true);
 
         if (conexionBD != null) {
@@ -159,8 +161,9 @@ public class EnviosDAO {
                     respuesta.setContenido("El envío no existe.");
                     return respuesta;
                 }
-                if (!ColaboradoresDAO.verificarColaboradorPorId(idColaborador)) {
-                    respuesta.setContenido("El colaborador asignado no existe.");
+                Colaborador colaborador = ColaboradoresDAO.buscarColaboradorPorId(idColaborador);
+                if (colaborador == null || colaborador.getIdColaborador() != 3) {
+                    respuesta.setContenido("El colaborador asignado no existe o no es un coductor.");
                     return respuesta;
                 }
                 Map<String, Object> parametros = new HashMap<>();

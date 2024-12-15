@@ -37,6 +37,8 @@ public class DireccionesDAO {
                 }
                 conexionBD.commit();
             } catch (Exception e) {
+                e.printStackTrace();
+
                 respuesta.setContenido("Error: " + e.getMessage());
             } finally {
                 conexionBD.close();
@@ -70,6 +72,8 @@ public class DireccionesDAO {
                 }
                 conexionBD.commit();
             } catch (Exception e) {
+                e.printStackTrace();
+
                 respuesta.setContenido("Error: " + e.getMessage());
             } finally {
                 conexionBD.close();
@@ -93,7 +97,7 @@ public class DireccionesDAO {
                     return respuesta;
                 }
                 int filasAfectadas = conexionBD.insert("direcciones.insertarDireccionDestino", direccion);
-
+                
                 if (filasAfectadas > 0) {
                     respuesta.setError(false);
                     respuesta.setContenido("Dirección del destino registrada correctamente.");
@@ -102,6 +106,8 @@ public class DireccionesDAO {
                 }
                 conexionBD.commit();
             } catch (Exception e) {
+                e.printStackTrace();
+
                 respuesta.setContenido("Error: " + e.getMessage());
             } finally {
                 conexionBD.close();
@@ -148,11 +154,11 @@ public class DireccionesDAO {
 
         if (conexionBD != null) {
             try {
-                if (!EnviosDAO.verificarEnvioExistentePorId(direccion.getIdEnvioOrigen())) {
+                if (!EnviosDAO.verificarEnvioExistentePorId(direccion.getIdEnvioDestino())) {
                     respuesta.setContenido("Envio no valido");
                     return respuesta;
                 }
-                if (!verificarExistenciaDireccionOrigen(direccion.getIdEnvioOrigen())) {
+                if (!verificarExistenciaDireccionDestino(direccion.getIdEnvioDestino())) {
                     respuesta.setContenido("Direccion no existente");
                     return respuesta;
                 }

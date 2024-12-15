@@ -11,15 +11,13 @@ import modelo.pojo.EstadoEnvio;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 
-public class EstadosEnvioDAO {
+public class EstadosEnviosDAO {
      public static List<EstadoEnvio> consultarEnviosAsignados() {
         SqlSession conexionBD = MyBatisUtil.getSession();
         List<EstadoEnvio> estados = null;
-
         if (conexionBD != null) {
             try {
                 estados = conexionBD.selectList("estados.obtenerEstados");
-                System.out.println(estados);
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

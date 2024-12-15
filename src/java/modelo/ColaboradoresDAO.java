@@ -271,4 +271,21 @@ public class ColaboradoresDAO {
         }
         return existe;
     }
+    public static Colaborador buscarColaboradorPorId(int idColaborador) {
+        Colaborador colaborador = new Colaborador();
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        boolean existe = false;
+
+        if (conexionBD != null) {
+            try {
+                 colaborador = conexionBD.selectOne("colaboradores.obtenerColaboradorPorId", idColaborador);
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return colaborador;
+    }
 }

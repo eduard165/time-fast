@@ -65,4 +65,11 @@ public class WSClientes {
         }
         return ClienteDAO.buscarCliente(parametro);
     }
+     @Path("buscar-cliente/{idCliente}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Cliente buscarClientePorId(@PathParam("idCliente") int idCliente) {
+        utils.ValidacionesCliente.validarId(idCliente);
+        return ClienteDAO.obtenerClientePorId(idCliente);
+    }
 }

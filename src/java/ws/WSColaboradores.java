@@ -100,4 +100,12 @@ public class WSColaboradores {
         return ColaboradoresDAO.obtenerFoto(idColaborador);
    
     }
+    @Path("obtener-colaborador/{idColaborador}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Colaborador colaboradorPorId(@PathParam("idColaborador") Integer idColaborador) {
+        ValidacionesColaborador.validarId(idColaborador);
+        return ColaboradoresDAO.buscarColaboradorPorId(idColaborador);
+   
+    }
 }
