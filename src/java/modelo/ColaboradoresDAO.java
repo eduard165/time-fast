@@ -103,16 +103,22 @@ public class ColaboradoresDAO {
 
         if (conexionBD != null) {
             try {
-                int filasAfectadas = conexionBD.delete("colaboradores.eliminarColaborador", idColaborador);
+                conexionBD.commit(false);
 
-                if (filasAfectadas > 0) {
-                    respuesta.setError(false);
+                
+
+                int filasAfectadasColaborador = conexionBD.delete("colaboradores.borrarColaborador", idColaborador);
+
+                if ( filasAfectadasColaborador > 0) {
+                    conexionBD.commit();
                     respuesta.setContenido("Colaborador eliminado exitosamente.");
+                    respuesta.setError(false);
                 } else {
-                    respuesta.setContenido("No se pudo eliminar al colaborador. Inténtelo nuevamente.");
+                    conexionBD.rollback();
+                    respuesta.setContenido("No se pudo eliminar el colaborador. Inténtelo nuevamente.");
                 }
-                conexionBD.commit();
             } catch (Exception e) {
+                conexionBD.rollback();
                 respuesta.setContenido("Error: " + e.getMessage());
             } finally {
                 conexionBD.close();
@@ -167,6 +173,7 @@ public class ColaboradoresDAO {
         }
         return colaboradores;
     }
+
     public static List<Colaborador> listaConductores() {
         List<Colaborador> colaboradores = new ArrayList<>();
         SqlSession conexionBD = MyBatisUtil.getSession();
@@ -238,6 +245,33 @@ public class ColaboradoresDAO {
         }
         return msj;
     }
+     public static Mensaje subirFotoPorNumeroPersonal(String numeroPersonal, byte[] fotografia) {
+        Mensaje msj = new Mensaje();
+        msj.setError(true);
+
+        LinkedHashMap<String, Object> parametros = new LinkedHashMap<>();
+        parametros.put("numeroPersonal", numeroPersonal);
+        parametros.put("fotografia", fotografia);
+        SqlSession conexionBD = MyBatisUtil.getSession();
+
+        if (conexionBD != null) {
+            try {
+                int filasAfectadas = conexionBD.update("colaboradores.guardarFotoPorNumeroPersonal", parametros);
+                conexionBD.commit();
+                if (filasAfectadas > 0) {
+                    msj.setError(false);
+                    msj.setContenido("Foto del colaborador actualizada con exito");
+                } else {
+                    msj.setContenido("La foto del colaborador no pudo ser guardad cone exito");
+                }
+            } catch (Exception e) {
+                msj.setContenido(e.getMessage());
+            }
+        } else {
+            msj.setContenido("Por el momento no hay conexion estable reinicie la aplicacion nuevamente");
+        }
+        return msj;
+    }
 
     public static Colaborador obtenerFoto(Integer idColaborador) {
         Colaborador colaboradorConFoto = null;
@@ -271,6 +305,7 @@ public class ColaboradoresDAO {
         }
         return existe;
     }
+
     public static Colaborador buscarColaboradorPorId(int idColaborador) {
         Colaborador colaborador = new Colaborador();
         SqlSession conexionBD = MyBatisUtil.getSession();
@@ -278,8 +313,8 @@ public class ColaboradoresDAO {
 
         if (conexionBD != null) {
             try {
-                 colaborador = conexionBD.selectOne("colaboradores.obtenerColaboradorPorId", idColaborador);
-                
+                colaborador = conexionBD.selectOne("colaboradores.obtenerColaboradorPorId", idColaborador);
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

@@ -17,8 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="eliminarUnidad" parameterType="int">
-        DELETE FROM unidades
-        WHERE idUnidad = #{idUnidad}
+        CALL EliminarUnidad(#{idUnidad})
     </delete>
 
     <select id="buscarUnidades" parameterType="String" resultType="modelo.pojo.Unidad">

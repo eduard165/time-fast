@@ -81,20 +81,23 @@ public class ClienteDAO {
     public static Mensaje eliminarCliente(int idCliente) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
-        respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                int filasAfectadas = conexionBD.delete("clientes.eliminarCliente", idCliente);
+                // Eliminar en las tablas relacionadas
+                int filasAfectadasCliente = conexionBD.delete("clientes.eliminarCliente", idCliente);
 
-                if (filasAfectadas > 0) {
+                // Confirmar la transacción si todo fue exitoso
+                if (filasAfectadasCliente > 0) {
+                    conexionBD.commit();
                     respuesta.setError(false);
                     respuesta.setContenido("Cliente eliminado exitosamente.");
                 } else {
+                    conexionBD.rollback();
                     respuesta.setContenido("No se pudo eliminar al cliente. Inténtelo nuevamente.");
                 }
-                conexionBD.commit();
             } catch (Exception e) {
+                conexionBD.rollback();
                 respuesta.setContenido("Error: " + e.getMessage());
             } finally {
                 conexionBD.close();
@@ -168,14 +171,15 @@ public class ClienteDAO {
         }
         return existe;
     }
-    public static Cliente obtenerClientePorId(int idCliente){
+
+    public static Cliente obtenerClientePorId(int idCliente) {
         Cliente cliente = null;
         SqlSession conexionBD = MyBatisUtil.getSession();
 
         if (conexionBD != null) {
             try {
                 cliente = conexionBD.selectOne("clientes.buscarClientePorId", idCliente);
-               
+
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

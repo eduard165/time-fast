@@ -19,9 +19,6 @@ public class ValidacionesEnvio {
             throw new BadRequestException("El envío no puede ser nulo.");
         }
         validarIdEnvio(envio.getIdEnvio());
-        validarIdCliente(envio.getIdCliente());
-        validarCosto(envio.getCosto());
-        validarIdEstadoEnvio(envio.getIdEstadoEnvio());
     }
 
     public static void validarCambioEstatus(Integer idEnvio, Integer idEstado, String descripcion) {

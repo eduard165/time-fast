@@ -23,12 +23,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     <update id="actualizarEnvio" parameterType="modelo.pojo.Envio">
         UPDATE envios
-        SET
+        SET 
         idCliente = #{idCliente},
-        costo = #{costo},
-        idEstadoEnvio = #{idEstadoEnvio},
-        idColaborador = #{idColaborador},
-        descripcion = #{descripcion}
+        costo = #{costo}
         WHERE idEnvio = #{idEnvio}
     </update>
     <select id="consultarEnvioPorNumeroGuia" parameterType="String" resultType="modelo.pojo.Envio">
@@ -97,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         e.numeroGuia,
         e.costo,
         e.descripcion,
+        e.idEstadoEnvio,
         se.nombre AS nombreEstadoEnvio,
         CONCAT(c.nombre, ' ', c.apellidoPaterno) AS nombreClienteCompleto,
         c.telefono AS telefonoCliente,

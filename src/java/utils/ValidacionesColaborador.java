@@ -30,10 +30,18 @@ public class ValidacionesColaborador {
     }
 
     public static void validadColaboradorFoto(byte[] foto, Integer idColaborador) {
-        if ( foto == null) {
+        if (foto == null) {
             throw new BadRequestException("El id debe ser obligatorio y no debe ser menor o igual a 0");
         }
+        
         validarId(idColaborador);
+    }
+
+    public static void validadColaboradorFotoPorNumeroPersonal(byte[] foto, String numeroPersonal) {
+        if (foto == null) {
+            throw new BadRequestException("El id debe ser obligatorio y no debe ser menor o igual a 0");
+        }
+        validarNumeroPersonal(numeroPersonal);
     }
 
     public static void validarId(Integer idColaborador) {
@@ -61,7 +69,7 @@ public class ValidacionesColaborador {
     }
 
     private static void validarNumeroPersonal(String numeroPersonal) {
-        if (numeroPersonal == null ) {
+        if (numeroPersonal == null) {
             throw new BadRequestException("El número personal debe tener exactamente 20 caracteres.");
         }
     }

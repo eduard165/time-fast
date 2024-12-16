@@ -81,14 +81,14 @@ public class EnviosDAO {
         return respuesta;
     }
 
-    public static Mensaje eliminarEnvio(String numeroGuia) {
+    public static Mensaje eliminarEnvio(int idCliente) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
         respuesta.setError(true);
 
         if (conexionBD != null) {
             try {
-                int filasAfectadas = conexionBD.delete("envios.eliminarEnvio", numeroGuia);
+                int filasAfectadas = conexionBD.delete("envios.eliminarEnvio", idCliente);
                 conexionBD.commit();
 
                 if (filasAfectadas > 0) {

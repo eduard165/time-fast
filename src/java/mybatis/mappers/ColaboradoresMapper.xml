@@ -37,10 +37,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         password = #{password}
         WHERE idColaborador = #{idColaborador}
     </update>
-    <delete id="eliminarColaborador" parameterType="int">
-        DELETE FROM colaboradores
-        WHERE idColaborador = #{idColaborador}
+    
+    <delete id="borrarColaborador" parameterType="int">
+        CALL EliminarColaborador (#{idColaborador})
     </delete>
+
     <select id="buscarColaboradores" parameterType="String" resultType="modelo.pojo.Colaborador">
         SELECT
         c.idColaborador,
@@ -86,7 +87,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SET fotografia = #{fotografia}
         WHERE idColaborador = #{idColaborador}
     </update>
-    
+     <update id="guardarFotoPorNumeroPersonal" parameterType="map">
+        UPDATE colaboradores
+        SET fotografia = #{fotografia}
+        WHERE numeroPersonal = #{numeroPersonal}
+    </update>
     <select id="obtenerFoto" parameterType="int" resultType="modelo.pojo.Colaborador">
         SELECT idColaborador, TO_BASE64(fotografia) as fotoBase64
         FROM colaboradores WHERE idColaborador = #{idColaborador}
@@ -96,17 +101,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM colaboradores 
         WHERE idColaborador = #{idColaborador}
     </select>
-     <select id="obtenerTodos"  resultType="modelo.pojo.Colaborador">
-       SELECT 
-            c.*,
-            r.nombre AS rol
+    <select id="obtenerTodos"  resultType="modelo.pojo.Colaborador">
+        SELECT 
+        c.*,
+        r.nombre AS rol
         FROM colaboradores c
         INNER JOIN roles r ON c.idRol = r.idRol
     </select>
     <select id="obtenerConductores"  parameterType="int" resultType="modelo.pojo.Colaborador">
-       SELECT 
-            c.*,
-            r.nombre AS rol
+        SELECT 
+        c.*,
+        r.nombre AS rol
         FROM colaboradores c
         INNER JOIN roles r ON c.idRol = r.idRol
         WHERE c.idRol = #{idRol}

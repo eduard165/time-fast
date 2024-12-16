@@ -29,6 +29,7 @@ public class WSColaboradores {
     public List<Colaborador> obtenerColaboradores() {
         return ColaboradoresDAO.listaColaboradores();
     }
+
     @Path("obtenerConductores")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -89,7 +90,16 @@ public class WSColaboradores {
     public Mensaje subirFoto(@PathParam("idColaborador") Integer idColaborador, byte[] foto) {
         ValidacionesColaborador.validadColaboradorFoto(foto, idColaborador);
         return ColaboradoresDAO.subirFoto(idColaborador, foto);
-        
+
+    }
+
+    @Path("subir-foto-nuevo/{numeroPersonal}")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje subirFoto(@PathParam("numeroPersonal") String numeroPersonal, byte[] foto) {
+        ValidacionesColaborador.validadColaboradorFotoPorNumeroPersonal(foto, numeroPersonal);
+        return ColaboradoresDAO.subirFotoPorNumeroPersonal(numeroPersonal, foto);
+
     }
 
     @Path("obtener-foto/{idColaborador}")
@@ -98,14 +108,15 @@ public class WSColaboradores {
     public Colaborador obtenerFoto(@PathParam("idColaborador") Integer idColaborador) {
         ValidacionesColaborador.validarId(idColaborador);
         return ColaboradoresDAO.obtenerFoto(idColaborador);
-   
+
     }
+
     @Path("obtener-colaborador/{idColaborador}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Colaborador colaboradorPorId(@PathParam("idColaborador") Integer idColaborador) {
         ValidacionesColaborador.validarId(idColaborador);
         return ColaboradoresDAO.buscarColaboradorPorId(idColaborador);
-   
+
     }
 }
