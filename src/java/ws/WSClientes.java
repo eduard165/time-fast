@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.POST;
@@ -41,6 +42,15 @@ public class WSClientes {
         return ClienteDAO.editarCliente(cliente);
     }
 
+    @Path("desactivar")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Mensaje desactivarColaborador(@FormParam("idCliente") int idCliente) {
+        ValidacionesCliente.validarId(idCliente);
+        return ClienteDAO.desactivarCliente(idCliente);
+    }
+
     @Path("eliminar/{idCliente}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
@@ -49,23 +59,31 @@ public class WSClientes {
         return ClienteDAO.eliminarCliente(idCliente);
     }
 
-    @Path("todos")
+    @Path("obtenerTodosActivos")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Cliente> buscarClientes() {
-        return ClienteDAO.buscarClientes();
+    public List<Cliente> buscarClientesActivos() {
+        return ClienteDAO.buscarClientesActivos();
+    }
+
+    @Path("obtenerTodosInactivos")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Cliente> buscarClientesInactivos() {
+        return ClienteDAO.buscarClientesInactivos();
     }
 
     @Path("buscar-uno/{parametro}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaCliente buscarCliente(@PathParam("parametro") String parametro) {
-         if (parametro == null || parametro.isEmpty()) {
+        if (parametro == null || parametro.isEmpty()) {
             throw new BadRequestException("Parámetro de búsqueda no válido");
         }
         return ClienteDAO.buscarCliente(parametro);
     }
-     @Path("buscar-cliente/{idCliente}")
+
+    @Path("buscar-cliente/{idCliente}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Cliente buscarClientePorId(@PathParam("idCliente") int idCliente) {

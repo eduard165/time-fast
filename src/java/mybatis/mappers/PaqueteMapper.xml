@@ -13,10 +13,10 @@
     <update id="actualizarPaquete" parameterType="modelo.pojo.Paquete">
         UPDATE paquetes
         SET descripcion = #{descripcion},
-            peso = #{peso},
-            dimensionesAlto = #{dimensionesAlto},
-            dimensionesAncho = #{dimensionesAncho},
-            dimensionesProfundidad = #{dimensionesProfundidad}
+        peso = #{peso},
+        dimensionesAlto = #{dimensionesAlto},
+        dimensionesAncho = #{dimensionesAncho},
+        dimensionesProfundidad = #{dimensionesProfundidad}
         WHERE idPaquete = #{idPaquete}
     </update>
 
@@ -26,15 +26,17 @@
         WHERE idEnvio = #{idEnvio}
     </select>
 
-    <delete id="eliminarPaquete" parameterType="int">
-        DELETE FROM paquetes
+    <update id="eliminarPaqueteDeEnvio" parameterType="int">
+        UPDATE paquetes
+        SET idEnvio = NULL
         WHERE idPaquete = #{idPaquete}
-    </delete>
-
-  <select id="buscarPaquetes" resultType="modelo.pojo.Paquete">
-    SELECT p.*, e.numeroGuia AS numeroGuia 
-    FROM paquetes p 
-    LEFT JOIN envios e ON p.idEnvio = e.idEnvio
+    </update>
+    
+    <select id="buscarPaquetes" resultType="modelo.pojo.Paquete">
+        SELECT p.*, 
+        COALESCE(e.numeroGuia, 'Sin asignar') AS numeroGuia
+        FROM paquetes p 
+        LEFT JOIN envios e ON p.idEnvio = e.idEnvio
     </select>
 
 </mapper>

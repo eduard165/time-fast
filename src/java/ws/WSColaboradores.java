@@ -4,6 +4,7 @@ import java.util.List;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.POST;
@@ -23,11 +24,18 @@ public class WSColaboradores {
     public WSColaboradores() {
     }
 
-    @Path("obtenerTodos")
+    @Path("obtenerTodosActivos")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Colaborador> obtenerColaboradores() {
-        return ColaboradoresDAO.listaColaboradores();
+    public List<Colaborador> obtenerColaboradoresActivos() {
+        return ColaboradoresDAO.listaColaboradoresActivos();
+    }
+
+    @Path("obtenerTodosInactivos")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Colaborador> obtenerColaboradoresInactivos() {
+        return ColaboradoresDAO.listaColaboradoresInactivos();
     }
 
     @Path("obtenerConductores")
@@ -42,6 +50,12 @@ public class WSColaboradores {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Mensaje registrarColaborador(Colaborador colaborador) {
+        if (colaborador.getIdRol() == 3) {
+            if (colaborador.getNumeroLicencia() == null || colaborador.getNumeroLicencia().length() > 100) {
+                throw new BadRequestException("Licencia no valida");
+
+            }
+        }
         ValidacionesColaborador.validarColaborador(colaborador);
         return ColaboradoresDAO.registrarColaborador(colaborador);
     }
@@ -51,8 +65,23 @@ public class WSColaboradores {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Mensaje editarColaborador(Colaborador colaborador) {
+        if (colaborador.getIdRol() == 3) {
+            if (colaborador.getNumeroLicencia() == null || colaborador.getNumeroLicencia().length() > 100) {
+                throw new BadRequestException("Licencia no valida");
+
+            }
+        }
         ValidacionesColaborador.validarColaboradorEditado(colaborador);
         return ColaboradoresDAO.editarColaborador(colaborador);
+    }
+
+    @Path("desactivar")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Mensaje desactivarColaborador(@FormParam("idColaborador") int idColaborador) {
+        ValidacionesColaborador.validarId(idColaborador);
+        return ColaboradoresDAO.desactivarColaborador(idColaborador);
     }
 
     @Path("eliminar/{idColaborador}")

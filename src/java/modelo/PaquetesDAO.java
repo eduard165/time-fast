@@ -80,7 +80,7 @@ public class PaquetesDAO {
 
         if (conexionBD != null) {
             try {
-                int filasAfectadas = conexionBD.delete("paquetes.eliminarPaquete", idPaquete);
+                int filasAfectadas = conexionBD.update("paquetes.eliminarPaqueteDeEnvio", idPaquete);
 
                 if (filasAfectadas > 0) {
                     respuesta.setError(false);

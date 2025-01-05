@@ -20,8 +20,8 @@ import modelo.pojo.respuestas.RespuestaPaquetes;
 @Path("/paquetes")
 public class WSPaquete {
 
-    @POST
     @Path("registrar")
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje registrarPaquete(Paquete paquete) {
@@ -29,8 +29,8 @@ public class WSPaquete {
         return PaquetesDAO.registrarPaquete(paquete);
     }
 
-    @PUT
     @Path("actualizar")
+    @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Mensaje actualizarPaquete(Paquete paquete) {
@@ -38,23 +38,25 @@ public class WSPaquete {
         return PaquetesDAO.actualizarPaquete(paquete);
     }
 
-    @GET
     @Path("consultar/{idEnvio}")
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaPaquetes consultarPaquete(@PathParam("idEnvio") int idEnvio) {
         ValidacionesPaquete.validarIdPaquete(idEnvio);
         return PaquetesDAO.consultarPaquetePorEnvio(idEnvio);
     }
 
-    @DELETE
-    @Path("eliminar/{idPaquete}")
+    @Path("eliminar")
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
-    public Mensaje eliminarPaquete(@PathParam("idPaquete") int idPaquete) {
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    public Mensaje eliminarPaquete(@FormParam("idPaquete") int idPaquete) {
         ValidacionesPaquete.validarIdPaquete(idPaquete);
         return PaquetesDAO.eliminarPaquete(idPaquete);
     }
-    @GET
+
     @Path("todos")
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Paquete> listaEnvios() {
         return PaquetesDAO.obtenerPaquetes();

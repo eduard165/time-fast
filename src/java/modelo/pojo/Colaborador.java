@@ -10,6 +10,7 @@ package modelo.pojo;
  * @author eduar
  */
 public class Colaborador {
+
     private Integer idColaborador;
     private String nombre;
     private String apellidoPaterno;
@@ -21,11 +22,13 @@ public class Colaborador {
     private Integer idRol;
     private String rol;
     private String fotoBase64;
+    private Boolean activo;
+    private String numeroLicencia;
 
     public Colaborador() {
     }
 
-    public Colaborador(Integer idColaborador, String nombre, String apellidoPaterno, String apellidoMaterno, String numeroPersonal, String correoElectronico, String password, String CURP, Integer idRol, String rol, String fotoBase64) {
+    public Colaborador(Integer idColaborador, String nombre, String apellidoPaterno, String apellidoMaterno, String numeroPersonal, String correoElectronico, String password, String CURP, Integer idRol, String rol, String fotoBase64, Boolean activo, String numeroLicencia) {
         this.idColaborador = idColaborador;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -37,6 +40,25 @@ public class Colaborador {
         this.idRol = idRol;
         this.rol = rol;
         this.fotoBase64 = fotoBase64;
+        this.activo = activo;
+        this.numeroLicencia = numeroLicencia;
+    }
+
+    public String getNumeroLicencia() {
+        return numeroLicencia;
+    }
+
+    public void setNumeroLicencia(String numeroLicencia) {
+        this.numeroLicencia = numeroLicencia;
+    }
+    
+
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     public Integer getIdColaborador() {
@@ -126,5 +148,5 @@ public class Colaborador {
     public void setFotoBase64(String fotoBase64) {
         this.fotoBase64 = fotoBase64;
     }
-    
+
 }

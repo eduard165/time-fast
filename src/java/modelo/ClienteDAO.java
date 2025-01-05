@@ -77,17 +77,44 @@ public class ClienteDAO {
 
         return respuesta;
     }
+    public static Mensaje desactivarCliente(int idCliente){
+         Mensaje respuesta = new Mensaje();
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        respuesta.setError(true);
 
+        if (conexionBD != null) {
+            try {
+                int filasAfectadas = conexionBD.update("clientes.desactivarCliente", idCliente);
+
+                if (filasAfectadas > 0) {
+                    respuesta.setContenido("Cliente desactivado exitosamente.");
+                    respuesta.setError(false);
+                } else {
+                    conexionBD.rollback();
+                    respuesta.setContenido("No se pudo desactivar el cliente \n Inténtelo nuevamente." );
+                }
+                conexionBD.commit();
+
+            } catch (Exception e) {
+                conexionBD.rollback();
+                respuesta.setContenido("Error: " + e.getMessage());
+            } finally {
+                conexionBD.close();
+            }
+        } else {
+            respuesta.setContenido("Error: No se puede acceder a la base de datos.");
+        }
+
+        return respuesta;
+    }
     public static Mensaje eliminarCliente(int idCliente) {
         Mensaje respuesta = new Mensaje();
         SqlSession conexionBD = MyBatisUtil.getSession();
 
         if (conexionBD != null) {
             try {
-                // Eliminar en las tablas relacionadas
                 int filasAfectadasCliente = conexionBD.delete("clientes.eliminarCliente", idCliente);
 
-                // Confirmar la transacción si todo fue exitoso
                 if (filasAfectadasCliente > 0) {
                     conexionBD.commit();
                     respuesta.setError(false);
@@ -109,13 +136,29 @@ public class ClienteDAO {
         return respuesta;
     }
 
-    public static List<Cliente> buscarClientes() {
+    public static List<Cliente> buscarClientesActivos() {
         List<Cliente> respuesta = null;
         SqlSession conexionBD = MyBatisUtil.getSession();
 
         if (conexionBD != null) {
             try {
-                respuesta = conexionBD.selectList("clientes.buscarClientes");
+                respuesta = conexionBD.selectList("clientes.buscarClientesActivos");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return respuesta;
+    }
+
+    public static List<Cliente> buscarClientesInactivos() {
+        List<Cliente> respuesta = null;
+        SqlSession conexionBD = MyBatisUtil.getSession();
+
+        if (conexionBD != null) {
+            try {
+                respuesta = conexionBD.selectList("clientes.buscarClientesInactivos");
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -139,7 +182,7 @@ public class ClienteDAO {
                     respuesta.setContenido("Búsqueda exitosa.");
                     respuesta.setCliente(cliente);
                 } else {
-                    respuesta.setContenido("No se encontraron clientes con el correo proporcionado.");
+                    respuesta.setContenido("No se encontraron clientes con la información proporcionado.");
                 }
             } catch (Exception e) {
                 respuesta.setContenido("Error: " + e.getMessage());

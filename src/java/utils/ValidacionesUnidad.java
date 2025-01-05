@@ -30,7 +30,14 @@ public class ValidacionesUnidad {
             throw new BadRequestException("El ID de la unidad debe ser obligatorio y mayor que 0.");
         }
     }
-
+    public static void validarDesactivacionUnidad(Unidad unidad){
+        if (unidad.getIdUnidad() == null || unidad.getIdUnidad() <= 0) {
+            throw new BadRequestException("El ID de la unidad debe ser obligatorio y mayor que 0.");
+        }
+        if(unidad.getMotivoBaja() == null || unidad.getMotivoBaja().isEmpty()){
+            throw new BadRequestException("El motivo debe se obligatorio");
+        }
+    }
     private static void validarMarcaModelo(String marca, String modelo) {
         if (marca == null || marca.isEmpty() || marca.length() > 50 || modelo == null || modelo.isEmpty() || modelo.length() > 50) {
             throw new BadRequestException("La marca y el modelo son obligatorios y no deben exceder los 50 caracteres.");

@@ -9,17 +9,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INSERT INTO unidades (marca, modelo, anio, VIN, idTipoUnidad, numeroInterno)
         VALUES (#{marca}, #{modelo}, #{anio}, #{VIN}, #{idTipoUnidad}, #{numeroInterno})
     </insert>
-
     <update id="editarUnidad" parameterType="modelo.pojo.Unidad">
         UPDATE unidades
         SET marca = #{marca}, modelo = #{modelo}, anio = #{anio}, idTipoUnidad = #{idTipoUnidad}
         WHERE idUnidad = #{idUnidad}
     </update>
-
     <delete id="eliminarUnidad" parameterType="int">
         CALL EliminarUnidad(#{idUnidad})
     </delete>
-
+    <update id="desactivarUnidad" parameterType="modelo.pojo.Unidad">
+        CALL desactivar_unidad(#{idUnidad}, #{motivoBaja})
+    </update>
+    
     <select id="buscarUnidades" parameterType="String" resultType="modelo.pojo.Unidad">
         SELECT u.*, t.nombre  AS nombreTipo
         FROM unidades u
@@ -38,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT * FROM unidades
         WHERE idUnidad = #{idUnidad}
     </select>
-    <select id="obtenerUnidades" resultType="modelo.pojo.Unidad">
+    <select id="obtenerUnidadesActivas" resultType="modelo.pojo.Unidad">
         SELECT 
         u.*, 
         tu.nombre AS nombreTipo, 
@@ -47,7 +48,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INNER JOIN tipos_unidades tu ON u.idTipoUnidad = tu.idTipoUnidad
         LEFT JOIN asignaciones_unidad_conductor a ON u.idUnidad = a.idUnidad
         LEFT JOIN colaboradores c ON a.idColaborador = c.idColaborador
-
+        WHERE u.activo = 1
+    </select>
+    <select id="obtenerUnidadesInactivas" resultType="modelo.pojo.Unidad">
+        SELECT 
+        u.*, 
+        tu.nombre AS nombreTipo, 
+        COALESCE(c.numeroPersonal, 'Sin asignar') AS nombreColaboradorCompleto,        c.numeroPersonal AS nombreColaboradorCompleto
+        FROM unidades u 
+        INNER JOIN tipos_unidades tu ON u.idTipoUnidad = tu.idTipoUnidad
+        LEFT JOIN asignaciones_unidad_conductor a ON u.idUnidad = a.idUnidad
+        LEFT JOIN colaboradores c ON a.idColaborador = c.idColaborador
+        WHERE u.activo = 0
     </select>
     <select id="obtenerTiposUnidad" resultType="modelo.pojo.TipoUnidad">
         SELECT * FROM tipos_unidades

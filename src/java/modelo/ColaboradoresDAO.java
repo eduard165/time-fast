@@ -105,11 +105,9 @@ public class ColaboradoresDAO {
             try {
                 conexionBD.commit(false);
 
-                
-
                 int filasAfectadasColaborador = conexionBD.delete("colaboradores.borrarColaborador", idColaborador);
 
-                if ( filasAfectadasColaborador > 0) {
+                if (filasAfectadasColaborador > 0) {
                     conexionBD.commit();
                     respuesta.setContenido("Colaborador eliminado exitosamente.");
                     respuesta.setError(false);
@@ -117,6 +115,37 @@ public class ColaboradoresDAO {
                     conexionBD.rollback();
                     respuesta.setContenido("No se pudo eliminar el colaborador. Inténtelo nuevamente.");
                 }
+            } catch (Exception e) {
+                conexionBD.rollback();
+                respuesta.setContenido("Error: " + e.getMessage());
+            } finally {
+                conexionBD.close();
+            }
+        } else {
+            respuesta.setContenido("Error: No se puede acceder a la base de datos.");
+        }
+
+        return respuesta;
+    }
+
+    public static Mensaje desactivarColaborador(int idColaborador) {
+        Mensaje respuesta = new Mensaje();
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        respuesta.setError(true);
+
+        if (conexionBD != null) {
+            try {
+                int filasAfectadasColaborador = conexionBD.update("colaboradores.desactivarColaborador", idColaborador);
+
+                if (filasAfectadasColaborador > 0) {
+                    respuesta.setContenido("Colaborador desactivado exitosamente.");
+                    respuesta.setError(false);
+                } else {
+                    conexionBD.rollback();
+                    respuesta.setContenido("No se pudo desactivar el colaborador.\n Inténtelo nuevamente." );
+                }
+                conexionBD.commit();
+
             } catch (Exception e) {
                 conexionBD.rollback();
                 respuesta.setContenido("Error: " + e.getMessage());
@@ -158,13 +187,29 @@ public class ColaboradoresDAO {
         return respuesta;
     }
 
-    public static List<Colaborador> listaColaboradores() {
+    public static List<Colaborador> listaColaboradoresActivos() {
         List<Colaborador> colaboradores = new ArrayList<>();
         SqlSession conexionBD = MyBatisUtil.getSession();
 
         if (conexionBD != null) {
             try {
-                colaboradores = conexionBD.selectList("colaboradores.obtenerTodos");
+                colaboradores = conexionBD.selectList("colaboradores.obtenerTodosActivos");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionBD.close();
+            }
+        }
+        return colaboradores;
+    }
+
+    public static List<Colaborador> listaColaboradoresInactivos() {
+        List<Colaborador> colaboradores = new ArrayList<>();
+        SqlSession conexionBD = MyBatisUtil.getSession();
+
+        if (conexionBD != null) {
+            try {
+                colaboradores = conexionBD.selectList("colaboradores.obtenerTodosInactivos");
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -245,7 +290,8 @@ public class ColaboradoresDAO {
         }
         return msj;
     }
-     public static Mensaje subirFotoPorNumeroPersonal(String numeroPersonal, byte[] fotografia) {
+
+    public static Mensaje subirFotoPorNumeroPersonal(String numeroPersonal, byte[] fotografia) {
         Mensaje msj = new Mensaje();
         msj.setError(true);
 

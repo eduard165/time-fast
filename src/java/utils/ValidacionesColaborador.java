@@ -15,7 +15,7 @@ public class ValidacionesColaborador {
         validarNumeroPersonal(colaborador.getNumeroPersonal());
         validarPassword(colaborador.getPassword());
         validarIdRol(colaborador.getIdRol());
-
+        
     }
 
     public static void validarColaboradorEditado(Colaborador colaborador) {
@@ -27,13 +27,14 @@ public class ValidacionesColaborador {
         validarCURP(colaborador.getCURP());
         validarCorreoElectronico(colaborador.getCorreoElectronico());
         validarPassword(colaborador.getPassword());
+        
     }
 
     public static void validadColaboradorFoto(byte[] foto, Integer idColaborador) {
         if (foto == null) {
             throw new BadRequestException("El id debe ser obligatorio y no debe ser menor o igual a 0");
         }
-        
+
         validarId(idColaborador);
     }
 

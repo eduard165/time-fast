@@ -42,6 +42,14 @@ public class WSUnidades {
         ValidacionesUnidad.validarUnidadEditada(unidad);
         return UnidadesDAO.editarUnidad(unidad);
     }
+    @Path("desactivar")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Mensaje desactivarUnidad(Unidad unidad) {
+        ValidacionesUnidad.validarDesactivacionUnidad(unidad);
+        return UnidadesDAO.desactivarUnidad(unidad);
+    }
 
     @Path("eliminar/{idUnidad}")
     @DELETE
@@ -54,7 +62,7 @@ public class WSUnidades {
     @Path("obtener-tipos-unidades")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<TipoUnidad> loginColaborador() {
+    public List<TipoUnidad> obtenerTiposUnidades() {
         return UnidadesDAO.obtenerTiposDeUnidades();
     }
 
@@ -79,11 +87,17 @@ public class WSUnidades {
         return UnidadesDAO.buscarUnidad(parametro);
     }
 
-    @Path("obtenerTodos")
+    @Path("obtenerActivas")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Unidad> buscarUnidad() {
-        return UnidadesDAO.obtenerUnidades();
+    public List<Unidad> buscarUnidadActivas() {
+        return UnidadesDAO.obtenerUnidadesActivas();
     }
 
+    @Path("obtenerInactivas")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Unidad> buscarUnidadInactivas() {
+        return UnidadesDAO.obtenerUnidadesInactivas();
+    }
 }

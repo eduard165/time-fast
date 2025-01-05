@@ -4,11 +4,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="clientes">
-    <select id="buscarClientes" resultType="modelo.pojo.Cliente">
+    <select id="buscarClientesActivos" resultType="modelo.pojo.Cliente">
         SELECT c.*,  COALESCE(m.nombre, 'Sin asignar') AS municipio
         FROM clientes c
         LEFT JOIN direcciones d ON c.idCliente = d.idCliente
-        LEFT JOIN municipios m ON d.idMunicipio = m.idMunicipio;
+        LEFT JOIN municipios m ON d.idMunicipio = m.idMunicipio
+        WHERE activo = 1
+    </select>
+    <select id="buscarClientesInactivos" resultType="modelo.pojo.Cliente">
+        SELECT c.*,  COALESCE(m.nombre, 'Sin asignar') AS municipio
+        FROM clientes c
+        LEFT JOIN direcciones d ON c.idCliente = d.idCliente
+        LEFT JOIN municipios m ON d.idMunicipio = m.idMunicipio
+        WHERE activo = 0
     </select>
     <select id="buscarClientePorId" resultType="modelo.pojo.Cliente" parameterType="int">
         SELECT *
@@ -43,5 +51,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="eliminarCliente" parameterType="int">
         CALL EliminarCliente(#{idCliente})
     </delete>
- 
+    <update id="desactivarCliente" parameterType="int">
+        UPDATE clientes
+        SET activo = 0
+        WHERE idCliente = #{idCliente}
+    </update>
 </mapper>

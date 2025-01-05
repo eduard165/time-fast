@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo;
 
 import java.util.List;
@@ -34,7 +29,7 @@ public class UnidadesDAO {
                     respuesta.setError(false);
                     respuesta.setContenido("Unidad registrada exitosamente.");
                 } else {
-                    respuesta.setContenido("No se pudo registrar la unidad. Inténtelo nuevamente.");
+                    respuesta.setContenido("No se pudo registrar la unidad\n Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
@@ -69,7 +64,36 @@ public class UnidadesDAO {
                     respuesta.setError(false);
                     respuesta.setContenido("Unidad editada exitosamente.");
                 } else {
-                    respuesta.setContenido("No se pudo editar la unidad. Inténtelo nuevamente.");
+                    respuesta.setContenido("No se pudo editar la unidad\n Inténtelo nuevamente.");
+                }
+                conexionBD.commit();
+            } catch (Exception e) {
+                respuesta.setContenido("Error: " + e.getMessage());
+            } finally {
+                conexionBD.close();
+            }
+        } else {
+            respuesta.setContenido("Error: No se puede acceder a la base de datos.");
+        }
+
+        return respuesta;
+    }
+
+    public static Mensaje desactivarUnidad(Unidad unidad) {
+        Mensaje respuesta = new Mensaje();
+        SqlSession conexionBD = MyBatisUtil.getSession();
+        respuesta.setError(true);
+
+        if (conexionBD != null) {
+            try {
+
+                int filasAfectadas = conexionBD.update("unidades.desactivarUnidad", unidad);
+
+                if (filasAfectadas > 0) {
+                    respuesta.setError(false);
+                    respuesta.setContenido("Unidad desactivada exitosamente.");
+                } else {
+                    respuesta.setContenido("No se pudo desactivar la unidad\n Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
@@ -97,7 +121,7 @@ public class UnidadesDAO {
                     respuesta.setError(false);
                     respuesta.setContenido("Unidad eliminada exitosamente.");
                 } else {
-                    respuesta.setContenido("No se pudo eliminar la unidad. Inténtelo nuevamente.");
+                    respuesta.setContenido("No se pudo eliminar la unidad\n Inténtelo nuevamente.");
                 }
                 conexionBD.commit();
             } catch (Exception e) {
@@ -183,12 +207,27 @@ public class UnidadesDAO {
         return TiposUnidades;
     }
 
-    public static List<Unidad> obtenerUnidades() {
+    public static List<Unidad> obtenerUnidadesActivas() {
         List<Unidad> unidades = null;
         SqlSession conexionDB = MyBatisUtil.getSession();
         if (conexionDB != null) {
             try {
-                unidades = conexionDB.selectList("unidades.obtenerUnidades");
+                unidades = conexionDB.selectList("unidades.obtenerUnidadesActivas");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conexionDB.close();
+            }
+        }
+        return unidades;
+    }
+
+    public static List<Unidad> obtenerUnidadesInactivas() {
+        List<Unidad> unidades = null;
+        SqlSession conexionDB = MyBatisUtil.getSession();
+        if (conexionDB != null) {
+            try {
+                unidades = conexionDB.selectList("unidades.obtenerUnidadesInactivas");
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

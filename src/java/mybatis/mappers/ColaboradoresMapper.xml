@@ -13,7 +13,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         correoElectronico,
         numeroPersonal,
         password,
-        idRol
+        idRol, 
+        numeroLicencia
         )
         VALUES (
         #{nombre},
@@ -23,7 +24,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         #{correoElectronico},
         #{numeroPersonal},
         #{password},
-        #{idRol}
+        #{idRol},
+        #{numeroLicencia}
         )
     </insert>
     <update id="editarColaborador" parameterType="modelo.pojo.Colaborador">
@@ -34,14 +36,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         apellidoMaterno = #{apellidoMaterno},
         CURP = #{CURP},
         correoElectronico = #{correoElectronico},
-        password = #{password}
+        password = #{password},
+        numeroLicencia = #{numeroLicencia}
         WHERE idColaborador = #{idColaborador}
     </update>
     
     <delete id="borrarColaborador" parameterType="int">
         CALL EliminarColaborador (#{idColaborador})
     </delete>
-
+    
+    <update id="desactivarColaborador" parameterType="int">
+        CALL desactivar_colaborador(#{idColaborador})
+    </update>
+    
     <select id="buscarColaboradores" parameterType="String" resultType="modelo.pojo.Colaborador">
         SELECT
         c.idColaborador,
@@ -53,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         c.numeroPersonal,
         c.password,
         c.idRol,
+        c.activo,
         r.nombre AS rol 
         FROM colaboradores c
         INNER JOIN roles r ON c.idRol = r.idRol
@@ -87,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SET fotografia = #{fotografia}
         WHERE idColaborador = #{idColaborador}
     </update>
-     <update id="guardarFotoPorNumeroPersonal" parameterType="map">
+    <update id="guardarFotoPorNumeroPersonal" parameterType="map">
         UPDATE colaboradores
         SET fotografia = #{fotografia}
         WHERE numeroPersonal = #{numeroPersonal}
@@ -101,12 +109,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         FROM colaboradores 
         WHERE idColaborador = #{idColaborador}
     </select>
-    <select id="obtenerTodos"  resultType="modelo.pojo.Colaborador">
+    <select id="obtenerTodosActivos"  resultType="modelo.pojo.Colaborador">
         SELECT 
         c.*,
         r.nombre AS rol
         FROM colaboradores c
         INNER JOIN roles r ON c.idRol = r.idRol
+        WHERE activo = 1
+    </select>
+    <select id="obtenerTodosInactivos"  resultType="modelo.pojo.Colaborador">
+        SELECT 
+        c.*,
+        r.nombre AS rol
+        FROM colaboradores c
+        INNER JOIN roles r ON c.idRol = r.idRol
+        WHERE activo = 0
     </select>
     <select id="obtenerConductores"  parameterType="int" resultType="modelo.pojo.Colaborador">
         SELECT 
