@@ -5,7 +5,7 @@ VALUES
     ('Ejecutivo de tienda'),
     ('Conductor');
 
-INSERT INTO tipo_unidad (nombre)
+INSERT INTO tipo_unidades (nombre)
 VALUES
     ('Gasolina'),
     ('Diesel'),
