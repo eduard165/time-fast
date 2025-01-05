@@ -61,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         c.password,
         c.idRol,
         c.activo,
+        c.numeroLicencia,
         r.nombre AS rol 
         FROM colaboradores c
         INNER JOIN roles r ON c.idRol = r.idRol
@@ -83,6 +84,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         c.numeroPersonal,
         c.password,
         c.idRol,
+        c.activo,
+        c.numeroLicencia,
         r.nombre AS rol
         FROM colaboradores c
         INNER JOIN roles r ON c.idRol = r.idRol

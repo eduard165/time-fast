@@ -6,15 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="autenticacion">
     <select id="verificarCredencialesColaborador" resultType="modelo.pojo.Colaborador">
         SELECT 
-        c.idColaborador, 
-        c.nombre, 
-        c.apellidoPaterno, 
-        c.apellidoMaterno, 
-        c.CURP, 
-        c.correoElectronico, 
-        c.numeroPersonal, 
-        c.password, 
-        c.idRol,
+        c.*,
         r.nombre AS rol
         FROM colaboradores c
         INNER JOIN roles r ON c.idRol = r.idRol
